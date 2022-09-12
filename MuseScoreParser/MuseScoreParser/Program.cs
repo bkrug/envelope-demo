@@ -62,12 +62,12 @@ namespace MuseScoreParser
                     throw new Exception($"Unequal duration in measure {measureNumber}");
 
                 ++measureNumber;
-                allNotes[0].AddRange(voice1);
                 allNotes[0].Add(new Measure(measureNumber));
-                allNotes[1].AddRange(voice2);
+                allNotes[0].AddRange(voice1);
                 allNotes[1].Add(new Measure(measureNumber));
-                allNotes[2].AddRange(voice3);
+                allNotes[1].AddRange(voice2);
                 allNotes[2].Add(new Measure(measureNumber));
+                allNotes[2].AddRange(voice3);
             }
             return allNotes;
         }
@@ -78,21 +78,21 @@ namespace MuseScoreParser
             foreach(var chord in voice)
             {
                 var primeNoteOfChord = chord.Notes.First();
-                if (chord.Notes.Count <= noteIndex)
-                {
-                    if (notes.LastOrDefault() is Rest rest && rest.Duration + primeNoteOfChord.Duration <= 255)
-                        notes.Last().Duration += primeNoteOfChord.Duration;
-                    else
-                        notes.Add(new Rest
-                        {
-                            Voice = primeNoteOfChord.Voice,
-                            Duration = primeNoteOfChord.Duration
-                        });
-                }
+                var newNote = chord.Notes.Count <= noteIndex
+                    ? new Rest
+                    {
+                        Voice = primeNoteOfChord.Voice,
+                        Duration = primeNoteOfChord.Duration
+                    }
+                    : chord.Notes[noteIndex];
+
+                if (notes.LastOrDefault() is Rest rest && newNote is Rest && rest.Duration + newNote.Duration < 0x100)
+                    notes[notes.Count-1] = new Rest { 
+                        Voice = rest.Voice,
+                        Duration = rest.Duration + newNote.Duration
+                    };
                 else
-                {
-                    notes.Add(chord.Notes[noteIndex]);
-                }
+                    notes.Add(newNote);
             }
             return notes;
         }

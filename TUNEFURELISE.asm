@@ -98,8 +98,7 @@ BEET1
       BYTE REST,N16
       BYTE E3,N16
       BYTE E4,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
 * Measure 15
       BYTE E3,N8
@@ -359,8 +358,7 @@ BEET1
       BYTE REST,N16
       BYTE E3,N16
       BYTE E4,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
 * Measure 53
       BYTE E3,N8
@@ -414,8 +412,7 @@ BEET1
       BYTE B2,N16
 * Measure 61
       BYTE A2,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 62
       BYTE E2,N4DOT
 * Measure 63
@@ -466,8 +463,7 @@ BEET1
       BYTE REST,N8
 * Measure 78
       BYTE E2,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 79
       BYTE A1,N16TRP
       BYTE C2,N16TRP
@@ -593,8 +589,7 @@ BEET1
       BYTE REST,N16
       BYTE E3,N16
       BYTE E4,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
 * Measure 97
       BYTE E3,N8
@@ -648,8 +643,7 @@ BEET1
       BYTE B2,N16
 * Measure 105
       BYTE A2,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 106
        DATA REPEAT,BEET1
 
@@ -923,34 +917,29 @@ BEET3
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 3
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 4
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 5
       BYTE REST,N4DOT
 * Measure 6
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 7
       BYTE B0,N16
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 8
       BYTE A0,N16
       BYTE E1,N16
@@ -960,37 +949,31 @@ BEET3
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 10
       BYTE C1,N16
       BYTE G1,N16
       BYTE C2,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 11
       BYTE REST,N16      * Invalid: G0
       BYTE G1,N16
       BYTE B1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 12
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 13
       BYTE B0,N16
       BYTE E1,N16
       BYTE E2,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE E2,N16
 * Measure 14
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
       BYTE E3,N16
       BYTE REST,N16
@@ -998,48 +981,41 @@ BEET3
       BYTE REST,N16
       BYTE Ds3,N16
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 16
       BYTE REST,N4DOT
 * Measure 17
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 18
       BYTE B0,N16
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 19
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 20
       BYTE REST,N4DOT
 * Measure 21
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 22
       BYTE B0,N16
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 23
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 24
       BYTE A0,N16
       BYTE E1,N16
@@ -1118,8 +1094,7 @@ BEET3
       BYTE G1,N8
 * Measure 36
       BYTE Gs1,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 37
       BYTE REST,N4DOT
 * Measure 38
@@ -1132,69 +1107,58 @@ BEET3
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 42
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 43
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 44
       BYTE REST,N4DOT
 * Measure 45
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 46
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 47
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 48
       BYTE C1,N16
       BYTE G1,N16
       BYTE C2,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 49
       BYTE REST,N16      * Invalid: G0
       BYTE G1,N16
       BYTE B1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 50
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 51
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE E2,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE E2,N16
 * Measure 52
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
       BYTE E3,N16
       BYTE REST,N16
@@ -1202,42 +1166,36 @@ BEET3
       BYTE REST,N16
       BYTE Ds3,N16
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 54
       BYTE REST,N4DOT
 * Measure 55
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 56
       BYTE B0,N16
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 57
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 58
       BYTE REST,N4DOT
 * Measure 59
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 60
       BYTE B0,N16
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 61
       BYTE A0,N16
       BYTE A0,N16
@@ -1355,8 +1313,7 @@ BEET3
       BYTE REST,N8
 * Measure 78
       BYTE E1,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 79
       BYTE REST,N8      * Invalid: A-1
       BYTE REST,N8
@@ -1371,8 +1328,7 @@ BEET3
       BYTE A1,N8
 * Measure 82
       BYTE A1,N8
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 83
       BYTE REST,N4DOT
 * Measure 84
@@ -1381,69 +1337,58 @@ BEET3
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 86
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 87
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 88
       BYTE REST,N4DOT
 * Measure 89
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 90
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 91
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 92
       BYTE C1,N16
       BYTE G1,N16
       BYTE C2,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 93
       BYTE REST,N16      * Invalid: G0
       BYTE G1,N16
       BYTE B1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 94
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 95
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE E2,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE E2,N16
 * Measure 96
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N16
+      BYTE REST,N8
       BYTE Ds3,N16
       BYTE E3,N16
       BYTE REST,N16
@@ -1451,47 +1396,41 @@ BEET3
       BYTE REST,N16
       BYTE Ds3,N16
       BYTE E3,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 98
       BYTE REST,N4DOT
 * Measure 99
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 100
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 101
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 102
       BYTE REST,N4DOT
 * Measure 103
       BYTE A0,N16
       BYTE E1,N16
       BYTE A1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 104
       BYTE REST,N16      * Invalid: E0
       BYTE E1,N16
       BYTE Gs1,N16
-      BYTE REST,N16
-      BYTE REST,N8
+      BYTE REST,N8DOT
 * Measure 105
       BYTE REST,N8      * Invalid: A-1
-      BYTE REST,N8
-      BYTE REST,N8
+      BYTE REST,N4
 * Measure 106
        DATA REPEAT,BEET3
+
 
        END
