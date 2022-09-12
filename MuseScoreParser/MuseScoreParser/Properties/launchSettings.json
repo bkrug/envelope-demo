@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MuseScoreParser": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\Fr_Elise_SN76489.musicxml\" \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\TUNE.asm\" \"BEET\""
+    }
+  }
+}
