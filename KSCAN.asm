@@ -32,18 +32,20 @@ KSCAN1 LWPI >83E0           can't change WS with BLWP as R13-R15 are in use
        BL   @>000E          call keyboard scanning routine
        MOV  *R10+,R11       restore GPL R11
        LWPI WS
+* Store scanned key in R2
+       MOVB @KEYCOD,R2
 * Has any key been pressed?
-       CB   @KEYCOD,@NOKEY
+       CB   R2,@NOKEY
        JEQ  KEYRT       
 * Is this the same as previous key?
-       CB   @KEYCOD,@PRVKEY
+       CB   R2,@PRVKEY
        JNE  KSCAN2
 * Yes, has enough time passed?
        MOV  @KEYTIM,R0
        JNE  KEYRT
 * Retain key and mark that it is also the previous key
-KSCAN2 MOVB @KEYCOD,@CURKEY
-       MOVB @KEYCOD,@PRVKEY
+KSCAN2 MOVB R2,@CURKEY
+       MOVB R2,@PRVKEY
 * Reset repeat timer and store previous key
        MOV  @WAIT,@KEYTIM
 
