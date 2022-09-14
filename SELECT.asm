@@ -14,7 +14,7 @@ LOWMNU BYTE '1'
 HGHMNU BYTE '2'
 *
 CHGHTZ BYTE '3'
-ESCKEY BYTE FCTFLG+'9'
+ESCKEY BYTE >0F
 * Range of keys that can select a song
 LOWSNG BYTE 'A'
 HGHSNG BYTE 'B'

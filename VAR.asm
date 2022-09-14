@@ -63,7 +63,8 @@ HERTZ  BSS  1             50hz VS 60hz
 CURMNU BSS  1             Byte representing visible menu
 
 *
-* Skip 8 bytes at >8378, used for GPL status block
+* Avoid letting the above grow past >8370
+* If you need more space put it past >8380
 *
        AORG >8380
        RORG
@@ -74,8 +75,10 @@ CURMNU BSS  1             Byte representing visible menu
 * From E/A manual page 404-406 and some independent research:
 *
 * >8370->837F GPL status block.
-*             Seems like we can use the first 8 and last 4 bytes
-*             but test carefully.
+*       >8374       contains the keyboard argument.
+*       >8375       returns the key code, or >FF if no key was pressed.
+*       >8376       returns the X-value for a joystick (0,4, or >FC).
+*       >8377       returns the X-value for a joystick.
 *       >8379       (byte) VDP interrupt timer. Incremented every 1/60th second.
 *       >837A       (byte) number of sprites allowed in motion
 *       >837B       (byte) VDP status byte
