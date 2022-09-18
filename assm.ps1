@@ -24,8 +24,8 @@ ForEach($file in $fileList) {
 
 #Auto-generate tune
 .\MuseScoreParser\MuseScoreParser\bin\Debug\netcoreapp3.1\MuseScoreParser.exe `
-    "C:\Program Files Uninstalled\classic99\repos\envelope-demo\Fr_Elise_SN76489.musicxml" `
-    "C:\Program Files Uninstalled\classic99\repos\envelope-demo\TUNEFURELISE.asm" `
+    ".\Fr_Elise_SN76489.musicxml" `
+    ".\TUNEFURELISE.asm" `
     "BEETHV" `
     "2:1" `
     "10:6"
