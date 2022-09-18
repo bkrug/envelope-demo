@@ -16,6 +16,8 @@
 * Song Header
 *
 BEETHV DATA BEET1,BEET2,BEET3
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,REPT3
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -24,12 +26,15 @@ BEETHV DATA BEET1,BEET2,BEET3
 REPT1
        DATA BEET1A,BEET1
        DATA BEET1C,BEET1B
+       DATA 0
 REPT2
        DATA BEET2A,BEET2
        DATA BEET2C,BEET2B
+       DATA 0
 REPT3
        DATA BEET3A,BEET3
        DATA BEET3C,BEET3B
+       DATA 0
 
 * Generator 1
 BEET1

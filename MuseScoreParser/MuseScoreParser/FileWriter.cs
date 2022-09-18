@@ -30,6 +30,8 @@ namespace MuseScoreParser
             writer.WriteLine("* Song Header");
             writer.WriteLine("*");
             writer.WriteLine($"{options.Label6Char} DATA {options.ShortLabel}1,{options.ShortLabel}2,{options.ShortLabel}3");
+            writer.WriteLine("* Data structures dealing with repeated music");
+            writer.WriteLine($"       DATA REPT1,REPT2,REPT3");
             writer.WriteLine("* Duration ratio in 60hz environment");
             writer.WriteLine($"       DATA {options.Ratio60Hz}");
             writer.WriteLine("* Duration ratio in 50hz environment");
@@ -43,6 +45,7 @@ namespace MuseScoreParser
                 {
                     writer.WriteLine($"       DATA {repeatLocations.Labels[j]},{repeatLocations.Labels[j+1]}");
                 }
+                writer.WriteLine($"       DATA 0");
             }
             writer.WriteLine();
             for (var generator = 1; generator <= 3; ++generator)

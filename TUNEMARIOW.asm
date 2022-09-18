@@ -34,10 +34,13 @@
 * Song Header
 *
 MWRLD  DATA MWRLD1,MWRLD2,MWRLD3
+       DATA REPT1,REPT1,REPT1
 * Duration ratio in 60hz environment
        DATA 1,1
 * Duration ratio in 50hz environment
        DATA 5,6
+
+REPT1  DATA 0
 
 * https://musescore.com/thenewmaestro/scores/51866
 * Super Mario World Overworld Theme

@@ -42,7 +42,7 @@ PLYINT
        MOV  @SONGHD,R2
 * Default note-duration ratio to 60hz
        MOV  R2,R3
-       AI   R3,6
+       AI   R3,HDR60
        MOVB @HERTZ,R0
        JEQ  INT1
        AI   R3,4

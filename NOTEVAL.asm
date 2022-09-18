@@ -1,3 +1,6 @@
+HDR60  EQU  12
+HDR50  EQU  16
+
 *
 * 16-bit symbols used to signal something
 * besides a note or a rest
