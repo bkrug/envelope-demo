@@ -8,7 +8,7 @@ namespace MuseScoreParser
 {
     internal class NoteParser
     {
-        internal static List<List<IAsmSymbol>> GetNotes(XDocument xml)
+        internal static List<List<IAsmSymbol>> GetNotes(XDocument xml, string shortLabel)
         {
             var part = xml.Root.Descendants("part");
             var measures = part?.Descendants("measure");
@@ -19,6 +19,7 @@ namespace MuseScoreParser
                 new List<IAsmSymbol>()
             };
             var measureNumber = 0;
+            var labelSuffix = 'A';
             foreach (var measure in measures)
             {
                 var foundVoices = GetVoicesInMeasure(measure);
@@ -28,6 +29,7 @@ namespace MuseScoreParser
                 var voice3 = foundVoices.Count > 1 ? GetSingleNoteInChord(foundVoices.Last(), 0) : measureOfRests;
                 var voiceWithChords = foundVoices.FirstOrDefault(v => v.Any(c => c.Notes.Count > 1));
                 var voice2 = voiceWithChords != null ? GetSingleNoteInChord(voiceWithChords, 1) : measureOfRests;
+                var repeat = measure.Descendants("barline")?.Descendants("repeat")?.FirstOrDefault();
 
                 if (voice1.Sum(n => n.Duration) != durationOfMeasure
                     || voice2.Sum(n => n.Duration) != durationOfMeasure
@@ -35,14 +37,23 @@ namespace MuseScoreParser
                     throw new Exception($"Unequal duration in measure {measureNumber}");
 
                 ++measureNumber;
-                allNotes[0].Add(new Measure(measureNumber));
-                allNotes[0].AddRange(voice1);
-                allNotes[1].Add(new Measure(measureNumber));
-                allNotes[1].AddRange(voice2);
-                allNotes[2].Add(new Measure(measureNumber));
-                allNotes[2].AddRange(voice3);
+                AddNotesOfOneMeasure(shortLabel + "1" + labelSuffix, allNotes[0], measureNumber, voice1, repeat);
+                AddNotesOfOneMeasure(shortLabel + "2" + labelSuffix, allNotes[1], measureNumber, voice2, repeat);
+                AddNotesOfOneMeasure(shortLabel + "3" + labelSuffix, allNotes[2], measureNumber, voice3, repeat);
+                if (repeat != null)
+                    ++labelSuffix;
             }
             return allNotes;
+        }
+
+        private static void AddNotesOfOneMeasure(string label, List<IAsmSymbol> voice, int measureNumber, List<INote> notes, XElement repeat)
+        {
+            voice.Add(new Measure(measureNumber));
+            if (repeat?.Attribute("direction")?.Value == "forward")
+                voice.Add(new Label { LabelName = label });
+            voice.AddRange(notes);
+            if (repeat?.Attribute("direction")?.Value == "backward")
+                voice.Add(new Label { LabelName = label });
         }
 
         private static List<INote> GetSingleNoteInChord(List<Chord> voice, int noteIndex)

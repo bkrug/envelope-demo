@@ -12,7 +12,7 @@ namespace MuseScoreParser
             Options options = GetOptions(args);
             var xml = XDocument.Load(options.InputFile);
             var credits = GetCredits(xml);
-            var notes = NoteParser.GetNotes(xml);
+            var notes = NoteParser.GetNotes(xml, options.ShortLabel);
             FileWriter.WriteFile(options, credits, notes);
         }
 
