@@ -112,12 +112,12 @@ STRTPL
        MOV  R1,*R5
 * Populate address within Repeat Structure
        MOV  @HDRRPT(R1),@SNDRPT(R5)
+* Clear note-duration ratio remainder
+       CLR  @SNDRMN(R5)
 * Let R1 = Addres of sound structure
 * Let R2 = address of current note
        MOV  R5,R1
        MOV  *R5,R2
-* Clear note-duration ratio remainder
-       CLR  @SNDRMN(R1)
 *
        JMP  PLY1
 
