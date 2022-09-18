@@ -1,2 +1,4 @@
 *.bin
 *.mscbackup
+*.obj
+*.lst

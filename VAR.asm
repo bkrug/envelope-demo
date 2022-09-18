@@ -63,10 +63,22 @@ HERTZ  BSS  1             50hz VS 60hz
 CURMNU BSS  1             Byte representing visible menu
 
 *
-* Avoid letting the above grow past >8370
-* If you need more space put it past >8380
+* Avoid letting the above grow past >8370 which is reserved for GPL status
+*
+       .ifgt  $, >8370
+       .error 'Some variables occupy space reserved for GPL status block.'
+       .endif
 *
        AORG >8380
+
+*
+* Avoid letting the above grow past >83C4 or so, which is reserved for
+* some other routines' workspaces.
+*
+       .ifgt  $, >83C4
+       .error 'Some variables occupy space reserved for Interpretter WS.'
+       .endif
+*
        RORG
 
 *
