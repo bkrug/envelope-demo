@@ -14,6 +14,9 @@ namespace MuseScoreParser
             var inputFile = args[0];
             var outputFile = args[1];
             var asmLabel = args[2];
+            var ratio60hz = args[3].Replace(":", ",");
+            var ratio50hz = args[4].Replace(":", ",");
+            var shortLbl = asmLabel.Substring(0, 4);
 
             // Loading from a file, you can also load from a stream
             var xml = XDocument.Load(inputFile);
@@ -23,9 +26,23 @@ namespace MuseScoreParser
             var notes = GetNotes(measures);
 
             using var writer = File.CreateText(outputFile);
+            writer.WriteLine($"       DEF  {asmLabel}");
+            writer.WriteLine();
+            writer.WriteLine("       COPY 'NOTEVAL.asm'");
+            writer.WriteLine("       COPY 'CONST.asm'");
+            writer.WriteLine();
+            writer.WriteLine("*");
+            writer.WriteLine("* Song Header");
+            writer.WriteLine("*");
+            writer.WriteLine($"{asmLabel} DATA {shortLbl}1, {shortLbl}2, {shortLbl}3");
+            writer.WriteLine("*Duration ratio in 60hz environment");
+            writer.WriteLine($"       DATA {ratio60hz}");
+            writer.WriteLine("*Duration ratio in 50hz environment");
+            writer.WriteLine($"       DATA {ratio50hz}");
+            writer.WriteLine();
             for (var generator = 1; generator <= 3; ++generator)
             {
-                var label = asmLabel + generator;
+                var label = shortLbl + generator;
                 writer.WriteLine($"* Generator {generator}");
                 writer.WriteLine(label);
                 foreach(var symbol in notes[generator-1])
