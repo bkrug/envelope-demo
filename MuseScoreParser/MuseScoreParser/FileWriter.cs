@@ -6,7 +6,7 @@ namespace MuseScoreParser
 {
     internal static class FileWriter
     {
-        internal static void WriteFile(Options options, Credits credits, List<List<IAsmSymbol>> notes)
+        internal static void WriteFile(Options options, Credits credits, List<List<IAsmSymbol>> notes, List<RepeatLocations> repeatLabels)
         {
             var writer = File.CreateText(options.OutputFile);
             writer.WriteLine($"       DEF  {options.AsmLabel}");
@@ -34,6 +34,16 @@ namespace MuseScoreParser
             writer.WriteLine($"       DATA {options.Ratio60Hz}");
             writer.WriteLine("* Duration ratio in 50hz environment");
             writer.WriteLine($"       DATA {options.Ratio50Hz}");
+            writer.WriteLine();
+            for (var i = 0; i < repeatLabels.Count; ++i)
+            {
+                var repeatLocations = repeatLabels[i];
+                writer.WriteLine($"REPT{i + 1}");
+                for(var j = 0; j < repeatLocations.Labels.Count; j += 2)
+                {
+                    writer.WriteLine($"       DATA {repeatLocations.Labels[j]},{repeatLocations.Labels[j+1]}");
+                }
+            }
             writer.WriteLine();
             for (var generator = 1; generator <= 3; ++generator)
             {

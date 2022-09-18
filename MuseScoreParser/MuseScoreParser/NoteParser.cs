@@ -8,30 +8,35 @@ namespace MuseScoreParser
 {
     internal class NoteParser
     {
-        internal static List<List<IAsmSymbol>> GetNotes(XDocument xml, string shortLabel)
+        internal static List<List<IAsmSymbol>> GetNotes(XDocument xml, string shortLabel, out List<RepeatLocations> repeatLabels)
         {
-            var part = xml.Root.Descendants("part");
-            var measures = part?.Descendants("measure");
-            var allNotes = new List<List<IAsmSymbol>>()
+            var asmSymbols = new List<List<IAsmSymbol>>
             {
                 new List<IAsmSymbol>(),
                 new List<IAsmSymbol>(),
                 new List<IAsmSymbol>()
             };
+            repeatLabels = new List<RepeatLocations> {
+                new RepeatLocations() { MostRecentForward = shortLabel + "1" },
+                new RepeatLocations() { MostRecentForward = shortLabel + "2" },
+                new RepeatLocations() { MostRecentForward = shortLabel + "3" }
+            };
+            var part = xml.Root.Descendants("part");
+            var measures = part?.Descendants("measure");
             var measureNumber = 0;
-            var repeatSuffix = 'A';
+            var repeatSuffix = (char)('A' - 1);
             foreach (var measure in measures)
             {
                 ++measureNumber;
                 var voices = GroupNotesByVoice(measureNumber, measure);
                 var repeat = measure.Descendants("barline")?.Descendants("repeat")?.FirstOrDefault();
-                AddNotesOfOneMeasure(shortLabel + "1" + repeatSuffix, allNotes[0], measureNumber, voices[0], repeat);
-                AddNotesOfOneMeasure(shortLabel + "2" + repeatSuffix, allNotes[1], measureNumber, voices[1], repeat);
-                AddNotesOfOneMeasure(shortLabel + "3" + repeatSuffix, allNotes[2], measureNumber, voices[2], repeat);
                 if (repeat != null)
                     ++repeatSuffix;
+                AddNotesOfOneMeasure(shortLabel + "1" + repeatSuffix, asmSymbols[0], voices[0], repeatLabels[0], measureNumber, repeat);
+                AddNotesOfOneMeasure(shortLabel + "2" + repeatSuffix, asmSymbols[1], voices[1], repeatLabels[1], measureNumber, repeat);
+                AddNotesOfOneMeasure(shortLabel + "3" + repeatSuffix, asmSymbols[2], voices[2], repeatLabels[2], measureNumber, repeat);
             }
-            return allNotes;
+            return asmSymbols;
         }
 
         private static List<List<INote>> GroupNotesByVoice(int measureNumber, XElement measure)
@@ -53,14 +58,21 @@ namespace MuseScoreParser
             return new List<List<INote>> { voice1, voice2, voice3 };
         }
 
-        private static void AddNotesOfOneMeasure(string label, List<IAsmSymbol> voice, int measureNumber, List<INote> notes, XElement repeat)
+        private static void AddNotesOfOneMeasure(string label, List<IAsmSymbol> asmSymbols, List<INote> notes, RepeatLocations repeatLabels, int measureNumber, XElement repeat)
         {
-            voice.Add(new Measure(measureNumber));
+            asmSymbols.Add(new Measure(measureNumber));
             if (repeat?.Attribute("direction")?.Value == "forward")
-                voice.Add(new Label { LabelName = label });
-            voice.AddRange(notes);
+            {
+                asmSymbols.Add(new Label { LabelName = label });
+                repeatLabels.MostRecentForward = label;
+            }
+            asmSymbols.AddRange(notes);
             if (repeat?.Attribute("direction")?.Value == "backward")
-                voice.Add(new Label { LabelName = label });
+            {
+                asmSymbols.Add(new Label { LabelName = label });
+                repeatLabels.Labels.Add(label);
+                repeatLabels.Labels.Add(repeatLabels.MostRecentForward);
+            }
         }
 
         private static List<INote> GetSingleNoteInChord(List<Chord> voice, int noteIndex)

@@ -4,7 +4,6 @@
 *
 STOP   EQU  >FFFF       Stop playing a signal/tune at end
 REPEAT EQU  >FE00       Play signal/tune as repeated loop
-REPT1  EQU  >FE01       Repeat, but only once
 
 *
 * Durantion values

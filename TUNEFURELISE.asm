@@ -21,6 +21,16 @@ BEETHV DATA BEET1,BEET2,BEET3
 * Duration ratio in 50hz environment
        DATA 10,6
 
+REPT1
+       DATA BEET1A,BEET1
+       DATA BEET1C,BEET1B
+REPT2
+       DATA BEET2A,BEET2
+       DATA BEET2C,BEET2B
+REPT3
+       DATA BEET3A,BEET3
+       DATA BEET3C,BEET3B
+
 * Generator 1
 BEET1
 * Measure 1
