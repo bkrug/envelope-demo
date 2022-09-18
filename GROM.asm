@@ -1,23 +1,6 @@
        DEF  GROMCR
        REF  VDPADR
 
-* Useful data is stored at these addresses:
-* (Source: https://www.unige.ch/medecine/nouspikel/ti99/groms.htm)
-*
-* >0451 	Default values of the 8 VDP registers.
-* >0459 	Content of the color table, for title screen.
-* >04B4 	Characters 32 to 95 patterns, for title screen.
-* >06B4 	Regular upper case character patterns.
-* >0874 	Lower case character patterns.
-* >16E0 	Joysticks codes returned by SCAN.
-* >1700 	Key codes returned by SCAN.
-* >1730 	Ditto with SHIFT.
-* >1760 	Ditto with FCTN.
-* >1790 	Ditto with CTRL.
-* >17C0 	Key codes in keyboard modes 1 et 2 (half-keyboards).
-* >2022 	Error messages (with Basic bias of >60, and lenght byte).
-* >285C 	Reserved words in Basic, and corresponding tokens.
-
        COPY 'CPUADR.asm'
 
 WRZERO DATA 7
@@ -70,3 +53,20 @@ GROM1  MOVB *R2,*R3
 *
 GROMRT MOV  *R10+,R11
        RT
+
+* Useful data is stored at these GROM addresses:
+* (Source: https://www.unige.ch/medecine/nouspikel/ti99/groms.htm)
+*
+* >0451 	Default values of the 8 VDP registers.
+* >0459 	Content of the color table, for title screen.
+* >04B4 	Characters 32 to 95 patterns, for title screen.
+* >06B4 	Regular upper case character patterns.
+* >0874 	Lower case character patterns.
+* >16E0 	Joysticks codes returned by SCAN.
+* >1700 	Key codes returned by SCAN.
+* >1730 	Ditto with SHIFT.
+* >1760 	Ditto with FCTN.
+* >1790 	Ditto with CTRL.
+* >17C0 	Key codes in keyboard modes 1 et 2 (half-keyboards).
+* >2022 	Error messages (with Basic bias of >60, and lenght byte).
+* >285C 	Reserved words in Basic, and corresponding tokens.
