@@ -22,8 +22,9 @@ namespace MuseScoreParser
             var repeatSuffix = 'A';
             foreach (var measure in measures)
             {
-                GroupNotesByVoice(measureNumber, measure, out var voices, out var repeat);
                 ++measureNumber;
+                var voices = GroupNotesByVoice(measureNumber, measure);
+                var repeat = measure.Descendants("barline")?.Descendants("repeat")?.FirstOrDefault();
                 AddNotesOfOneMeasure(shortLabel + "1" + repeatSuffix, allNotes[0], measureNumber, voices[0], repeat);
                 AddNotesOfOneMeasure(shortLabel + "2" + repeatSuffix, allNotes[1], measureNumber, voices[1], repeat);
                 AddNotesOfOneMeasure(shortLabel + "3" + repeatSuffix, allNotes[2], measureNumber, voices[2], repeat);
@@ -33,7 +34,7 @@ namespace MuseScoreParser
             return allNotes;
         }
 
-        private static void GroupNotesByVoice(int measureNumber, XElement measure, out List<List<INote>> notesByVoice, out XElement repeat)
+        private static List<List<INote>> GroupNotesByVoice(int measureNumber, XElement measure)
         {
             var foundVoices = GetVoicesInMeasure(measure);
             var durationOfMeasure = foundVoices.First().Sum(n => n.Notes.First().Duration);
@@ -43,14 +44,13 @@ namespace MuseScoreParser
             var voice3 = foundVoices.Count > 1 ? GetSingleNoteInChord(foundVoices.Last(), 0) : measureOfRests;
             var voiceWithChords = foundVoices.FirstOrDefault(v => v.Any(c => c.Notes.Count > 1));
             var voice2 = voiceWithChords != null ? GetSingleNoteInChord(voiceWithChords, 1) : measureOfRests;
-            notesByVoice = new List<List<INote>> { voice1, voice2, voice3 };
 
             if (voice1.Sum(n => n.Duration) != durationOfMeasure
                 || voice2.Sum(n => n.Duration) != durationOfMeasure
                 || voice3.Sum(n => n.Duration) != durationOfMeasure)
                 throw new Exception($"Unequal duration in measure {measureNumber}");
 
-            repeat = measure.Descendants("barline")?.Descendants("repeat")?.FirstOrDefault();
+            return new List<List<INote>> { voice1, voice2, voice3 };
         }
 
         private static void AddNotesOfOneMeasure(string label, List<IAsmSymbol> voice, int measureNumber, List<INote> notes, XElement repeat)
