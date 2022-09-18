@@ -221,7 +221,7 @@ STOPMS CLR  *R1
        JMP  PLY1RT
 
 *
-* Loop to beginnign of tune for one tone generator
+* Loop to beginning of tune for one tone generator
 *
 REPTMS MOV  @2(R2),*R1
        MOV  *R1,R2
@@ -331,14 +331,14 @@ ADSR2
 
 DOSTAG DATA DOATCK,DODECY,DOSSTN,DORELS
 
-* R5 contains address of current rate
+* R5 contains address of current rate-list
 DOATCK SB   *R5,*R4
        JGT  DOA1
        SB   *R4,*R4
        AB   @ONE,@SNDMOD(R1)
 DOA1   RT
 
-* R5 contains address of current rate
+* R5 contains address of current rate-list
 DODECY AB   @1(R5),*R4
        CB   *R4,@2(R5)
        JLT  DOD1
@@ -346,7 +346,7 @@ DODECY AB   @1(R5),*R4
        AB   @ONE,@SNDMOD(R1)
 DOD1   RT
 
-* R5 contains address of current rate
+* R5 contains address of current rate-list
 DOSSTN MOVB @2(R5),*R4
 * the above line of code is for just incase someone
 * switched envelopes mid-note
@@ -357,7 +357,7 @@ DOSSTN MOVB @2(R5),*R4
        AB   @ONE,@SNDMOD(R1)
 DOS1   RT
 
-* R5 contains address of current rate
+* R5 contains address of current rate-list
 DORELS AB   @4(R5),*R4
        CB   *R4,@NOVOL
        JLE  DOR1
@@ -374,6 +374,7 @@ RATES1 BYTE D,D,0,16,1
 RATES2 BYTE 4,1,D,16,D
 RATES3 BYTE 4,D,0,16,1
 RATES4 BYTE 4,1,8,8,1
+       EVEN
   
 *
 * Envelope 6

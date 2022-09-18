@@ -22,8 +22,7 @@ ENV2   TEXT 'B) Constant volume'
 ENV3   TEXT 'C) Sustain, release'
 ENV4   TEXT 'D) Attack, release'
 ENV5   TEXT 'E) Attack, sustain, release'
-ENV6   TEXT 'F) Attack, decay, sustain,'
-ENV6A  TEXT '   release'
+ENV6   TEXT 'F) Attck, decay, sstin, rels'
 ENV7   TEXT 'G) Repeated attacks'
 ENV8   TEXT 'H) Repeated attacks and'
 ENV8A  TEXT '   releases'
@@ -47,8 +46,8 @@ MSONG0 DATA SONG0
 
 * Sub menu for selecting envelope
 MENV   DATA ENV1,ENV2,ENV3,ENV4
-       DATA ENV5,ENV6,ENV6A,ENV7
-       DATA ENV8,ENV8A,ENV9,ENV9A
+       DATA ENV5,ENV6,ENV7,ENV8
+       DATA ENV8A,ENV9,ENV9A
 MENV0  DATA ENV0
 
 * Each menu indexed
