@@ -39,7 +39,7 @@ ONE    BYTE >01
 PLYINT
        DECT R10
        MOV  R11,*R10
-* Select default song
+* Let R2 = address of song header
        MOV  @SONGHD,R2
 * Default note-duration ratio to 60hz
        MOV  R2,R3
@@ -50,14 +50,17 @@ PLYINT
 INT1   MOV  R3,@NOTERT
 * Start Music
        LI   R0,TGN1
+       MOV  @HDRRPT(R2),R3
        MOV  *R2+,R1
        BL   @STRTPL
 *
        LI   R0,TGN2
+       MOV  @HDRRPT(R2),R3
        MOV  *R2+,R1
        BL   @STRTPL
 *
        LI   R0,TGN3
+       MOV  @HDRRPT(R2),R3
        MOV  *R2+,R1
        BL   @STRTPL
 *
@@ -96,7 +99,7 @@ RESTVL BYTE REST                    if this is in place of a tone, then do a res
 *
 * R0 - specifies the sound generator
 * R1 - address of music for specified sound generator
-* @HDRRPT(R1) - address of repeat structure for specified sound generator
+* R3 - address of repeat structure for specified sound generator
 STRTPL
        DECT R10
        MOV  R11,*R10
@@ -111,7 +114,7 @@ STRTPL
 * Move specified music to sound structure
        MOV  R1,*R5
 * Populate address within Repeat Structure
-       MOV  @HDRRPT(R1),@SNDRPT(R5)
+       MOV  R3,@SNDRPT(R5)
 * Clear note-duration ratio remainder
        CLR  @SNDRMN(R5)
 * Let R1 = Addres of sound structure
@@ -144,6 +147,15 @@ PLYONE
        JNE  ENVELP
 * Yes, look at next note
        INCT R2
+* Have we reached a repeat bar?
+       MOV  @SNDRPT(R1),R5
+       C    R2,*R5
+       JNE  PLY1
+* Yes, repeat music as directed
+       INCT R5
+       MOV  *R5+,R2
+       MOV  R5,@SNDRPT(R1)
+       JMP  PLY2
 * Reached end of music loop?
 PLY1   C    *R2,@REPTVL
        JEQ  REPTMS
@@ -154,7 +166,7 @@ PLY1   C    *R2,@REPTVL
 * Play tone
 *
 * Look up tone-code based on note-code
-       MOVB *R2,R5
+PLY2   MOVB *R2,R5
        SRL  R5,8
        SLA  R5,1
        AI   R5,TTBL
