@@ -12,11 +12,12 @@
        COPY 'NOTEVAL.asm'
        COPY 'CPUADR.asm'
 * Offsets within sound structure
-SNDELP EQU  2
-SNDTIM EQU  4
-SNDVOL EQU  6
-SNDMOD EQU  7
-SNDRMN EQU  8
+SNDRPT EQU  2
+SNDELP EQU  4
+SNDTIM EQU  6
+SNDVOL EQU  8
+SNDMOD EQU  9
+SNDRMN EQU  10
 * Current ADSR Modes
 MDATCK EQU  0
 MDDECY EQU  1
@@ -94,7 +95,8 @@ RESTVL BYTE REST                    if this is in place of a tone, then do a res
 * Initialize stream of music for one tone generator
 *
 * R0 - specifies the sound generator
-* R1 - address of music for 1 sound generator
+* R1 - address of music for specified sound generator
+* @HDRRPT(R1) - address of repeat structure for specified sound generator
 STRTPL
        DECT R10
        MOV  R11,*R10
@@ -108,6 +110,8 @@ STRTPL
        MOV  *R5,R5
 * Move specified music to sound structure
        MOV  R1,*R5
+* Populate address within Repeat Structure
+       MOV  @HDRRPT(R1),@SNDRPT(R5)
 * Let R1 = Addres of sound structure
 * Let R2 = address of current note
        MOV  R5,R1

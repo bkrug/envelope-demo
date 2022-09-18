@@ -28,18 +28,21 @@ STACK
 * Data Structure for each sound generator
 *
 SND1AD BSS  2             Address of current note in sound generator 1
+       BSS  2             Address within repeat structure
        BSS  2             Elapsed time for current note
        BSS  2             Remaining time for current note
        BSS  1             Current Volume
        BSS  1             Current ADSR mode
-       BSS  2             Ratio remainder
+       BSS  2             Ratio remainder       
 SND2AD BSS  2             Address of current note in sound generator 2
+       BSS  2             Address within repeat structure
        BSS  2             Elapsed time for current note
        BSS  2             Remaining time for current note
        BSS  1             Current Volume
        BSS  1             Current ADSR mode
        BSS  2             Ratio remainder
 SND3AD BSS  2             Address of current note for sound generator 3
+       BSS  2             Address within repeat structure
        BSS  2             Elapsed time for current note
        BSS  2             Remaining time for current note
        BSS  1             Current Volume
