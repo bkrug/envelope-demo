@@ -7,7 +7,7 @@
         public string AsmLabel { get; set; }
         public string Ratio60Hz { get; set; }
         public string Ratio50Hz { get; set; }
-        public string ShortLabel => AsmLabel.Substring(0, 4);
+        public string ShortLabel => AsmLabel.Length > 4 ? AsmLabel.Substring(0, 4) : AsmLabel;
         public string Label6Char => (AsmLabel + "      ").Substring(0, 6);
     }
 }

@@ -60,11 +60,11 @@ namespace MuseScoreParser.Models
         {
             var duration = Enum.IsDefined(typeof(DurationEnum), Duration) ? ((DurationEnum)Duration).ToString() : Duration.ToString();
             if (duration == string.Empty || duration == "0")
-                return $"*      BYTE {Key + TiOctive},{duration}";
+                return $"*       BYTE {Key + TiOctive},{duration}";
             else if (Pitch != null)
-                return $"      BYTE {Key+TiOctive},{duration}";
+                return $"       BYTE {Key+TiOctive},{duration}";
             else
-                return $"      BYTE {Models.Pitch.REST},{duration}      * Invalid: {Key+TiOctive}";
+                return $"       BYTE {Models.Pitch.REST},{duration}      * Invalid: {Key+TiOctive}";
         }
     }
 }

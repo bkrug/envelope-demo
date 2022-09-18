@@ -9,7 +9,7 @@
         public string ToAsm()
         {
             var duration = (Duration)Duration;
-            return $"      BYTE {Pitch.REST},{duration}";
+            return $"       BYTE {Pitch.REST},{duration}";
         }
     }
 }
