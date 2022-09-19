@@ -39,29 +39,29 @@ ONE    BYTE >01
 PLYINT
        DECT R10
        MOV  R11,*R10
-* Let R2 = address of song header
-       MOV  @SONGHD,R2
+* Let R3 = address of song header
+       MOV  @SONGHD,R3
 * Default note-duration ratio to 60hz
-       MOV  R2,R3
-       AI   R3,HDR60
+       MOV  R3,R2
+       AI   R2,HDR60
        MOVB @HERTZ,R0
        JEQ  INT1
-       AI   R3,4
-INT1   MOV  R3,@NOTERT
+       AI   R2,4
+INT1   MOV  R2,@NOTERT
 * Start Music
        LI   R0,TGN1
-       MOV  @HDRRPT(R2),R3
-       MOV  *R2+,R1
+       MOV  @HDRRPT(R3),R2
+       MOV  *R3+,R1
        BL   @STRTPL
 *
        LI   R0,TGN2
-       MOV  @HDRRPT(R2),R3
-       MOV  *R2+,R1
+       MOV  @HDRRPT(R3),R2
+       MOV  *R3+,R1
        BL   @STRTPL
 *
        LI   R0,TGN3
-       MOV  @HDRRPT(R2),R3
-       MOV  *R2+,R1
+       MOV  @HDRRPT(R3),R2
+       MOV  *R3+,R1
        BL   @STRTPL
 *
        MOV  *R10+,R11
@@ -99,12 +99,12 @@ RESTVL BYTE REST                    if this is in place of a tone, then do a res
 *
 * R0 - specifies the sound generator
 * R1 - address of music for specified sound generator
-* R3 - address of repeat structure for specified sound generator
+* R2 - address of repeat structure for specified sound generator
 STRTPL
        DECT R10
        MOV  R11,*R10
        DECT R10
-       MOV  R2,*R10
+       MOV  R3,*R10
 * Let R5 = address of Sound structure for current sound generator
        MOV  R0,R5
        AI   R5,-TGN1
@@ -114,7 +114,7 @@ STRTPL
 * Move specified music to sound structure
        MOV  R1,*R5
 * Populate address within Repeat Structure
-       MOV  R3,@SNDRPT(R5)
+       MOV  R2,@SNDRPT(R5)
 * Clear note-duration ratio remainder
        CLR  @SNDRMN(R5)
 * Let R1 = Addres of sound structure
@@ -222,7 +222,7 @@ ENVELP
        AB   *R4,R0
        MOVB R0,@SGADR
 *
-PLY1RT MOV  *R10+,R2
+PLY1RT MOV  *R10+,R3
        MOV  *R10+,R11
        RT
 
