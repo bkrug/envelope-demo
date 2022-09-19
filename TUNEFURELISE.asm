@@ -24,16 +24,22 @@ BEETHV DATA BEET1,BEET2,BEET3
        DATA 10,6
 
 REPT1
-       DATA BEET1A,BEET1
-       DATA BEET1C,BEET1B
+       DATA BEET1B,BEET1
+       DATA BEET1A,BEET1C
+       DATA BEET1F,BEET1D
+       DATA BEET1E,BEET1G
        DATA 0
 REPT2
-       DATA BEET2A,BEET2
-       DATA BEET2C,BEET2B
+       DATA BEET2B,BEET2
+       DATA BEET2A,BEET2C
+       DATA BEET2F,BEET2D
+       DATA BEET2E,BEET2G
        DATA 0
 REPT3
-       DATA BEET3A,BEET3
-       DATA BEET3C,BEET3B
+       DATA BEET3B,BEET3
+       DATA BEET3A,BEET3C
+       DATA BEET3F,BEET3D
+       DATA BEET3E,BEET3G
        DATA 0
 
 * Generator 1
@@ -86,16 +92,18 @@ BEET1
        BYTE C3,N16
        BYTE B2,N16
 * Measure 9
-       BYTE A2,N4
 BEET1A
+       BYTE A2,N4
+BEET1B
 * Measure 10
+BEET1C
        BYTE A2,N8
        BYTE REST,N16
        BYTE B2,N16
        BYTE C3,N16
        BYTE D3,N16
 * Measure 11
-BEET1B
+BEET1D
        BYTE E3,N8DOT
        BYTE G2,N16
        BYTE F3,N16
@@ -173,13 +181,15 @@ BEET1B
        BYTE C3,N16
        BYTE B2,N16
 * Measure 24
+BEET1E
        BYTE A2,N8
        BYTE REST,N16
        BYTE B2,N16
        BYTE C3,N16
        BYTE D3,N16
-BEET1C
+BEET1F
 * Measure 25
+BEET1G
        BYTE A2,N8
        BYTE REST,N16
        BYTE E2,N16
@@ -689,12 +699,14 @@ BEET2
 * Measure 8
        BYTE REST,N4DOT
 * Measure 9
-       BYTE REST,N4
 BEET2A
+       BYTE REST,N4
+BEET2B
 * Measure 10
+BEET2C
        BYTE REST,N4DOT
 * Measure 11
-BEET2B
+BEET2D
        BYTE REST,N4DOT
 * Measure 12
        BYTE REST,N4DOT
@@ -721,9 +733,11 @@ BEET2B
 * Measure 23
        BYTE REST,N4DOT
 * Measure 24
+BEET2E
        BYTE REST,N4DOT
-BEET2C
+BEET2F
 * Measure 25
+BEET2G
        BYTE REST,N8DOT
        BYTE C3,N16
        BYTE C3,N16
@@ -969,18 +983,20 @@ BEET3
        BYTE Gs1,N16
        BYTE REST,N8DOT
 * Measure 9
+BEET3A
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N16
-BEET3A
+BEET3B
 * Measure 10
+BEET3C
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N8DOT
 * Measure 11
-BEET3B
+BEET3D
        BYTE C1,N16
        BYTE G1,N16
        BYTE C2,N16
@@ -1042,12 +1058,14 @@ BEET3B
        BYTE Gs1,N16
        BYTE REST,N8DOT
 * Measure 24
+BEET3E
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N8DOT
-BEET3C
+BEET3F
 * Measure 25
+BEET3G
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16

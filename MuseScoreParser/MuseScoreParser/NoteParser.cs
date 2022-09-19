@@ -24,17 +24,20 @@ namespace MuseScoreParser
             var part = xml.Root.Descendants("part");
             var measures = part?.Descendants("measure");
             var measureNumber = 0;
-            var repeatSuffix = (char)('A' - 1);
+            var repeatSuffix = 'A';
             foreach (var measure in measures)
             {
                 ++measureNumber;
                 var voices = GroupNotesByVoice(measureNumber, measure);
                 var repeat = measure.Descendants("barline")?.Descendants("repeat")?.FirstOrDefault();
-                if (repeat != null)
+                var voltaBracket = measure.Descendants("barline")?.Descendants("ending")?.FirstOrDefault();
+                AddNotesOfOneMeasure(shortLabel + "1", repeatSuffix, asmSymbols[0], voices[0], repeatLabels[0], measureNumber, repeat, voltaBracket);
+                AddNotesOfOneMeasure(shortLabel + "2", repeatSuffix, asmSymbols[1], voices[1], repeatLabels[1], measureNumber, repeat, voltaBracket);
+                AddNotesOfOneMeasure(shortLabel + "3", repeatSuffix, asmSymbols[2], voices[2], repeatLabels[2], measureNumber, repeat, voltaBracket);
+                if (repeat?.Attribute("direction")?.Value == "backward" && voltaBracket != null)
+                    repeatSuffix += (char)2;
+                else if (repeat != null || voltaBracket != null)
                     ++repeatSuffix;
-                AddNotesOfOneMeasure(shortLabel + "1" + repeatSuffix, asmSymbols[0], voices[0], repeatLabels[0], measureNumber, repeat);
-                AddNotesOfOneMeasure(shortLabel + "2" + repeatSuffix, asmSymbols[1], voices[1], repeatLabels[1], measureNumber, repeat);
-                AddNotesOfOneMeasure(shortLabel + "3" + repeatSuffix, asmSymbols[2], voices[2], repeatLabels[2], measureNumber, repeat);
             }
             return asmSymbols;
         }
@@ -58,19 +61,33 @@ namespace MuseScoreParser
             return new List<List<INote>> { voice1, voice2, voice3 };
         }
 
-        private static void AddNotesOfOneMeasure(string label, List<IAsmSymbol> asmSymbols, List<INote> notes, RepeatLocations repeatLabels, int measureNumber, XElement repeat)
+        private static void AddNotesOfOneMeasure(string label, char repeatSuffix, List<IAsmSymbol> asmSymbols, List<INote> notes, RepeatLocations repeatLabels, int measureNumber, XElement repeat, XElement voltaBracket)
         {
             asmSymbols.Add(new Measure(measureNumber));
+            if (voltaBracket != null)
+            {
+                asmSymbols.Add(new Label { LabelName = label + repeatSuffix });
+                if (voltaBracket.Attribute("number").Value == "1")
+                {
+                    repeatLabels.VoltaBracketOne = label + repeatSuffix;
+                }
+                else
+                {
+                    repeatLabels.Labels.Add(repeatLabels.VoltaBracketOne);
+                    repeatLabels.Labels.Add(label + repeatSuffix);
+                }
+            }
             if (repeat?.Attribute("direction")?.Value == "forward")
             {
-                asmSymbols.Add(new Label { LabelName = label });
-                repeatLabels.MostRecentForward = label;
+                asmSymbols.Add(new Label { LabelName = label + repeatSuffix });
+                repeatLabels.MostRecentForward = label + repeatSuffix;
             }
             asmSymbols.AddRange(notes);
             if (repeat?.Attribute("direction")?.Value == "backward")
             {
-                asmSymbols.Add(new Label { LabelName = label });
-                repeatLabels.Labels.Add(label);
+                var backwardRepeatSuffix = voltaBracket == null ? repeatSuffix : (char)(repeatSuffix + 1);
+                asmSymbols.Add(new Label { LabelName = label + backwardRepeatSuffix });
+                repeatLabels.Labels.Add(label + backwardRepeatSuffix);
                 repeatLabels.Labels.Add(repeatLabels.MostRecentForward);
             }
         }
