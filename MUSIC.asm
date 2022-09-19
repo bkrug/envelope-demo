@@ -167,6 +167,8 @@ PLY1   C    *R2,@REPTVL
 *
 * Look up tone-code based on note-code
 PLY2   MOVB *R2,R5
+       CB   R5,@RESTVL
+       JEQ  PLY3
        SRL  R5,8
        SLA  R5,1
        AI   R5,TTBL
@@ -180,7 +182,7 @@ PLY2   MOVB *R2,R5
 * Set note duration
 *
 * Let R5 = address of note-duration ratio
-       MOV  @NOTERT,R5
+PLY3   MOV  @NOTERT,R5
 * Let R7 = note duration in base speed
        MOVB @1(R2),R7
        SRL  R7,8
