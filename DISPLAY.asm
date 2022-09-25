@@ -15,6 +15,7 @@ MAIN0
 
 SONG1  TEXT 'A) Mario World Overworld'
 SONG2  TEXT 'B) Fu:r Elise'
+SONG3  TEXT 'FCTN-9) Previous Menu'
 SONG0
 
 ENV1   TEXT 'A) Constant volume (no pause)'
@@ -24,10 +25,9 @@ ENV4   TEXT 'D) Attack, release'
 ENV5   TEXT 'E) Attack, sustain, release'
 ENV6   TEXT 'F) Attck, decay, sstin, rels'
 ENV7   TEXT 'G) Repeated attacks'
-ENV8   TEXT 'H) Repeated attacks and'
-ENV8A  TEXT '   releases'
-ENV9   TEXT 'I) Alternate between two'
-ENV9A  TEXT '   volume levels'
+ENV8   TEXT 'H) Tremolo 1 - 4 hz 8 Dbls'
+ENV9   TEXT 'I) Tremolo 2 - 4 hz 8 Dbls'
+ENV10  TEXT 'FCTN-9) Previous Menu'
 ENV0
        EVEN
 
@@ -41,13 +41,13 @@ MMAIN  DATA MAIN1,MAIN2,MAIN3
 MMAIN0 DATA MAIN0
 
 * Sub menu for selecting song
-MSONG  DATA SONG1,SONG2
+MSONG  DATA SONG1,SONG2,SONG3
 MSONG0 DATA SONG0
 
 * Sub menu for selecting envelope
 MENV   DATA ENV1,ENV2,ENV3,ENV4
        DATA ENV5,ENV6,ENV7,ENV8
-       DATA ENV8A,ENV9,ENV9A
+       DATA ENV9,ENV10
 MENV0  DATA ENV0
 
 * Each menu indexed

@@ -46,7 +46,7 @@ namespace MuseScoreParser
                     shortLabel + (i + 1) + repeatSuffix,
                     shortLabel + (i + 1)
                 });
-            return MergeSymbols(asmSymbols).ToList();
+            return MergeRests(asmSymbols).ToList();
         }
 
         private static List<List<INote>> GroupNotesByVoice(int measureNumber, XElement measure)
@@ -188,7 +188,7 @@ namespace MuseScoreParser
             return string.Empty;
         }
 
-        private static IEnumerable<List<IAsmSymbol>> MergeSymbols(List<List<IAsmSymbol>> asmSymbols)
+        private static IEnumerable<List<IAsmSymbol>> MergeRests(List<List<IAsmSymbol>> asmSymbols)
         {
             foreach (var soundGenerator in asmSymbols)
             {
