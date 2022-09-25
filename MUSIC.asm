@@ -154,7 +154,12 @@ PLYONE
 * Yes, repeat music as directed
        INCT R5
        MOV  *R5+,R2
-       MOV  R5,@SNDRPT(R1)
+       C    *R5,@REPTVL
+       JNE  PLY0
+* Start over the repeat loop
+       INCT R5
+       MOV  *R5,R5
+PLY0   MOV  R5,@SNDRPT(R1)
        JMP  PLY2
 * Reached end of music loop?
 PLY1   C    *R2,@REPTVL

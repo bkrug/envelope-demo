@@ -39,6 +39,13 @@ namespace MuseScoreParser
                 else if (repeat != null || voltaBracket != null)
                     ++repeatSuffix;
             }
+            for (var i = 0; i < asmSymbols.Count; ++i)
+                asmSymbols[i].Add(new Label { LabelName = shortLabel + (i + 1) + repeatSuffix });
+            for (var i = 0; i < repeatLabels.Count; ++i)
+                repeatLabels[i].Labels.AddRange(new List<string> {
+                    shortLabel + (i + 1) + repeatSuffix,
+                    shortLabel + (i + 1)
+                });
             return MergeSymbols(asmSymbols).ToList();
         }
 

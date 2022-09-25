@@ -1,6 +1,7 @@
 ﻿using MuseScoreParser.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MuseScoreParser
 {
@@ -45,7 +46,7 @@ namespace MuseScoreParser
                 {
                     writer.WriteLine($"       DATA {repeatLocations.Labels[j]},{repeatLocations.Labels[j+1]}");
                 }
-                writer.WriteLine($"       DATA 0");
+                writer.WriteLine($"       DATA REPEAT,REPT{i + 1}");
             }
             writer.WriteLine();
             for (var generator = 1; generator <= 3; ++generator)
@@ -58,7 +59,6 @@ namespace MuseScoreParser
                     writer.WriteLine(symbol.ToAsm());
                 }
                 writer.WriteLine("*");
-                writer.WriteLine($"       DATA REPEAT,{label}");
                 writer.WriteLine(string.Empty);
             }
             writer.Close();
