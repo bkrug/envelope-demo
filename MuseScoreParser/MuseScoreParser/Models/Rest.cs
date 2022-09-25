@@ -1,4 +1,6 @@
-﻿namespace MuseScoreParser.Models
+﻿using MuseScoreParser.Enums;
+
+namespace MuseScoreParser.Models
 {
     class Rest : INote
     {

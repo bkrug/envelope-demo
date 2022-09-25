@@ -1,20 +1,26 @@
 ﻿using System;
-using DurationEnum = MuseScoreParser.Models.Duration;
+using MuseScoreParser.Enums;
+using DurationEnum = MuseScoreParser.Enums.Duration;
+using PitchEnum = MuseScoreParser.Enums.Pitch;
 
 namespace MuseScoreParser.Models
 {
     class Note : INote
     {
-        public string Key { 
-            get { 
+        public string Key
+        {
+            get
+            {
                 return _key;
             }
-            set { 
+            set
+            {
                 _key = value;
                 SetPitch();
             }
         }
-        public int TiOctive {
+        public int TiOctive
+        {
             get
             {
                 return _tiOctive;
@@ -39,7 +45,7 @@ namespace MuseScoreParser.Models
                 SetPitch();
             }
         }
-        public Pitch? Pitch { get; private set; }
+        public PitchEnum? Pitch { get; private set; }
         public int Duration { get; set; }
         public int Voice { get; set; }
         public bool IsInChord { get; set; }
@@ -50,7 +56,7 @@ namespace MuseScoreParser.Models
         private int _xmlOctive;
         private void SetPitch()
         {
-            if (Enum.TryParse<Pitch>(Key + TiOctive, out var pitch))
+            if (Enum.TryParse<PitchEnum>(Key + TiOctive, out var pitch))
                 Pitch = pitch;
             else
                 Pitch = null;
@@ -62,9 +68,9 @@ namespace MuseScoreParser.Models
             if (duration == string.Empty || duration == "0")
                 return $"*       BYTE {Key + TiOctive},{duration}";
             else if (Pitch != null)
-                return $"       BYTE {Key+TiOctive},{duration}";
+                return $"       BYTE {Key + TiOctive},{duration}";
             else
-                return $"       BYTE {Models.Pitch.REST},{duration}      * Invalid: {Key+TiOctive}";
+                return $"       BYTE {PitchEnum.REST},{duration}      * Invalid: {Key + TiOctive}";
         }
     }
 }

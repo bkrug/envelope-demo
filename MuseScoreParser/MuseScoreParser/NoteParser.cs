@@ -187,6 +187,8 @@ namespace MuseScoreParser
             {
                 var newList = new List<IAsmSymbol>();
                 Rest prevRest = null;
+                Measure prevRestMeasure = null;
+                Measure currentMeasure = null;
                 foreach (var asmSymbol in soundGenerator)
                 {
                     if (asmSymbol is Rest currentRest)
@@ -194,18 +196,26 @@ namespace MuseScoreParser
                         if (prevRest != null && prevRest.Duration + currentRest.Duration < 0x100)
                         {
                             prevRest.Duration += currentRest.Duration;
+                            prevRestMeasure.EndingNumber = currentMeasure.Number;
+                            newList.Remove(currentMeasure);
                         }
                         else
                         {
                             prevRest = currentRest;
+                            prevRestMeasure = currentMeasure;
                             newList.Add(asmSymbol);
                         }
                     }
                     else
                     {
-                        if (!(asmSymbol is Measure))
+                        if (asmSymbol is Measure)
+                        {
+                            currentMeasure = asmSymbol as Measure;
+                        }
+                        else
                         {
                             prevRest = null;
+                            prevRestMeasure = null;
                         }
                         newList.Add(asmSymbol);
                     }

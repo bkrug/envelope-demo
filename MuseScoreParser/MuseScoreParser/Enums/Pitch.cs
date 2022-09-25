@@ -1,4 +1,4 @@
-﻿namespace MuseScoreParser.Models
+﻿namespace MuseScoreParser.Enums
 {
     enum Pitch
     {
