@@ -34,13 +34,18 @@
 * Song Header
 *
 MWRLD  DATA MWRLD1,MWRLD2,MWRLD3
-       DATA REPT1,REPT1,REPT1
+       DATA REPT1,REPT2,REPT3
 * Duration ratio in 60hz environment
        DATA 1,1
 * Duration ratio in 50hz environment
        DATA 5,6
 
-REPT1  DATA 0
+REPT1  DATA MW1B,MW1A
+       DATA REPEAT,REPT1
+REPT2  DATA MW2B,MW2A
+       DATA REPEAT,REPT2
+REPT3  DATA MW3B,MW3A
+       DATA REPEAT,REPT3
 
 * https://musescore.com/thenewmaestro/scores/51866
 * Super Mario World Overworld Theme
@@ -53,7 +58,7 @@ MWRLD1
        BYTE F2,N16
        BYTE G2,N16+N4
 *
-MW1
+MW1A
        BYTE A2,N8
        BYTE A2,N8TRP
        BYTE A2,N16TRP
@@ -230,13 +235,13 @@ MW1
        BYTE G2,N8
        BYTE F2,N2
 *
-       DATA REPEAT,MW1
+MW1B
 
 MWRLD2
 * 4/4
        BYTE REST,N1
 *
-MW2
+MW2A
        BYTE F2,N8
        BYTE F2,N8TRP
        BYTE F2,N16TRP
@@ -303,13 +308,13 @@ MW2
        BYTE E2,N8
        BYTE C2,N2
 *
-       DATA REPEAT,MW2
+MW2B
 
 MWRLD3
 * 4/4
        BYTE REST,N1
 *
-MW3
+MW3A
        BYTE F1,N4
        BYTE D1,N4
        BYTE G1,N4
@@ -460,7 +465,7 @@ MW3
        BYTE D1,N8
        BYTE E1,N4
 *
-       DATA REPEAT,MW3
+MW3B
 
        END
 

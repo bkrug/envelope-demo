@@ -147,25 +147,21 @@ PLYONE
        JNE  ENVELP
 * Yes, look at next note
        INCT R2
-* Have we reached a repeat bar?
+* Have we reached a repeat bar or volta bracket?
        MOV  @SNDRPT(R1),R5
        C    R2,*R5
        JNE  PLY1
-* Yes, repeat music as directed
+* Yes, jump to another part of the music
        INCT R5
        MOV  *R5+,R2
-       C    *R5,@REPTVL
+       C    *R5,@REPTVL        * Was that the last bar or bracket?
        JNE  PLY0
-* Start over the repeat loop
-       INCT R5
-       MOV  *R5,R5
+       INCT R5                 * Yes, reached end of song.
+       MOV  *R5,R5             * Start over.
 PLY0   MOV  R5,@SNDRPT(R1)
        JMP  PLY2
-* Reached end of music loop?
-PLY1   C    *R2,@REPTVL
-       JEQ  REPTMS
-* No, reached end of non-repeating music?
-       C    *R2,@STOPVL
+* Reached end of non-repeating music?
+PLY1   C    *R2,@STOPVL
        JEQ  STOPMS
 *
 * Play tone
