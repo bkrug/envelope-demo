@@ -123,9 +123,8 @@ BEET1D
        BYTE REST,N16
        BYTE E2,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 15
-       BYTE REST,N16
        BYTE E3,N16
        BYTE E4,N16
        BYTE REST,N8
@@ -386,9 +385,8 @@ BEET1G
        BYTE REST,N16
        BYTE E2,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 53
-       BYTE REST,N16
        BYTE E3,N16
        BYTE E4,N16
        BYTE REST,N8
@@ -617,9 +615,8 @@ BEET1G
        BYTE REST,N16
        BYTE E2,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 97
-       BYTE REST,N16
        BYTE E3,N16
        BYTE E4,N16
        BYTE REST,N8
@@ -683,19 +680,13 @@ BEET1G
 * Generator 2
 BEET2
 * Measure 1
-       BYTE REST,N8
+       BYTE REST,228
 * Measure 2
-       BYTE REST,N4DOT
 * Measure 3
-       BYTE REST,N4DOT
 * Measure 4
-       BYTE REST,N4DOT
 * Measure 5
-       BYTE REST,N4DOT
 * Measure 6
-       BYTE REST,N4DOT
 * Measure 7
-       BYTE REST,N4DOT
 * Measure 8
        BYTE REST,N4DOT
 * Measure 9
@@ -707,31 +698,20 @@ BEET2C
        BYTE REST,N4DOT
 * Measure 11
 BEET2D
-       BYTE REST,N4DOT
+       BYTE REST,252
 * Measure 12
-       BYTE REST,N4DOT
 * Measure 13
-       BYTE REST,N4DOT
 * Measure 14
-       BYTE REST,N4DOT
 * Measure 15
-       BYTE REST,N4DOT
 * Measure 16
-       BYTE REST,N4DOT
 * Measure 17
-       BYTE REST,N4DOT
 * Measure 18
-       BYTE REST,N4DOT
+       BYTE REST,216
 * Measure 19
-       BYTE REST,N4DOT
 * Measure 20
-       BYTE REST,N4DOT
 * Measure 21
-       BYTE REST,N4DOT
 * Measure 22
-       BYTE REST,N4DOT
 * Measure 23
-       BYTE REST,N4DOT
 * Measure 24
 BEET2E
        BYTE REST,N4DOT
@@ -743,25 +723,19 @@ BEET2G
        BYTE C3,N16
        BYTE G2,N16
 * Measure 26
-       BYTE REST,N4DOT
+       BYTE REST,84
 * Measure 27
-       BYTE REST,N4DOT
 * Measure 28
-       BYTE REST,N8
        BYTE G1,N16
        BYTE REST,N16
        BYTE G1,N16
-       BYTE REST,N16
+       BYTE REST,102
 * Measure 29
-       BYTE REST,N4DOT
 * Measure 30
-       BYTE REST,N4DOT
 * Measure 31
-       BYTE REST,N4
        BYTE D2,N16
-       BYTE REST,N16
+       BYTE REST,42
 * Measure 32
-       BYTE REST,N4DOT
 * Measure 33
        BYTE E2,N8
        BYTE REST,N16
@@ -783,57 +757,35 @@ BEET2G
        BYTE B1,N8
 * Measure 37
        BYTE B1,N8
-       BYTE REST,N4
+       BYTE REST,240
 * Measure 38
-       BYTE REST,N4DOT
 * Measure 39
-       BYTE REST,N4DOT
 * Measure 40
-       BYTE REST,N4DOT
 * Measure 41
-       BYTE REST,N4DOT
 * Measure 42
-       BYTE REST,N4DOT
 * Measure 43
-       BYTE REST,N4DOT
 * Measure 44
-       BYTE REST,N4DOT
+       BYTE REST,252
 * Measure 45
-       BYTE REST,N4DOT
 * Measure 46
-       BYTE REST,N4DOT
 * Measure 47
-       BYTE REST,N4DOT
 * Measure 48
-       BYTE REST,N4DOT
 * Measure 49
-       BYTE REST,N4DOT
 * Measure 50
-       BYTE REST,N4DOT
 * Measure 51
-       BYTE REST,N4DOT
+       BYTE REST,252
 * Measure 52
-       BYTE REST,N4DOT
 * Measure 53
-       BYTE REST,N4DOT
 * Measure 54
-       BYTE REST,N4DOT
 * Measure 55
-       BYTE REST,N4DOT
 * Measure 56
-       BYTE REST,N4DOT
 * Measure 57
-       BYTE REST,N4DOT
 * Measure 58
-       BYTE REST,N4DOT
+       BYTE REST,180
 * Measure 59
-       BYTE REST,N4DOT
 * Measure 60
-       BYTE REST,N4DOT
 * Measure 61
-       BYTE REST,N4DOT
 * Measure 62
-       BYTE REST,N4DOT
 * Measure 63
        BYTE G2,N4DOT
 * Measure 64
@@ -884,9 +836,8 @@ BEET2G
        BYTE REST,N8
 * Measure 79
        BYTE B2,N8
-       BYTE REST,N4
+       BYTE REST,N2
 * Measure 80
-       BYTE REST,N4
        BYTE C2,N8
 * Measure 81
        BYTE C2,N8
@@ -898,51 +849,32 @@ BEET2G
        BYTE C2,N8
 * Measure 83
        BYTE C2,N8
-       BYTE REST,N4
+       BYTE REST,240
 * Measure 84
-       BYTE REST,N4DOT
 * Measure 85
-       BYTE REST,N4DOT
 * Measure 86
-       BYTE REST,N4DOT
 * Measure 87
-       BYTE REST,N4DOT
 * Measure 88
-       BYTE REST,N4DOT
 * Measure 89
-       BYTE REST,N4DOT
 * Measure 90
-       BYTE REST,N4DOT
+       BYTE REST,252
 * Measure 91
-       BYTE REST,N4DOT
 * Measure 92
-       BYTE REST,N4DOT
 * Measure 93
-       BYTE REST,N4DOT
 * Measure 94
-       BYTE REST,N4DOT
 * Measure 95
-       BYTE REST,N4DOT
 * Measure 96
-       BYTE REST,N4DOT
 * Measure 97
-       BYTE REST,N4DOT
+       BYTE REST,252
 * Measure 98
-       BYTE REST,N4DOT
 * Measure 99
-       BYTE REST,N4DOT
 * Measure 100
-       BYTE REST,N4DOT
 * Measure 101
-       BYTE REST,N4DOT
 * Measure 102
-       BYTE REST,N4DOT
 * Measure 103
-       BYTE REST,N4DOT
 * Measure 104
-       BYTE REST,N4DOT
+       BYTE REST,N2DOT
 * Measure 105
-       BYTE REST,N4DOT
 * Measure 106
        BYTE A0,N8
        BYTE REST,N4
@@ -952,9 +884,8 @@ BEET2G
 * Generator 3
 BEET3
 * Measure 1
-       BYTE REST,N8
+       BYTE REST,N2
 * Measure 2
-       BYTE REST,N4DOT
 * Measure 3
        BYTE A0,N16
        BYTE E1,N16
@@ -969,9 +900,8 @@ BEET3
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 6
-       BYTE REST,N4DOT
 * Measure 7
        BYTE A0,N16
        BYTE E1,N16
@@ -1022,14 +952,12 @@ BEET3D
        BYTE REST,N8
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 16
-       BYTE REST,N16
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 17
-       BYTE REST,N4DOT
 * Measure 18
        BYTE A0,N16
        BYTE E1,N16
@@ -1044,9 +972,8 @@ BEET3D
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 21
-       BYTE REST,N4DOT
 * Measure 22
        BYTE A0,N16
        BYTE E1,N16
@@ -1143,15 +1070,11 @@ BEET3G
        BYTE G1,N8
 * Measure 37
        BYTE Gs1,N8
-       BYTE REST,N4
+       BYTE REST,168
 * Measure 38
-       BYTE REST,N4DOT
 * Measure 39
-       BYTE REST,N4DOT
 * Measure 40
-       BYTE REST,N4DOT
 * Measure 41
-       BYTE REST,N4DOT
 * Measure 42
        BYTE A0,N16
        BYTE E1,N16
@@ -1166,9 +1089,8 @@ BEET3G
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 45
-       BYTE REST,N4DOT
 * Measure 46
        BYTE A0,N16
        BYTE E1,N16
@@ -1210,14 +1132,12 @@ BEET3G
        BYTE REST,N8
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 54
-       BYTE REST,N16
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 55
-       BYTE REST,N4DOT
 * Measure 56
        BYTE A0,N16
        BYTE E1,N16
@@ -1232,9 +1152,8 @@ BEET3G
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 59
-       BYTE REST,N4DOT
 * Measure 60
        BYTE A0,N16
        BYTE E1,N16
@@ -1377,11 +1296,9 @@ BEET3G
        BYTE A1,N8
 * Measure 83
        BYTE A1,N8
-       BYTE REST,N4
+       BYTE REST,N1
 * Measure 84
-       BYTE REST,N4DOT
 * Measure 85
-       BYTE REST,N4DOT
 * Measure 86
        BYTE A0,N16
        BYTE E1,N16
@@ -1396,9 +1313,8 @@ BEET3G
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 89
-       BYTE REST,N4DOT
 * Measure 90
        BYTE A0,N16
        BYTE E1,N16
@@ -1440,14 +1356,12 @@ BEET3G
        BYTE REST,N8
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N16
+       BYTE REST,N8
 * Measure 98
-       BYTE REST,N16
        BYTE Ds3,N16
        BYTE E3,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 99
-       BYTE REST,N4DOT
 * Measure 100
        BYTE A0,N16
        BYTE E1,N16
@@ -1462,9 +1376,8 @@ BEET3G
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
-       BYTE REST,N8DOT
+       BYTE REST,54
 * Measure 103
-       BYTE REST,N4DOT
 * Measure 104
        BYTE A0,N16
        BYTE E1,N16

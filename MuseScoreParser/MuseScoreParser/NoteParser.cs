@@ -39,7 +39,7 @@ namespace MuseScoreParser
                 else if (repeat != null || voltaBracket != null)
                     ++repeatSuffix;
             }
-            return asmSymbols;
+            return MergeSymbols(asmSymbols).ToList();
         }
 
         private static List<List<INote>> GroupNotesByVoice(int measureNumber, XElement measure)
@@ -179,6 +179,39 @@ namespace MuseScoreParser
             if (alter == 1)
                 return "s";
             return string.Empty;
+        }
+
+        private static IEnumerable<List<IAsmSymbol>> MergeSymbols(List<List<IAsmSymbol>> asmSymbols)
+        {
+            foreach (var soundGenerator in asmSymbols)
+            {
+                var newList = new List<IAsmSymbol>();
+                Rest prevRest = null;
+                foreach (var asmSymbol in soundGenerator)
+                {
+                    if (asmSymbol is Rest currentRest)
+                    {
+                        if (prevRest != null && prevRest.Duration + currentRest.Duration < 0x100)
+                        {
+                            prevRest.Duration += currentRest.Duration;
+                        }
+                        else
+                        {
+                            prevRest = currentRest;
+                            newList.Add(asmSymbol);
+                        }
+                    }
+                    else
+                    {
+                        if (!(asmSymbol is Measure))
+                        {
+                            prevRest = null;
+                        }
+                        newList.Add(asmSymbol);
+                    }
+                }
+                yield return newList;
+            }
         }
     }
 }
