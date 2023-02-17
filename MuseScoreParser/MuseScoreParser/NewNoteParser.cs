@@ -1,5 +1,6 @@
 ﻿using MuseScoreParser.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
@@ -24,23 +25,26 @@ namespace MuseScoreParser
                     {
                         var voiceLabel = noteElem.Element("voice").Value;
                         var pitchElem = noteElem.Element("pitch");
+                        var isChord = noteElem.Element("chord") != null;
                         if (!voices.ContainsKey(voiceLabel))
                         {
                             voices.Add(voiceLabel, new NewVoice());
                         }
-                        voices[voiceLabel].Chords.Add(new NewChord
+
+                        if (isChord)
                         {
-                            Notes = new List<NewNote>
+                            voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem));
+                        }
+                        else
+                        {
+                            voices[voiceLabel].Chords.Add(new NewChord
                             {
-                                new NewNote
+                                Notes = new List<NewNote>
                                 {
-                                    Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
-                                    Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
-                                    Step = pitchElem.Element("step")?.Value ?? string.Empty,
-                                    Duration = noteElem.Element("duration")?.Value ?? string.Empty
+                                    CreateNote(noteElem, pitchElem)
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                     newPart.Measures.Add(new NewMeasure
                     {
@@ -50,6 +54,17 @@ namespace MuseScoreParser
                 newParts.Add(newPart);
             }
             return newParts;
+        }
+
+        private static NewNote CreateNote(XElement noteElem, XElement pitchElem)
+        {
+            return new NewNote
+            {
+                Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
+                Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
+                Step = pitchElem.Element("step")?.Value ?? string.Empty,
+                Duration = noteElem.Element("duration")?.Value ?? string.Empty
+            };
         }
     }
 }

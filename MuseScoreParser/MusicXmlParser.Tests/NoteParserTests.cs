@@ -185,19 +185,22 @@ namespace MusicXmlParser.Tests
                                                     {
                                                         Step = "G",
                                                         Octave = "3",
-                                                        Duration = "6"
+                                                        Duration = "6",
+                                                        Alter = string.Empty
                                                     },
                                                     new NewNote
                                                     {
                                                         Step = "E",
                                                         Octave = "3",
-                                                        Duration = "6"
+                                                        Duration = "6",
+                                                        Alter = string.Empty
                                                     },
                                                     new NewNote
                                                     {
                                                         Step = "C",
                                                         Octave = "3",
-                                                        Duration = "6"
+                                                        Duration = "6",
+                                                        Alter = string.Empty
                                                     }
                                                 }
                                             }
