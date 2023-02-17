@@ -4,6 +4,8 @@ namespace MusicXmlParser.Tests
 {
     public class ToneGeneratorGroupingTests
     {
+        //TODO: Add failure case when measure counts don't match
+
         [Test]
         public void GroupByGenerator_OnePartOneVoiceNoChords_Success()
         {
