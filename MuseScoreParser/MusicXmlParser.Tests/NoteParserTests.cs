@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace MusicXmlParser.Tests
 {
     //TODO: Write failure cases where expected elements are missing
-    public class Tests
+    public class NoteParserTests
     {
         private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string duration)
         {
