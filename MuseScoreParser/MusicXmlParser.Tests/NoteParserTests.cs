@@ -30,6 +30,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
     <part>
         <measure>
             <note>
@@ -70,7 +71,7 @@ namespace MusicXmlParser.Tests
             </note>
         </measure>
     </part>
-</xml>";
+</score-partwise>";
             var expectedObject = new List<NewPart>
             {
                 new NewPart
