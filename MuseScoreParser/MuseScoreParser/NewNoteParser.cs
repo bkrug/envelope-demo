@@ -13,17 +13,17 @@ namespace MuseScoreParser
             var xml = XDocument.Parse(sourceXml);
             var parts = xml.Root.Descendants("part");
             var newParts = new List<NewPart>();
-            foreach (var part in parts)
+            foreach (var partElem in parts)
             {
-                var measures = part.Descendants("measure") ?? new List<XElement>();
+                var measures = partElem.Descendants("measure") ?? new List<XElement>();
                 var newPart = new NewPart();
-                foreach (var measure in measures)
+                foreach (var measureElem in measures)
                 {
                     var voices = new Dictionary<string, NewVoice>();
-                    foreach (var xmlNote in measure.Descendants("note"))
+                    foreach (var noteElem in measureElem.Descendants("note"))
                     {
-                        var voiceLabel = xmlNote.Element("voice").Value;
-                        var pitchElement = xmlNote.Element("pitch");
+                        var voiceLabel = noteElem.Element("voice").Value;
+                        var pitchElem = noteElem.Element("pitch");
                         if (!voices.ContainsKey(voiceLabel))
                         {
                             voices.Add(voiceLabel, new NewVoice());
@@ -34,10 +34,10 @@ namespace MuseScoreParser
                             {
                                 new NewNote
                                 {
-                                    Octave = pitchElement.Element("octave")?.Value ?? string.Empty,
-                                    Alter = pitchElement.Element("alter")?.Value ?? string.Empty,
-                                    Step = pitchElement.Element("step")?.Value ?? string.Empty,
-                                    Duration = xmlNote.Element("duration")?.Value ?? string.Empty
+                                    Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
+                                    Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
+                                    Step = pitchElem.Element("step")?.Value ?? string.Empty,
+                                    Duration = noteElem.Element("duration")?.Value ?? string.Empty
                                 }
                             }
                         });
