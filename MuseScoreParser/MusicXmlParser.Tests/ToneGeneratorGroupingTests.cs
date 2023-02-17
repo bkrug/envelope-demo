@@ -11,24 +11,24 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_TwoParts_Success()
+        public void GroupByGenerator_TwoPartsNoChords_Success()
         {
 
         }
 
         [Test]
-        public void GroupByGenerator_TwoVoices_Success()
+        public void GroupByGenerator_TwoVoicesNoChords_Success()
         {
 
         }
 
         [Test]
-        public void GroupByGenerator_FourVoices_NoneEmpty_OneVoiceIsIgnored()
+        public void GroupByGenerator_FourVoicesNoChords_NoneEmpty_OneVoiceIsIgnored()
         {
         }
 
         [Test]
-        public void GroupByGenerator_FourVoices_DifferentVoicesAreAllRestsInDifferentMeasures_SkipAllRestVoicesForGivenMeasure()
+        public void GroupByGenerator_FourVoicesNoChords_DifferentVoicesAreAllRestsInDifferentMeasures_SkipAllRestVoicesForGivenMeasure()
         {
         }
 
