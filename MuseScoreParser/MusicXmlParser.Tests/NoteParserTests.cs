@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
+    //TODO: Write failure cases where expected elements are missing
     public class Tests
     {
         private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string duration)
@@ -313,7 +314,6 @@ namespace MusicXmlParser.Tests
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
         }
-
 
         [Test]
         public void Parse_XmlContainsMultipleParts_Success()

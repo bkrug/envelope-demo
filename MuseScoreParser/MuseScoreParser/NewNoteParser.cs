@@ -16,44 +16,50 @@ namespace MuseScoreParser
             var newParts = new List<NewPart>();
             foreach (var partElem in parts)
             {
-                var measures = partElem.Descendants("measure") ?? new List<XElement>();
+                var measures = partElem.Descendants("measure");
                 var newPart = new NewPart();
                 foreach (var measureElem in measures)
                 {
-                    var voices = new Dictionary<string, NewVoice>();
-                    foreach (var noteElem in measureElem.Descendants("note"))
-                    {
-                        var voiceLabel = noteElem.Element("voice").Value;
-                        var pitchElem = noteElem.Element("pitch");
-                        var isChord = noteElem.Element("chord") != null;
-                        if (!voices.ContainsKey(voiceLabel))
-                        {
-                            voices.Add(voiceLabel, new NewVoice());
-                        }
-
-                        if (isChord)
-                        {
-                            voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem));
-                        }
-                        else
-                        {
-                            voices[voiceLabel].Chords.Add(new NewChord
-                            {
-                                Notes = new List<NewNote>
-                                {
-                                    CreateNote(noteElem, pitchElem)
-                                }
-                            });
-                        }
-                    }
                     newPart.Measures.Add(new NewMeasure
                     {
-                        Voices = voices
+                        Voices = CreateVoicesWithinMeasure(measureElem)
                     });
                 }
                 newParts.Add(newPart);
             }
             return newParts;
+        }
+
+        private static Dictionary<string, NewVoice> CreateVoicesWithinMeasure(XElement measureElem)
+        {
+            var voices = new Dictionary<string, NewVoice>();
+            foreach (var noteElem in measureElem.Descendants("note"))
+            {
+                var voiceLabel = noteElem.Element("voice").Value;
+                var pitchElem = noteElem.Element("pitch");
+                var isChord = noteElem.Element("chord") != null;
+                if (!voices.ContainsKey(voiceLabel))
+                {
+                    voices.Add(voiceLabel, new NewVoice());
+                }
+
+                if (isChord)
+                {
+                    voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem));
+                }
+                else
+                {
+                    voices[voiceLabel].Chords.Add(new NewChord
+                    {
+                        Notes = new List<NewNote>
+                                {
+                                    CreateNote(noteElem, pitchElem)
+                                }
+                    });
+                }
+            }
+
+            return voices;
         }
 
         private static NewNote CreateNote(XElement noteElem, XElement pitchElem)
