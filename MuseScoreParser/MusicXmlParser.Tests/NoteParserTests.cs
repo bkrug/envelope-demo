@@ -219,5 +219,207 @@ namespace MusicXmlParser.Tests
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
         }
+
+        [Test]
+        public void Parse_XmlContainsMultipleVoices_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <alter>-1</alter>
+                    <octave>2</octave>
+                </pitch>
+                <duration>4</duration>
+                <voice>I</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                    <octave>2</octave>
+                </pitch>
+                <duration>8</duration>
+                <voice>I</voice>
+            </note>
+            <backup>
+                <duration>12</duration>
+            </backup>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>1</octave>
+                </pitch>
+                <duration>8</duration>
+                <voice>V</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>1</octave>
+                </pitch>
+                <duration>4</duration>
+                <voice>V</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "I",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("B", "-1", "2", "4"),
+                                            GenerateSingleNoteChord("A", "1", "2", "8")
+                                        }
+                                    }
+                                },
+                                {
+                                    "V",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("F", "1", "1", "8"),
+                                            GenerateSingleNoteChord("A", "", "1", "4")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+
+        [Test]
+        public void Parse_XmlContainsMultipleParts_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <alter>-1</alter>
+                    <octave>2</octave>
+                </pitch>
+                <duration>4</duration>
+                <voice>I</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                    <octave>2</octave>
+                </pitch>
+                <duration>8</duration>
+                <voice>I</voice>
+            </note>
+        </measure>
+    </part>
+    <part>
+        <measure>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>1</octave>
+                </pitch>
+                <duration>8</duration>
+                <voice>II</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>1</octave>
+                </pitch>
+                <duration>4</duration>
+                <voice>II</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "I",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("B", "-1", "2", "4"),
+                                            GenerateSingleNoteChord("A", "1", "2", "8")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "II",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("F", "1", "1", "8"),
+                                            GenerateSingleNoteChord("A", "", "1", "4")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
     }
 }
