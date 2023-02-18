@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MuseScoreParser.Enums;
+using System.Collections.Generic;
 
 namespace MuseScoreParser.Models
 {
@@ -22,11 +23,25 @@ namespace MuseScoreParser.Models
         public List<NewNote> Notes { get; set; } = new List<NewNote>();
     }
 
-    internal class NewNote
+    internal struct NewNote
     {
         public string Step { get; set; }
         public string Alter { get; set; }
         public string Octave { get; set; }
+        public bool IsRest { get; set; }
         public string Duration { get; set; }
+    }
+
+    internal class ToneGenerator
+    {
+        public List<GeneratorNote> GeneratorNotes { get; set; } = new List<GeneratorNote>();
+    }
+
+    internal struct GeneratorNote
+    {
+        public Pitch Pitch { get; set; }
+        public Duration Duration { get; set; }
+        public int StartMeasure { get; set; }
+        public int EndMeasure { get; set; }
     }
 }
