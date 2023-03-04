@@ -240,6 +240,41 @@ namespace MusicXmlParser.Tests
         [Test]
         public void GroupByGenerator_OneVoicesWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
         {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureOfThreeNoteChords("p1", "v1")
+                .AddMeasureOfThreeNoteChords("p1", "v1")
+                .Build();
+            var expectedToneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasurePart1OfChord(1)
+                        .Concat(GetMeasurePart1OfChord(2))
+                        .ToList()
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasurePart2OfChord(1)
+                        .Concat(GetMeasurePart2OfChord(2))
+                        .ToList()
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasurePart3OfChord(1)
+                        .Concat(GetMeasurePart3OfChord(2))
+                        .ToList()
+                }
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
         }
 
         [Test]
@@ -269,6 +304,69 @@ namespace MusicXmlParser.Tests
                     EndMeasure = measureNumber,
                     Duration = Duration.N4,
                     Pitch = Pitch.Ds3
+                }
+            };
+        }
+
+        private static List<GeneratorNote> GetMeasurePart1OfChord(int measureNumber)
+        {
+            return new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N16,
+                    Pitch = Pitch.A2
+                },
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N8,
+                    Pitch = Pitch.B2
+                }
+            };
+        }
+
+        private static List<GeneratorNote> GetMeasurePart2OfChord(int measureNumber)
+        {
+            return new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N16,
+                    Pitch = Pitch.C2
+                },
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N8,
+                    Pitch = Pitch.D2
+                }
+            };
+        }
+
+        private static List<GeneratorNote> GetMeasurePart3OfChord(int measureNumber)
+        {
+            return new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N16,
+                    Pitch = Pitch.Eb2
+                },
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N8,
+                    Pitch = Pitch.Fs2
                 }
             };
         }

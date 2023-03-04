@@ -79,7 +79,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 Step = "E",
-                                Alter = "1",
+                                Alter = "-1",
                                 Octave = "2",
                                 Type = "16th"
                             }
