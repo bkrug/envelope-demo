@@ -130,7 +130,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "16th"
+                                Type = "quarter"
                             }
                         }
                     },

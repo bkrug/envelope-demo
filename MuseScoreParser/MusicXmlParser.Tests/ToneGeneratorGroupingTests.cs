@@ -199,6 +199,45 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
+        public void GroupByGenerator_FirstMeasureHasOneVoice_SecondMeasureHasTwoVoices_TwoToneGeneratorsWithEqualMeasuresResult()
+        {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddPartAndVoice("p1", "v2")
+                //Measure 1
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfRests("p1", "v2")
+                //Measure 2
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v2")
+                //
+                .Build();
+            var expectedToneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfRests(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                }
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
+        }
+
+        [Test]
         public void GroupByGenerator_OneVoicesWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
         {
         }
@@ -230,6 +269,20 @@ namespace MusicXmlParser.Tests
                     EndMeasure = measureNumber,
                     Duration = Duration.N4,
                     Pitch = Pitch.Ds3
+                }
+            };
+        }
+
+        private static List<GeneratorNote> GetMeasureOfRests(int measureNumber)
+        {
+            return new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = (Duration)((int)Duration.N4 + (int)Duration.N8),
+                    Pitch = Pitch.REST
                 }
             };
         }

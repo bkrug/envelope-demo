@@ -12,7 +12,12 @@ namespace MuseScoreParser
 
         internal List<ToneGenerator> GetToneGenerators(List<NewPart> parsedParts)
         {
-            var toneGenerators = new List<ToneGenerator>();
+            var toneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator(),
+                new ToneGenerator(),
+                new ToneGenerator()
+            };
             for(var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
             {
                 var generatorsInMeasure = new List<List<GeneratorNote>>();
@@ -21,24 +26,25 @@ namespace MuseScoreParser
                     var voiceKeys = parsedPart.Measures[currentMeasure - 1].Voices.Keys;
                     foreach (var voiceKey in voiceKeys)
                     {
-                        if (generatorsInMeasure.Count >= TONE_GENERATORS_PER_SN76489)
-                            break;
                         var voice = parsedPart.Measures[currentMeasure - 1].Voices[voiceKey];
                         var notesInMeasure = GetNotesForOneToneGenerator(voice, currentMeasure);
-                        if (notesInMeasure.Any(n => n.Pitch != Pitch.REST))
-                        {
-                            generatorsInMeasure.Add(notesInMeasure);
-                        }
+                        generatorsInMeasure.Add(notesInMeasure);
                     }
                 }
-                for(var g = 0; g < TONE_GENERATORS_PER_SN76489 && g < generatorsInMeasure.Count; ++g)
+                while(generatorsInMeasure.Count > TONE_GENERATORS_PER_SN76489)
                 {
-                    if (toneGenerators.Count == g)
-                        toneGenerators.Add(new ToneGenerator());
+                    var restsOnly = generatorsInMeasure.FirstOrDefault(g => g.All(n => n.Pitch == Pitch.REST));
+                    if (restsOnly != null)
+                        generatorsInMeasure.Remove(restsOnly);
+                    else
+                        generatorsInMeasure.Remove(generatorsInMeasure.Last());
+                }
+                for(var g = 0; g < generatorsInMeasure.Count; ++g)
+                {
                     toneGenerators[g].GeneratorNotes.AddRange(generatorsInMeasure[g]);
                 }
             }
-            return toneGenerators;
+            return toneGenerators.Where(tg => tg.GeneratorNotes.Any()).ToList();
         }
 
         private List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int currentMeasure)
@@ -54,7 +60,20 @@ namespace MuseScoreParser
                     Duration = GetDuration(n)
                 });
             generatorNotes.AddRange(notesInMeasure);
-            return generatorNotes.ToList();
+            if (notesInMeasure.All(n => n.Pitch == Pitch.REST))
+            {
+                return new List<GeneratorNote>
+                {
+                    new GeneratorNote
+                    {
+                        StartMeasure = currentMeasure,
+                        EndMeasure = currentMeasure,
+                        Pitch = Pitch.REST,
+                        Duration = (Duration)notesInMeasure.Sum(n => (int)n.Duration)
+                    }
+                };
+            }
+            return generatorNotes;
         }
 
         private static ReadOnlyDictionary<string, int> _notesWithinOctive =
