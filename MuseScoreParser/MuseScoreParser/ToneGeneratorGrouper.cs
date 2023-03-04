@@ -13,8 +13,12 @@ namespace MuseScoreParser
             var toneGenerators = new List<ToneGenerator>();
             foreach(var parsedPart in parsedParts)
             {
-                var measures = parsedPart.Measures.Select(m => m.Voices.Single().Value).ToList();
-                toneGenerators.Add(GetNotesForOneToneGenerator(measures));
+                var voiceKeys = parsedPart.Measures.First().Voices.Keys;
+                foreach(var voiceKey in voiceKeys)
+                {
+                    var measures = parsedPart.Measures.Select(m => m.Voices[voiceKey]).ToList();
+                    toneGenerators.Add(GetNotesForOneToneGenerator(measures));
+                }
             }
             return toneGenerators;
         }
@@ -35,11 +39,10 @@ namespace MuseScoreParser
                     });
                 generatorNotes.AddRange(notesInMeasure);
             }
-            var toneGenerator = new ToneGenerator
+            return new ToneGenerator
             {
                 GeneratorNotes = generatorNotes.ToList()
             };
-            return toneGenerator;
         }
 
         private static ReadOnlyDictionary<string, int> _notesWithinOctive =

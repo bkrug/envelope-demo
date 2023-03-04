@@ -77,7 +77,37 @@ namespace MusicXmlParser.Tests
         [Test]
         public void GroupByGenerator_TwoVoicesNoChords_Success()
         {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddPartAndVoice("p1", "v2")
+                .AddMeasureOfOneNoteChords("p1", "v2")
+                .AddMeasureOfOneNoteChords("p1", "v2")
+                .Build();
+            var expectedToneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                }
+            };
 
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
         }
 
         [Test]

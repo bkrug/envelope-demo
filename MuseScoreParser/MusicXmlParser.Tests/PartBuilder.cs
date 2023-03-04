@@ -154,24 +154,21 @@ namespace MusicXmlParser.Tests
         {
             var parts = new List<NewPart>();
             var measureCount = _voices.First().Value.Count;
-            Assert.IsTrue(_voices.All(v => v.Value.Count == measureCount), "All voices must have the same number of measures");
+            Assert.That(_voices.All(v => v.Value.Count == measureCount), "All voices must have the same number of measures");
             foreach (var partAndVoices in _voices.Keys.GroupBy(k => k.part))
             {
                 var part = new NewPart();
-                foreach (var partAndVoice in partAndVoices)
+                for (var m = 0; m < measureCount; ++m)
                 {
-                    for(var m = 0; m < measureCount; ++m)
+                    part.Measures.Add(new NewMeasure
                     {
-                        part.Measures.Add(new NewMeasure
-                        {
-                            Voices = _voices
-                                .Where(v => partAndVoices.Contains(v.Key))
-                                .ToDictionary(
-                                    avftp => avftp.Key.voice,
-                                    avftp => avftp.Value[m]
-                                )
-                        });
-                    }
+                        Voices = _voices
+                            .Where(v => partAndVoices.Contains(v.Key))
+                            .ToDictionary(
+                                avftp => avftp.Key.voice,
+                                avftp => avftp.Value[m]
+                            )
+                    });
                 }
                 parts.Add(part);
             }
