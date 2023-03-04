@@ -10,28 +10,36 @@ namespace MuseScoreParser
     {
         internal List<ToneGenerator> GetToneGenerators(List<NewPart> parsedParts)
         {
-            var measures = parsedParts.Single().Measures.Select(m => m.Voices.Single().Value).ToList();
+            var toneGenerators = new List<ToneGenerator>();
+            foreach(var parsedPart in parsedParts)
+            {
+                var measures = parsedPart.Measures.Select(m => m.Voices.Single().Value).ToList();
+                toneGenerators.Add(GetNotesForOneToneGenerator(measures));
+            }
+            return toneGenerators;
+        }
+
+        private ToneGenerator GetNotesForOneToneGenerator(List<NewVoice> measures)
+        {
             var generatorNotes = new List<GeneratorNote>();
-            for (var measureNumber = 1; measureNumber <= measures.Count; ++ measureNumber)
+            for (var measureNumber = 1; measureNumber <= measures.Count; ++measureNumber)
             {
                 var notesInMeasure = measures[measureNumber - 1].Chords
                     .Select(c => c.Notes.Single())
                     .Select(n => new GeneratorNote
-                     {
-                         StartMeasure = measureNumber,
-                         EndMeasure = measureNumber,
-                         Pitch = GetPitch(n),
-                         Duration = GetDuration(n)
-                     });
+                    {
+                        StartMeasure = measureNumber,
+                        EndMeasure = measureNumber,
+                        Pitch = GetPitch(n),
+                        Duration = GetDuration(n)
+                    });
                 generatorNotes.AddRange(notesInMeasure);
             }
-            return new List<ToneGenerator>()
+            var toneGenerator = new ToneGenerator
             {
-                new ToneGenerator
-                {
-                    GeneratorNotes = generatorNotes.ToList()
-                }
+                GeneratorNotes = generatorNotes.ToList()
             };
+            return toneGenerator;
         }
 
         private static ReadOnlyDictionary<string, int> _notesWithinOctive =
@@ -60,19 +68,14 @@ namespace MuseScoreParser
         //TODO: What are all the valid duration types?
         private Duration GetDuration(NewNote parsedNote)
         {
-            switch(parsedNote.Type)
+            return parsedNote.Type switch
             {
-                case "16th":
-                    return Duration.N16;
-                case "eigth":
-                    return Duration.N8;
-                case "quarter":
-                    return Duration.N4;
-                case "half":
-                    return Duration.N2;
-                default:
-                    throw new System.Exception("Unrecognized duration type");
-            }
+                "16th" => Duration.N16,
+                "eigth" => Duration.N8,
+                "quarter" => Duration.N4,
+                "half" => Duration.N2,
+                _ => throw new System.Exception("Unrecognized duration type"),
+            };
         }
     }
 }

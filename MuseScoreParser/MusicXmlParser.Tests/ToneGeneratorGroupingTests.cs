@@ -4,6 +4,7 @@ using MuseScoreParser.Enums;
 using MuseScoreParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicXmlParser.Tests
 {
@@ -23,37 +24,10 @@ namespace MusicXmlParser.Tests
             {
                 new ToneGenerator
                 {
-                    GeneratorNotes = new List<GeneratorNote>
-                    {
-                        new GeneratorNote
-                        {
-                            StartMeasure = 1,
-                            EndMeasure = 1,
-                            Duration = Duration.N8,
-                            Pitch = Pitch.Gb3
-                        },
-                        new GeneratorNote
-                        {
-                            StartMeasure = 1,
-                            EndMeasure = 1,
-                            Duration = Duration.N4,
-                            Pitch = Pitch.Ds3
-                        },
-                        new GeneratorNote
-                        {
-                            StartMeasure = 2,
-                            EndMeasure = 2,
-                            Duration = Duration.N8,
-                            Pitch = Pitch.Gb3
-                        },
-                        new GeneratorNote
-                        {
-                            StartMeasure = 2,
-                            EndMeasure = 2,
-                            Duration = Duration.N4,
-                            Pitch = Pitch.Ds3
-                        }
-                    }
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
                 }
             };
 
@@ -67,7 +41,37 @@ namespace MusicXmlParser.Tests
         [Test]
         public void GroupByGenerator_TwoPartsNoChords_Success()
         {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddPartAndVoice("p2", "v3")
+                .AddMeasureOfOneNoteChords("p2", "v3")
+                .AddMeasureOfOneNoteChords("p2", "v3")
+                .Build();
+            var expectedToneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes =
+                        GetMeasureOfGeneratorNotes(1)
+                        .Concat(GetMeasureOfGeneratorNotes(2))
+                        .ToList()
+                }
+            };
 
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
         }
 
         [Test]
@@ -99,6 +103,27 @@ namespace MusicXmlParser.Tests
         [Test]
         public void GroupByGenerator_ThreeVoicesWithChords_IgnoreLowerNotesOfChords()
         {
+        }
+
+        private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
+        {
+            return new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N8,
+                    Pitch = Pitch.Gb3
+                },
+                new GeneratorNote
+                {
+                    StartMeasure = measureNumber,
+                    EndMeasure = measureNumber,
+                    Duration = Duration.N4,
+                    Pitch = Pitch.Ds3
+                }
+            };
         }
     }
 }
