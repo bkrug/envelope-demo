@@ -29,7 +29,7 @@ namespace MuseScoreParser.Models
         public string Alter { get; set; }
         public string Octave { get; set; }
         public bool IsRest { get; set; }
-        public string Duration { get; set; }
+        public string Type { get; set; }
     }
 
     internal class ToneGenerator

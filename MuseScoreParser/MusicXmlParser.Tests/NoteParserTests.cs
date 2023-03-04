@@ -11,7 +11,7 @@ namespace MusicXmlParser.Tests
     //TODO: Write case that includes a rest
     public class NoteParserTests
     {
-        private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string duration)
+        private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string type)
         {
             return new NewChord
             {
@@ -22,7 +22,7 @@ namespace MusicXmlParser.Tests
                         Step = step,
                         Alter = alter,
                         Octave = octave,
-                        Duration = duration
+                        Type = type
                     }
                 }
             };
@@ -41,7 +41,7 @@ namespace MusicXmlParser.Tests
                     <step>E</step>
                     <octave>5</octave>
                 </pitch>
-                <duration>6</duration>
+                <type>16th</type>
                 <voice>1</voice>
             </note>
             <note>
@@ -50,7 +50,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>5</octave>
                 </pitch>
-                <duration>12</duration>
+                <type>eigth</type>
                 <voice>1</voice>
             </note>
             <note>
@@ -59,7 +59,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>4</octave>
                 </pitch>
-                <duration>6</duration>
+                <type>16th</type>
                 <voice>1</voice>
             </note>
         </measure>
@@ -69,7 +69,7 @@ namespace MusicXmlParser.Tests
                     <step>B</step>
                     <octave>3</octave>
                 </pitch>
-                <duration>24</duration>
+                <type>quarter</type>
                 <voice>1</voice>
             </note>
         </measure>
@@ -91,9 +91,9 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("E", "", "5", "6"),
-                                            GenerateSingleNoteChord("D", "1", "5", "12"),
-                                            GenerateSingleNoteChord("A", "1", "4", "6")
+                                            GenerateSingleNoteChord("E", "", "5", "16th"),
+                                            GenerateSingleNoteChord("D", "1", "5", "eigth"),
+                                            GenerateSingleNoteChord("A", "1", "4", "16th")
                                         }
                                     }
                                 }
@@ -109,7 +109,7 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("B", "", "3", "24"),
+                                            GenerateSingleNoteChord("B", "", "3", "quarter"),
                                         }
                                     }
                                 }
@@ -139,7 +139,7 @@ namespace MusicXmlParser.Tests
                     <step>G</step>
                     <octave>3</octave>
                 </pitch>
-                <duration>6</duration>
+                <type>16th</type>
                 <voice>1</voice>
             </note>
             <note>
@@ -148,7 +148,7 @@ namespace MusicXmlParser.Tests
                     <step>E</step>
                     <octave>3</octave>
                 </pitch>
-                <duration>6</duration>
+                <type>16th</type>
                 <voice>1</voice>
             </note>
             <note>
@@ -157,7 +157,7 @@ namespace MusicXmlParser.Tests
                     <step>C</step>
                     <octave>3</octave>
                 </pitch>
-                <duration>6</duration>
+                <type>16th</type>
                 <voice>1</voice>
             </note>
         </measure>
@@ -187,21 +187,21 @@ namespace MusicXmlParser.Tests
                                                     {
                                                         Step = "G",
                                                         Octave = "3",
-                                                        Duration = "6",
+                                                        Type = "16th",
                                                         Alter = string.Empty
                                                     },
                                                     new NewNote
                                                     {
                                                         Step = "E",
                                                         Octave = "3",
-                                                        Duration = "6",
+                                                        Type = "16th",
                                                         Alter = string.Empty
                                                     },
                                                     new NewNote
                                                     {
                                                         Step = "C",
                                                         Octave = "3",
-                                                        Duration = "6",
+                                                        Type = "16th",
                                                         Alter = string.Empty
                                                     }
                                                 }
@@ -236,7 +236,7 @@ namespace MusicXmlParser.Tests
                     <alter>-1</alter>
                     <octave>2</octave>
                 </pitch>
-                <duration>4</duration>
+                <type>half</type>
                 <voice>I</voice>
             </note>
             <note>
@@ -245,11 +245,11 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>2</octave>
                 </pitch>
-                <duration>8</duration>
+                <type>quarter</type>
                 <voice>I</voice>
             </note>
             <backup>
-                <duration>12</duration>
+                <type>eigth</type>
             </backup>
             <note>
                 <pitch>
@@ -257,7 +257,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>1</octave>
                 </pitch>
-                <duration>8</duration>
+                <type>quarter</type>
                 <voice>V</voice>
             </note>
             <note>
@@ -265,7 +265,7 @@ namespace MusicXmlParser.Tests
                     <step>A</step>
                     <octave>1</octave>
                 </pitch>
-                <duration>4</duration>
+                <type>half</type>
                 <voice>V</voice>
             </note>
         </measure>
@@ -287,8 +287,8 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("B", "-1", "2", "4"),
-                                            GenerateSingleNoteChord("A", "1", "2", "8")
+                                            GenerateSingleNoteChord("B", "-1", "2", "half"),
+                                            GenerateSingleNoteChord("A", "1", "2", "quarter")
                                         }
                                     }
                                 },
@@ -298,8 +298,8 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("F", "1", "1", "8"),
-                                            GenerateSingleNoteChord("A", "", "1", "4")
+                                            GenerateSingleNoteChord("F", "1", "1", "quarter"),
+                                            GenerateSingleNoteChord("A", "", "1", "half")
                                         }
                                     }
                                 }
@@ -330,7 +330,7 @@ namespace MusicXmlParser.Tests
                     <alter>-1</alter>
                     <octave>2</octave>
                 </pitch>
-                <duration>4</duration>
+                <type>half</type>
                 <voice>I</voice>
             </note>
             <note>
@@ -339,7 +339,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>2</octave>
                 </pitch>
-                <duration>8</duration>
+                <type>quarter</type>
                 <voice>I</voice>
             </note>
         </measure>
@@ -352,7 +352,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>1</octave>
                 </pitch>
-                <duration>8</duration>
+                <type>quarter</type>
                 <voice>II</voice>
             </note>
             <note>
@@ -360,7 +360,7 @@ namespace MusicXmlParser.Tests
                     <step>A</step>
                     <octave>1</octave>
                 </pitch>
-                <duration>4</duration>
+                <type>half</type>
                 <voice>II</voice>
             </note>
         </measure>
@@ -382,8 +382,8 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("B", "-1", "2", "4"),
-                                            GenerateSingleNoteChord("A", "1", "2", "8")
+                                            GenerateSingleNoteChord("B", "-1", "2", "half"),
+                                            GenerateSingleNoteChord("A", "1", "2", "quarter")
                                         }
                                     }
                                 }
@@ -405,8 +405,8 @@ namespace MusicXmlParser.Tests
                                     {
                                         Chords = new List<NewChord>
                                         {
-                                            GenerateSingleNoteChord("F", "1", "1", "8"),
-                                            GenerateSingleNoteChord("A", "", "1", "4")
+                                            GenerateSingleNoteChord("F", "1", "1", "quarter"),
+                                            GenerateSingleNoteChord("A", "", "1", "half")
                                         }
                                     }
                                 }

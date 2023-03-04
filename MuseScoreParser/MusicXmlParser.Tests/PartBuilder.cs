@@ -30,7 +30,7 @@ namespace MusicXmlParser.Tests
                                 Step = "G",
                                 Alter = "-1",
                                 Octave = "3",
-                                Duration = "6"
+                                Type = "6"
                             }
                         }
                     },
@@ -43,7 +43,7 @@ namespace MusicXmlParser.Tests
                                 Step = "D",
                                 Alter = "1",
                                 Octave = "3",
-                                Duration = "12"
+                                Type = "12"
                             }
                         }
                     }
@@ -67,21 +67,21 @@ namespace MusicXmlParser.Tests
                                 Step = "A",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Duration = "6"
+                                Type = "6"
                             },
                             new NewNote
                             {
                                 Step = "C",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Duration = "6"
+                                Type = "6"
                             },
                             new NewNote
                             {
                                 Step = "E",
                                 Alter = "1",
                                 Octave = "2",
-                                Duration = "6"
+                                Type = "6"
                             }
                         }
                     },
@@ -94,21 +94,21 @@ namespace MusicXmlParser.Tests
                                 Step = "B",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Duration = "12"
+                                Type = "12"
                             },
                             new NewNote
                             {
                                 Step = "D",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Duration = "12"
+                                Type = "12"
                             },
                             new NewNote
                             {
                                 Step = "F",
                                 Alter = "1",
                                 Octave = "2",
-                                Duration = "12"
+                                Type = "12"
                             }
                         }
                     }
@@ -130,7 +130,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Duration = "6"
+                                Type = "6"
                             }
                         }
                     },
@@ -141,7 +141,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Duration = "12"
+                                Type = "12"
                             }
                         }
                     }

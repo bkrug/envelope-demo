@@ -69,7 +69,7 @@ namespace MuseScoreParser
                 Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
                 Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
                 Step = pitchElem.Element("step")?.Value ?? string.Empty,
-                Duration = noteElem.Element("duration")?.Value ?? string.Empty
+                Type = noteElem.Element("type")?.Value ?? string.Empty
             };
         }
     }
