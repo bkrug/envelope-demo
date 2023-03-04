@@ -30,7 +30,7 @@ namespace MusicXmlParser.Tests
                                 Step = "G",
                                 Alter = "-1",
                                 Octave = "3",
-                                Type = "6"
+                                Type = "eigth"
                             }
                         }
                     },
@@ -43,7 +43,7 @@ namespace MusicXmlParser.Tests
                                 Step = "D",
                                 Alter = "1",
                                 Octave = "3",
-                                Type = "12"
+                                Type = "quarter"
                             }
                         }
                     }

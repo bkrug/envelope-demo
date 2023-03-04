@@ -20,7 +20,8 @@ namespace MuseScoreParser
                      {
                          StartMeasure = measureNumber,
                          EndMeasure = measureNumber,
-                         Pitch = GetPitch(n)
+                         Pitch = GetPitch(n),
+                         Duration = GetDuration(n)
                      });
                 generatorNotes.AddRange(notesInMeasure);
             }
@@ -54,6 +55,24 @@ namespace MuseScoreParser
             var alterInt = string.IsNullOrWhiteSpace(parsedNote.Alter) ? 0 : int.Parse(parsedNote.Alter);
             var withinOctiveInt = _notesWithinOctive[parsedNote.Step.ToUpper()] + alterInt;
             return (Pitch)(pitchInt + withinOctiveInt);
+        }
+
+        //TODO: What are all the valid duration types?
+        private Duration GetDuration(NewNote parsedNote)
+        {
+            switch(parsedNote.Type)
+            {
+                case "16th":
+                    return Duration.N16;
+                case "eigth":
+                    return Duration.N8;
+                case "quarter":
+                    return Duration.N4;
+                case "half":
+                    return Duration.N2;
+                default:
+                    throw new System.Exception("Unrecognized duration type");
+            }
         }
     }
 }
