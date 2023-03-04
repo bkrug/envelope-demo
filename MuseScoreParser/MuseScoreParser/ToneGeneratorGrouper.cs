@@ -8,41 +8,53 @@ namespace MuseScoreParser
 {
     internal class ToneGeneratorGrouper
     {
+        private const int TONE_GENERATORS_PER_SN76489 = 3;
+
         internal List<ToneGenerator> GetToneGenerators(List<NewPart> parsedParts)
         {
             var toneGenerators = new List<ToneGenerator>();
-            foreach(var parsedPart in parsedParts)
+            for(var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
             {
-                var voiceKeys = parsedPart.Measures.First().Voices.Keys;
-                foreach(var voiceKey in voiceKeys)
+                var generatorsInMeasure = new List<List<GeneratorNote>>();
+                foreach (var parsedPart in parsedParts)
                 {
-                    var measures = parsedPart.Measures.Select(m => m.Voices[voiceKey]).ToList();
-                    toneGenerators.Add(GetNotesForOneToneGenerator(measures));
+                    var voiceKeys = parsedPart.Measures[currentMeasure - 1].Voices.Keys;
+                    foreach (var voiceKey in voiceKeys)
+                    {
+                        if (generatorsInMeasure.Count >= TONE_GENERATORS_PER_SN76489)
+                            break;
+                        var voice = parsedPart.Measures[currentMeasure - 1].Voices[voiceKey];
+                        var notesInMeasure = GetNotesForOneToneGenerator(voice, currentMeasure);
+                        if (notesInMeasure.Any(n => n.Pitch != Pitch.REST))
+                        {
+                            generatorsInMeasure.Add(notesInMeasure);
+                        }
+                    }
+                }
+                for(var g = 0; g < TONE_GENERATORS_PER_SN76489 && g < generatorsInMeasure.Count; ++g)
+                {
+                    if (toneGenerators.Count == g)
+                        toneGenerators.Add(new ToneGenerator());
+                    toneGenerators[g].GeneratorNotes.AddRange(generatorsInMeasure[g]);
                 }
             }
             return toneGenerators;
         }
 
-        private ToneGenerator GetNotesForOneToneGenerator(List<NewVoice> measures)
+        private List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int currentMeasure)
         {
             var generatorNotes = new List<GeneratorNote>();
-            for (var measureNumber = 1; measureNumber <= measures.Count; ++measureNumber)
-            {
-                var notesInMeasure = measures[measureNumber - 1].Chords
-                    .Select(c => c.Notes.Single())
-                    .Select(n => new GeneratorNote
-                    {
-                        StartMeasure = measureNumber,
-                        EndMeasure = measureNumber,
-                        Pitch = GetPitch(n),
-                        Duration = GetDuration(n)
-                    });
-                generatorNotes.AddRange(notesInMeasure);
-            }
-            return new ToneGenerator
-            {
-                GeneratorNotes = generatorNotes.ToList()
-            };
+            var notesInMeasure = measure.Chords
+                .Select(c => c.Notes.Single())  //TODO: This line of code should eventually cause a test to fail.
+                .Select(n => new GeneratorNote
+                {
+                    StartMeasure = currentMeasure,
+                    EndMeasure = currentMeasure,
+                    Pitch = GetPitch(n),
+                    Duration = GetDuration(n)
+                });
+            generatorNotes.AddRange(notesInMeasure);
+            return generatorNotes.ToList();
         }
 
         private static ReadOnlyDictionary<string, int> _notesWithinOctive =
@@ -62,6 +74,11 @@ namespace MuseScoreParser
         //TODO: Add tests for invalid data
         private Pitch GetPitch(NewNote parsedNote)
         {
+            if(parsedNote.IsRest)
+            {
+                return Pitch.REST;
+            }
+
             var pitchInt = (int.Parse(parsedNote.Octave) - 1) * 12 + 3;
             var alterInt = string.IsNullOrWhiteSpace(parsedNote.Alter) ? 0 : int.Parse(parsedNote.Alter);
             var withinOctiveInt = _notesWithinOctive[parsedNote.Step.ToUpper()] + alterInt;
@@ -77,7 +94,7 @@ namespace MuseScoreParser
                 "eigth" => Duration.N8,
                 "quarter" => Duration.N4,
                 "half" => Duration.N2,
-                _ => throw new System.Exception("Unrecognized duration type"),
+                _ => throw new System.Exception($"Unrecognized duration type {parsedNote.Type}"),
             };
         }
     }

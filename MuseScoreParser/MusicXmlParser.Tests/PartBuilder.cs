@@ -67,21 +67,21 @@ namespace MusicXmlParser.Tests
                                 Step = "A",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "6"
+                                Type = "16th"
                             },
                             new NewNote
                             {
                                 Step = "C",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "6"
+                                Type = "16th"
                             },
                             new NewNote
                             {
                                 Step = "E",
                                 Alter = "1",
                                 Octave = "2",
-                                Type = "6"
+                                Type = "16th"
                             }
                         }
                     },
@@ -94,21 +94,21 @@ namespace MusicXmlParser.Tests
                                 Step = "B",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "12"
+                                Type = "eigth"
                             },
                             new NewNote
                             {
                                 Step = "D",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "12"
+                                Type = "eigth"
                             },
                             new NewNote
                             {
                                 Step = "F",
                                 Alter = "1",
                                 Octave = "2",
-                                Type = "12"
+                                Type = "eigth"
                             }
                         }
                     }
@@ -130,7 +130,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "6"
+                                Type = "16th"
                             }
                         }
                     },
@@ -141,7 +141,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "12"
+                                Type = "eigth"
                             }
                         }
                     }
