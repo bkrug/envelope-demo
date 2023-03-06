@@ -1,6 +1,5 @@
 using FluentAssertions;
 using MuseScoreParser;
-using MuseScoreParser.Enums;
 using MuseScoreParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;

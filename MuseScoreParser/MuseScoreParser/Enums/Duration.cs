@@ -1,6 +1,6 @@
 ﻿namespace MuseScoreParser.Enums
 {
-    enum Duration
+    public enum Duration
     {
         N32 = 3,
         N16 = N32 * 2,
