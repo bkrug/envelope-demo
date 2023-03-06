@@ -49,7 +49,7 @@ namespace MusicXmlParser.Tests
                     <alter>1</alter>
                     <octave>5</octave>
                 </pitch>
-                <type>eigth</type>
+                <type>eighth</type>
                 <voice>1</voice>
             </note>
             <note>
@@ -91,7 +91,7 @@ namespace MusicXmlParser.Tests
                                         Chords = new List<NewChord>
                                         {
                                             GenerateSingleNoteChord("E", "", "5", "16th"),
-                                            GenerateSingleNoteChord("D", "1", "5", "eigth"),
+                                            GenerateSingleNoteChord("D", "1", "5", "eighth"),
                                             GenerateSingleNoteChord("A", "1", "4", "16th")
                                         }
                                     }
@@ -248,7 +248,7 @@ namespace MusicXmlParser.Tests
                 <voice>I</voice>
             </note>
             <backup>
-                <type>eigth</type>
+                <type>eighth</type>
             </backup>
             <note>
                 <pitch>

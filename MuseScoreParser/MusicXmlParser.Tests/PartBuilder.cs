@@ -30,7 +30,7 @@ namespace MusicXmlParser.Tests
                                 Step = "G",
                                 Alter = "-1",
                                 Octave = "3",
-                                Type = "eigth"
+                                Type = "eighth"
                             }
                         }
                     },
@@ -94,21 +94,21 @@ namespace MusicXmlParser.Tests
                                 Step = "B",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "eigth"
+                                Type = "eighth"
                             },
                             new NewNote
                             {
                                 Step = "D",
                                 Alter = string.Empty,
                                 Octave = "2",
-                                Type = "eigth"
+                                Type = "eighth"
                             },
                             new NewNote
                             {
                                 Step = "F",
                                 Alter = "1",
                                 Octave = "2",
-                                Type = "eigth"
+                                Type = "eighth"
                             }
                         }
                     }
@@ -141,7 +141,7 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "eigth"
+                                Type = "eighth"
                             }
                         }
                     }

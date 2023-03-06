@@ -65,7 +65,9 @@ namespace MuseScoreParser
                     StartMeasure = currentMeasure,
                     EndMeasure = currentMeasure,
                     Pitch = GetPitch(n),
-                    Duration = GetDuration(n)
+                    //TODO: This isn't handling dotted notes.
+                    //TODO: Doesn't tell user when the durration is invalid
+                    Duration = DurationParser.TryParse(n.Type, out var d) ? d : default
                 })
                 .ToList();
             if (notesInMeasure.All(n => n.Pitch == Pitch.REST))
@@ -121,19 +123,6 @@ namespace MuseScoreParser
             var alterInt = string.IsNullOrWhiteSpace(parsedNote.Alter) ? 0 : int.Parse(parsedNote.Alter);
             var withinOctiveInt = _notesWithinOctive[parsedNote.Step.ToUpper()] + alterInt;
             return (Pitch)(pitchInt + withinOctiveInt);
-        }
-
-        //TODO: What are all the valid duration types?
-        private Duration GetDuration(NewNote parsedNote)
-        {
-            return parsedNote.Type switch
-            {
-                "16th" => Duration.N16,
-                "eigth" => Duration.N8,
-                "quarter" => Duration.N4,
-                "half" => Duration.N2,
-                _ => throw new System.Exception($"Unrecognized duration type {parsedNote.Type}"),
-            };
         }
     }
 }
