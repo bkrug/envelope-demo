@@ -71,16 +71,24 @@ namespace MuseScoreParser
 
         internal static bool TryParse(NewNote givenNote, out Pitch pitchParsed)
         {
+            pitchParsed = default;
             if (givenNote.IsRest)
             {
                 pitchParsed = Pitch.REST;
                 return true;
             }
+            if (!int.TryParse(givenNote.Octave, out var musicXmlOctave))
+            {
+                return false;
+            }
 
-            var octaveInt = (int.Parse(givenNote.Octave) - 1) * 12 + 3 - 2 * 12;
+            const int notesPerOctave = 12;
+            const int adjustToSN76489_octaves = 2 * notesPerOctave;
+            const int notesInOctave0 = 3;
+            var sn76489Octave = (musicXmlOctave - 1) * notesPerOctave - adjustToSN76489_octaves + notesInOctave0;
             var alterInt = string.IsNullOrWhiteSpace(givenNote.Alter) ? 0 : int.Parse(givenNote.Alter);
             var withinOctaveInt = _notesWithinOctave[givenNote.Step.ToUpper()] + alterInt;
-            pitchParsed = (Pitch)(octaveInt + withinOctaveInt);
+            pitchParsed = (Pitch)(sn76489Octave + withinOctaveInt);
             return true;
         }
     }
