@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MuseScoreParser;
 using MuseScoreParser.Enums;
+using MuseScoreParser.Models;
 using NUnit.Framework;
 
 namespace MusicXmlParser.Tests
@@ -8,14 +9,29 @@ namespace MusicXmlParser.Tests
     public class EnumParsingTests
     {
         [Test]
-        [TestCase("whole", Duration.N1)]
-        [TestCase("haLF", Duration.N2)]
-        [TestCase("Eighth", Duration.N8)]
-        [TestCase("8th", Duration.N8)]
-        public void ParseDuration_NoDots_IsValid(string input, Duration expectedOutput)
+        [TestCase("whole", false, false, Duration.N1)]
+        [TestCase("haLF", false, false, Duration.N2)]
+        [TestCase("Eighth", false, false, Duration.N8)]
+        [TestCase("8th", false, false, Duration.N8)]
+        [TestCase("16th", true, false, Duration.N16DOT)]
+        [TestCase("SixTeenth", false, false, Duration.N16)]
+        [TestCase("whOle", true, false, Duration.N1DOT)]
+        [TestCase("Whole", false, false, Duration.N1)]
+        [TestCase("16th", false, true, Duration.N16TRP)]
+        [TestCase("Quarter", false, true, Duration.N4TRP)]
+        [TestCase("64th", false, true, Duration.N64TRP)]
+        public void ParseDuration_WithDots_IsValid(string input, bool isDotted, bool isTripplet, Duration expectedOutput)
         {
+            //Arrange
+            var note = new NewNote
+            {
+                Type = input,
+                IsDotted = isDotted,
+                IsTripplet = isTripplet
+            };
+
             //Act
-            var isParsed = DurationParser.TryParse(input, out Duration actualOutput);
+            var isParsed = DurationParser.TryParse(note, out Duration actualOutput);
 
             //Assert
             isParsed.Should().BeTrue();
@@ -23,37 +39,22 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        [TestCase("16th", true, Duration.N16DOT)]
-        [TestCase("SixTeenth", false, Duration.N16)]
-        [TestCase("whOle", true, Duration.N1DOT)]
-        [TestCase("Whole", false, Duration.N1)]
-        public void ParseDuration_WithDots_IsValid(string input, bool dotted, Duration expectedOutput)
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void ParseDuration_NoDots_IsNotValid(bool isDotted, bool isTripplet)
         {
+            //Arrange
+            var note = new NewNote
+            {
+                Type = "invalidValue",
+                IsDotted = isDotted,
+                IsTripplet = isTripplet
+            };
+
             //Act
-            var isParsed = DurationParser.TryParse(input, dotted, out Duration actualOutput);
-
-            //Assert
-            isParsed.Should().BeTrue();
-            actualOutput.Should().Be(expectedOutput);
-        }
-
-        [Test]
-        public void ParseDuration_NoDots_IsNotValid()
-        {
-            //Act
-            var isParsed = DurationParser.TryParse("invalidValue", out Duration actualOutput);
-
-            //Assert
-            isParsed.Should().BeFalse();
-        }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void ParseDuration_WithDots_IsNotValid(bool isDotted)
-        {
-            //Act
-            var isParsed = DurationParser.TryParse("invalidValue", isDotted, out Duration actualOutput);
+            var isParsed = DurationParser.TryParse(note, out Duration actualOutput);
 
             //Assert
             isParsed.Should().BeFalse();
@@ -62,8 +63,15 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ParseDuration_NoDottedVersionExists_IsNotValid()
         {
+            //Arrange
+            var note = new NewNote
+            {
+                Type = "32nd",
+                IsDotted = true
+            };
+
             //Act
-            var isParsed = DurationParser.TryParse("32nd", true, out Duration actualOutput);
+            var isParsed = DurationParser.TryParse(note, out Duration actualOutput);
 
             //Assert
             //Dotted 32nd Notes are not supported by this parser.

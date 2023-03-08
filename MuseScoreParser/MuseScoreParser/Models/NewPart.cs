@@ -29,6 +29,8 @@ namespace MuseScoreParser.Models
         public string Alter { get; set; }
         public string Octave { get; set; }
         public bool IsRest { get; set; }
+        public bool IsDotted { get; set; }
+        public bool IsTripplet { get; set; }
         public string Type { get; set; }
     }
 
