@@ -109,6 +109,22 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
+        public void ParsePitch_IsRest_IsValid()
+        {
+            var note = new NewNote
+            {
+                IsRest = true
+            };
+
+            //Act
+            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+
+            //Assert
+            isParsed.Should().BeTrue();
+            actualPitch.Should().Be(Pitch.REST);
+        }
+
+        [Test]
         [TestCase("AA", "0", "2")]
         [TestCase("C", "notANumber", "2")]
         [TestCase("C", "0", "notANumber")]
