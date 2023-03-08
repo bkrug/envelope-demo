@@ -65,9 +65,8 @@ namespace MuseScoreParser
                     StartMeasure = currentMeasure,
                     EndMeasure = currentMeasure,
                     Pitch = GetPitch(n),
-                    //TODO: This isn't handling dotted notes.
                     //TODO: Doesn't tell user when the durration is invalid
-                    Duration = DurationParser.TryParse(n.Type, out var d) ? d : default
+                    Duration = DurationParser.TryParse(n, out var d) ? d : default
                 })
                 .ToList();
             if (notesInMeasure.All(n => n.Pitch == Pitch.REST))

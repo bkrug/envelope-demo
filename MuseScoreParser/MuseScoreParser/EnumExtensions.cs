@@ -23,34 +23,6 @@ namespace MuseScoreParser
                 { "32nd", Duration.N32 },
             });
 
-        public static bool TryParse(string durationAsString, out Duration durationParsed)
-        {
-            durationParsed = default;
-            var lowerCase = durationAsString.ToLower();
-            if (!_durations.ContainsKey(lowerCase))
-                return false;
-
-            durationParsed = _durations[lowerCase];
-            return true;
-        }
-
-        public static bool TryParse(string durationAsString, bool dotted, out Duration durationParsed)
-        {
-            if (dotted)
-            {
-                if (!TryParse(durationAsString, out durationParsed))
-                    return false;
-                if ((int)durationParsed % 2 != 0)
-                    return false;
-                durationParsed += (int)durationParsed / 2;
-                return true;
-            }
-            else
-            {
-                return TryParse(durationAsString, out durationParsed);
-            }
-        }
-
         internal static bool TryParse(NewNote noteWithDuration, out Duration durationParsed)
         {
             durationParsed = default;
