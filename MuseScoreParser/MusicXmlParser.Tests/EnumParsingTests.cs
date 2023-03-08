@@ -107,5 +107,25 @@ namespace MusicXmlParser.Tests
             isParsed.Should().BeTrue();
             actualPitch.Should().Be(expectedPitch);
         }
+
+        [Test]
+        [TestCase("AA", "0", "2")]
+        [TestCase("C", "notANumber", "2")]
+        [TestCase("C", "0", "notANumber")]
+        public void ParsePitch_IsNotValid(string inputNote, string alter, string octave)
+        {
+            var note = new NewNote
+            {
+                Step = inputNote,
+                Alter = alter,
+                Octave = octave
+            };
+
+            //Act
+            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+
+            //Assert
+            isParsed.Should().BeFalse();
+        }
     }
 }
