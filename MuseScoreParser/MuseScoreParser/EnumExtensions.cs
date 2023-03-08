@@ -1,6 +1,5 @@
 ﻿using MuseScoreParser.Enums;
 using MuseScoreParser.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -56,9 +55,33 @@ namespace MuseScoreParser
 
     public static class PitchParser
     {
-        internal static bool TryParse(NewNote noteWithDuration, out Pitch durationParsed)
+        private static ReadOnlyDictionary<string, int> _notesWithinOctave =
+            new ReadOnlyDictionary<string, int>(
+                new Dictionary<string, int>
+                {
+                    { "C", 0 },
+                    { "D", 2 },
+                    { "E", 4 },
+                    { "F", 5 },
+                    { "G", 7 },
+                    { "A", 9 },
+                    { "B", 11 },
+                }
+            );
+
+        internal static bool TryParse(NewNote givenNote, out Pitch pitchParsed)
         {
-            throw new NotImplementedException();
+            if (givenNote.IsRest)
+            {
+                pitchParsed = Pitch.REST;
+                return true;
+            }
+
+            var octaveInt = (int.Parse(givenNote.Octave) - 1) * 12 + 3 - 2 * 12;
+            var alterInt = string.IsNullOrWhiteSpace(givenNote.Alter) ? 0 : int.Parse(givenNote.Alter);
+            var withinOctaveInt = _notesWithinOctave[givenNote.Step.ToUpper()] + alterInt;
+            pitchParsed = (Pitch)(octaveInt + withinOctaveInt);
+            return true;
         }
     }
 }
