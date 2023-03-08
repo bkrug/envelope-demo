@@ -29,7 +29,7 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "G",
                                 Alter = "-1",
-                                Octave = "3",
+                                Octave = "5",
                                 Type = "eighth"
                             }
                         }
@@ -42,7 +42,7 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "D",
                                 Alter = "1",
-                                Octave = "3",
+                                Octave = "5",
                                 Type = "quarter"
                             }
                         }
@@ -66,21 +66,21 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "A",
                                 Alter = string.Empty,
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "16th"
                             },
                             new NewNote
                             {
                                 Step = "C",
                                 Alter = string.Empty,
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "16th"
                             },
                             new NewNote
                             {
                                 Step = "E",
                                 Alter = "-1",
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "16th"
                             }
                         }
@@ -93,21 +93,21 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "B",
                                 Alter = string.Empty,
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "eighth"
                             },
                             new NewNote
                             {
                                 Step = "D",
                                 Alter = string.Empty,
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "eighth"
                             },
                             new NewNote
                             {
                                 Step = "F",
                                 Alter = "1",
-                                Octave = "2",
+                                Octave = "4",
                                 Type = "eighth"
                             }
                         }

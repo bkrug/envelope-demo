@@ -30,11 +30,14 @@ namespace MuseScoreParser
                 return true;
             }
             if (!int.TryParse(givenNote.Octave, out var musicXmlOctave)
-                || !int.TryParse(givenNote.Alter, out var alterInt)
+                || !int.TryParse(givenNote.Alter, out var alterInt) && !string.IsNullOrEmpty(givenNote.Alter)
                 || !_notesWithinOctave.ContainsKey(givenNote.Step))
             {
                 return false;
             }
+
+            if (string.IsNullOrEmpty(givenNote.Alter))
+                alterInt = 0;
 
             const int notesPerOctave = 12;
             const int adjustToSN76489_octaves = 2 * notesPerOctave;

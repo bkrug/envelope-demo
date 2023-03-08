@@ -64,7 +64,8 @@ namespace MuseScoreParser
                 {
                     StartMeasure = currentMeasure,
                     EndMeasure = currentMeasure,
-                    Pitch = GetPitch(n),
+                    //TODO: Doesn't tell user when the durration is invalid
+                    Pitch = PitchParser.TryParse(n, out var p) ? p : default,
                     //TODO: Doesn't tell user when the durration is invalid
                     Duration = DurationParser.TryParse(n, out var d) ? d : default
                 })
@@ -109,19 +110,5 @@ namespace MuseScoreParser
                     { "B", 11 },
                 }
             );
-
-        //TODO: Add tests for invalid data
-        private Pitch GetPitch(NewNote parsedNote)
-        {
-            if(parsedNote.IsRest)
-            {
-                return Pitch.REST;
-            }
-
-            var pitchInt = (int.Parse(parsedNote.Octave) - 1) * 12 + 3;
-            var alterInt = string.IsNullOrWhiteSpace(parsedNote.Alter) ? 0 : int.Parse(parsedNote.Alter);
-            var withinOctiveInt = _notesWithinOctive[parsedNote.Step.ToUpper()] + alterInt;
-            return (Pitch)(pitchInt + withinOctiveInt);
-        }
     }
 }
