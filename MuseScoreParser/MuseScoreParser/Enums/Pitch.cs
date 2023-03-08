@@ -1,6 +1,6 @@
 ﻿namespace MuseScoreParser.Enums
 {
-    enum Pitch
+    public enum Pitch
     {
         A0 = 0x00,
         As0 = 0x01,

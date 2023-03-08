@@ -1,5 +1,6 @@
 ﻿using MuseScoreParser.Enums;
 using MuseScoreParser.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -50,6 +51,14 @@ namespace MuseScoreParser
                 durationParsed = (Duration)((int)durationParsed * 2 / 3);
             }
             return true;
+        }
+    }
+
+    public static class PitchParser
+    {
+        internal static bool TryParse(NewNote noteWithDuration, out Pitch durationParsed)
+        {
+            throw new NotImplementedException();
         }
     }
 }

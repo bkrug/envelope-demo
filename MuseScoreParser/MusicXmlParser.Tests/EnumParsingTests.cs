@@ -78,5 +78,34 @@ namespace MusicXmlParser.Tests
             //The duration cannot be divided by 2 using integers.
             isParsed.Should().BeFalse();
         }
+
+        [Test]
+        [TestCase("C", "0", "4", Pitch.C2)]
+        [TestCase("C", "1", "4", Pitch.Cs2)]
+        [TestCase("C", "-1", "4", Pitch.B1)]
+        [TestCase("B", "0", "3", Pitch.B1)]
+        [TestCase("B", "-1", "3", Pitch.Bb1)]
+        [TestCase("B", "1", "3", Pitch.C2)]
+        [TestCase("G", "0", "4", Pitch.G2)]
+        [TestCase("G", "1", "4", Pitch.Gs2)]
+        [TestCase("G", "-1", "4", Pitch.Gb2)]
+        [TestCase("E", "0", "5", Pitch.E3)]
+        [TestCase("A", "0", "2", Pitch.A0)]
+        public void ParsePitch_IsValid(string inputNote, string alter, string octave, Pitch expectedPitch)
+        {
+            var note = new NewNote
+            {
+                Step = inputNote,
+                Alter = alter,
+                Octave = octave
+            };
+
+            //Act
+            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+
+            //Assert
+            isParsed.Should().BeTrue();
+            actualPitch.Should().Be(expectedPitch);
+        }
     }
 }
