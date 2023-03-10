@@ -69,8 +69,18 @@ namespace MuseScoreParser
                 Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
                 Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
                 Step = pitchElem.Element("step")?.Value ?? string.Empty,
-                Type = noteElem.Element("type")?.Value ?? string.Empty
+                Type = noteElem.Element("type")?.Value ?? string.Empty,
+                IsDotted = noteElem.Elements("dot").Any(),
+                IsTripplet = IsTripplet(noteElem)
             };
+        }
+
+        private static bool IsTripplet(XElement noteElem)
+        {
+            var timeModElem = noteElem.Element("time-modification");
+            var normalNotesValue = timeModElem?.Element("normal-notes")?.Value;
+            var actualNotesValue = timeModElem?.Element("actual-notes")?.Value;
+            return normalNotesValue == "2" && actualNotesValue == "3";
         }
     }
 }
