@@ -117,6 +117,74 @@ namespace MusicXmlParser.Tests
             return this;
         }
 
+        public PartBuilder AddMeasureEndingInRest(string part, string voice)
+        {
+            _voices[(part, voice)].Add(new NewVoice
+            {
+                Chords = new List<NewChord>
+                {
+                    new NewChord
+                    {
+                        Notes = new List<NewNote>
+                        {
+                            new NewNote
+                            {
+                                Step = "C",
+                                Octave = "4",
+                                Type = "quarter"
+                            }
+                        }
+                    },
+                    new NewChord
+                    {
+                        Notes = new List<NewNote>
+                        {
+                            new NewNote
+                            {
+                                IsRest = true,
+                                Type = "eighth"
+                            }
+                        }
+                    }
+                }
+            });
+            return this;
+        }
+
+        public PartBuilder AddMeasureStartingInRest(string part, string voice)
+        {
+            _voices[(part, voice)].Add(new NewVoice
+            {
+                Chords = new List<NewChord>
+                {
+                    new NewChord
+                    {
+                        Notes = new List<NewNote>
+                        {
+                            new NewNote
+                            {
+                                IsRest = true,
+                                Type = "quarter"
+                            }
+                        }
+                    },
+                    new NewChord
+                    {
+                        Notes = new List<NewNote>
+                        {
+                            new NewNote
+                            {
+                                Step = "C",
+                                Octave = "4",
+                                Type = "eighth"
+                            }
+                        }
+                    }
+                }
+            });
+            return this;
+        }
+
         public PartBuilder AddMeasureOfRests(string part, string voice)
         {
             _voices[(part, voice)].Add(new NewVoice
