@@ -323,6 +323,35 @@ namespace MusicXmlParser.Tests
         [Test]
         public void GroupByGenerator_ThreeVoicesWithChords_IgnoreLowerNotesOfChords()
         {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureOfThreeNoteChords("p1", "v1")
+                .AddPartAndVoice("p1", "v2")
+                .AddMeasureOfThreeNoteChords("p1", "v2")
+                .AddPartAndVoice("p2", "v3")
+                .AddMeasureOfThreeNoteChords("p2", "v3")
+                .Build();
+            var expectedToneGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = GetMeasurePart1OfChord(1)
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = GetMeasurePart1OfChord(1)
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = GetMeasurePart1OfChord(1)
+                }
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
         }
 
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
