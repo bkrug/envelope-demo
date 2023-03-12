@@ -1,4 +1,5 @@
 ﻿using MusicXmlParser.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -22,12 +23,21 @@ namespace MusicXmlParser
                 {
                     newPart.Measures.Add(new NewMeasure
                     {
+                        HasBackwardRepeat = HasRepeat(measureElem, "backward"),
+                        HasForwardRepeat = HasRepeat(measureElem, "forward"),
                         Voices = CreateVoicesWithinMeasure(measureElem)
                     });
                 }
                 newParts.Add(newPart);
             }
             return newParts;
+        }
+
+        private static bool HasRepeat(XElement measureElem, string direction)
+        {
+            return measureElem.Elements("barline")
+                .Select(e => e.Element("repeat")?.Attribute("direction")?.Value)
+                .Any(foundDirection => string.Equals(foundDirection, direction, StringComparison.OrdinalIgnoreCase));
         }
 
         private static Dictionary<string, NewVoice> CreateVoicesWithinMeasure(XElement measureElem)

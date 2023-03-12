@@ -620,7 +620,7 @@ namespace MusicXmlParser.Tests
         <measure>
             <barline location=""left"">
                 <bar-style>not-relevant-data</bar-style>
-                <repeat direction=""forward""/>
+                <repeat direction=""foRward""/>
             </barline>
             <note>
                 <pitch>
@@ -702,7 +702,7 @@ namespace MusicXmlParser.Tests
             </note>
             <barline location=""right"">
                 <bar-style>not-relelvant-type</bar-style>
-                <repeat direction=""backward""/>
+                <repeat direction=""backWard""/>
             </barline>
         </measure>
     </part>
