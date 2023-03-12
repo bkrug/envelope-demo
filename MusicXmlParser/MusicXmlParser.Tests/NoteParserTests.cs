@@ -1,5 +1,4 @@
 using FluentAssertions;
-using MusicXmlParser;
 using MusicXmlParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -595,6 +594,138 @@ namespace MusicXmlParser.Tests
                                         {
                                             GenerateSingleNoteChord("F", "1", "1", "quarter"),
                                             GenerateSingleNoteChord("A", "", "1", "half")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_XmlContainsContainsForwardBracket_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <barline location=""left"">
+                <bar-style>not-relevant-data</bar-style>
+                <repeat direction=""forward""/>
+            </barline>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <type>quarter</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <octave>5</octave>
+                </pitch>
+                <type>quarter</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            HasForwardRepeat = true,
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "1",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("B", "", "5", "quarter"),
+                                            GenerateSingleNoteChord("F", "", "5", "quarter")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_XmlContainsContainsBackwardBracket_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <type>quarter</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <octave>5</octave>
+                </pitch>
+                <type>quarter</type>
+                <voice>1</voice>
+            </note>
+            <barline location=""right"">
+                <bar-style>not-relelvant-type</bar-style>
+                <repeat direction=""backward""/>
+            </barline>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "1",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("G", "", "4", "quarter"),
+                                            GenerateSingleNoteChord("C", "", "5", "quarter")
                                         }
                                     }
                                 }

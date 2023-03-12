@@ -10,6 +10,10 @@ namespace MusicXmlParser.Models
 
     internal class NewMeasure
     {
+        public bool IsStartOfVoltaBracket { get; set; }
+        public int VoltaNumber { get; set; }
+        public bool HasBackwardRepeat { get; set; }
+        public bool HasForwardRepeat { get; set; }
         public Dictionary<string, NewVoice> Voices { get; set; } = new Dictionary<string, NewVoice>();
     }
 
