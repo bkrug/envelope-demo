@@ -23,7 +23,7 @@ ForEach($file in $fileList) {
 }
 
 #Auto-generate tune
-.\MuseScoreParser\MuseScoreParser\bin\Debug\netcoreapp3.1\MuseScoreParser.exe `
+.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     ".\Fr_Elise_SN76489.musicxml" `
     ".\TUNEFURELISE.asm" `
     "BEETHV" `
