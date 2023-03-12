@@ -404,6 +404,39 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
         }
 
+        [Test]
+        public void GroupByGenerator_RestsInConsecutiveMeasures_NoMergedRestShouldBeLongerThan255InDuration()
+        {
+            var singlePartSingleVoice = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureEndingInRest("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureOfRests("p1", "v1")
+                .AddMeasureStartingInRest("p1", "v1")
+                .Build();
+            var expectedDuration = (int)Duration.N8           //length of rest in first measure
+                + ((int)Duration.N8 + (int)Duration.N4) * 9   //length of all the entirely-rest measures
+                + (int)Duration.N4;                           //length of rest in last measure
+
+            //Act
+            var actualToneGenerator = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice).Single();
+
+            //Assert
+            var notesWeHopeAreRests = actualToneGenerator.GeneratorNotes.Skip(1).Take(actualToneGenerator.GeneratorNotes.Count - 2).ToList();
+            actualToneGenerator.GeneratorNotes.First().Pitch.Should().Equals(Pitch.C2);
+            notesWeHopeAreRests.Select(n => n.Pitch).Should().AllBeEquivalentTo(Pitch.REST);
+            notesWeHopeAreRests.Sum(n => (int)n.Duration).Should().Equals(expectedDuration);
+            notesWeHopeAreRests.All(n => (int)n.Duration <= byte.MaxValue).Should().BeTrue();
+            actualToneGenerator.GeneratorNotes.Last().Pitch.Should().Equals(Pitch.C2);
+        }
+
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
         {
             return new List<GeneratorNote>

@@ -1,7 +1,6 @@
 ﻿using MuseScoreParser.Enums;
 using MuseScoreParser.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace MuseScoreParser
@@ -18,7 +17,7 @@ namespace MuseScoreParser
                 new ToneGenerator(),
                 new ToneGenerator()
             };
-            for(var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
+            for (var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
             {
                 var generatorsInMeasure = GroupNotesByToneGenerators(parsedParts, currentMeasure);
                 RemoveExtraGenerators(generatorsInMeasure);
@@ -27,20 +26,7 @@ namespace MuseScoreParser
                     toneGenerators[g].GeneratorNotes.AddRange(generatorsInMeasure[g]);
                 }
             }
-            foreach(var toneGenerator in toneGenerators)
-            {
-                for(var i = toneGenerator.GeneratorNotes.Count - 2; i >= 0; --i)
-                {
-                    var currentNote = toneGenerator.GeneratorNotes[i];
-                    var nextNote = toneGenerator.GeneratorNotes[i + 1];
-                    if (currentNote.Pitch != Pitch.REST || nextNote.Pitch != Pitch.REST)
-                        continue;
-                    currentNote.Duration += (int)nextNote.Duration;
-                    currentNote.EndMeasure = nextNote.EndMeasure;
-                    toneGenerator.GeneratorNotes[i] = currentNote;
-                    toneGenerator.GeneratorNotes.RemoveAt(i + 1);
-                }
-            }
+            MergeRests(toneGenerators);
             return toneGenerators
                 .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
                 .ToList();
@@ -108,6 +94,26 @@ namespace MuseScoreParser
                 var restsOnly = generatorsInMeasure.FirstOrDefault(g => g.All(n => n.Pitch == Pitch.REST));
                 var generatorToRemove = restsOnly ?? generatorsInMeasure.Last();
                 generatorsInMeasure.Remove(generatorToRemove);
+            }
+        }
+
+        private static void MergeRests(List<ToneGenerator> toneGenerators)
+        {
+            foreach (var toneGenerator in toneGenerators)
+            {
+                for (var i = toneGenerator.GeneratorNotes.Count - 2; i >= 0; --i)
+                {
+                    var currentNote = toneGenerator.GeneratorNotes[i];
+                    var nextNote = toneGenerator.GeneratorNotes[i + 1];
+                    if (currentNote.Pitch != Pitch.REST || nextNote.Pitch != Pitch.REST)
+                        continue;
+                    if ((int)currentNote.Duration + (int)nextNote.Duration > byte.MaxValue)
+                        continue;
+                    currentNote.Duration += (int)nextNote.Duration;
+                    currentNote.EndMeasure = nextNote.EndMeasure;
+                    toneGenerator.GeneratorNotes[i] = currentNote;
+                    toneGenerator.GeneratorNotes.RemoveAt(i + 1);
+                }
             }
         }
     }
