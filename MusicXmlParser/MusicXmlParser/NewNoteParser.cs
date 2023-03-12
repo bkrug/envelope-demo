@@ -21,16 +21,28 @@ namespace MusicXmlParser
                 var newPart = new NewPart();
                 foreach (var measureElem in measures)
                 {
+                    var (endingElem, voltaNumber) = GetEnding(measureElem);
                     newPart.Measures.Add(new NewMeasure
                     {
                         HasBackwardRepeat = HasRepeat(measureElem, "backward"),
                         HasForwardRepeat = HasRepeat(measureElem, "forward"),
+                        HasVoltaBracket = endingElem != null,
+                        VoltaNumber = voltaNumber,
                         Voices = CreateVoicesWithinMeasure(measureElem)
                     });
                 }
                 newParts.Add(newPart);
             }
             return newParts;
+        }
+
+        private static (XElement, int) GetEnding(XElement measureElem)
+        {
+            var elem = measureElem.Elements("barline")
+                .Select(e => e.Element("ending"))
+                .FirstOrDefault();
+            int.TryParse(elem?.Attribute("number")?.Value, out var voltaNumber);
+            return (elem, voltaNumber);
         }
 
         private static bool HasRepeat(XElement measureElem, string direction)

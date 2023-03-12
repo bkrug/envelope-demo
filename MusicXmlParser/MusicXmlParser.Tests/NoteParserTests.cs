@@ -611,7 +611,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void Parse_XmlContainsContainsForwardBracket_Success()
+        public void Parse_XmlContainsContainsForwardRepeat_Success()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -677,7 +677,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void Parse_XmlContainsContainsBackwardBracket_Success()
+        public void Parse_XmlContainsContainsBackwardRepeat_Success()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -726,6 +726,78 @@ namespace MusicXmlParser.Tests
                                         {
                                             GenerateSingleNoteChord("G", "", "4", "quarter"),
                                             GenerateSingleNoteChord("C", "", "5", "quarter")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_XmlContainsContainsVoltaBracket_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <barline location=""left"">
+                <ending number=""1"" type=""start"" default-y=""33.10""/>
+            </barline>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>3</octave>
+                </pitch>
+                <type>half</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>3</octave>
+                </pitch>
+                <type>half</type>
+                <voice>1</voice>
+            </note>
+            <barline location=""right"">
+                <bar-style>light-heavy</bar-style>
+                <ending number=""1"" type=""stop""/>
+                <repeat direction=""backward""/>
+            </barline>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 1,
+                            HasBackwardRepeat = true,
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "1",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("E", "", "3", "half"),
+                                            GenerateSingleNoteChord("A", "", "3", "half")
                                         }
                                     }
                                 }

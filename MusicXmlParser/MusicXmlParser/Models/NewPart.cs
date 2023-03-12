@@ -10,7 +10,7 @@ namespace MusicXmlParser.Models
 
     internal class NewMeasure
     {
-        public bool IsStartOfVoltaBracket { get; set; }
+        public bool HasVoltaBracket { get; set; }
         public int VoltaNumber { get; set; }
         public bool HasBackwardRepeat { get; set; }
         public bool HasForwardRepeat { get; set; }
