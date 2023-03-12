@@ -27,9 +27,10 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes =
                         GetMeasureOfGeneratorNotes(1)
                         .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
+                        .ToList(),
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
@@ -66,6 +67,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartTwoVoices);
@@ -102,6 +104,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartTwoVoices);
@@ -138,6 +141,7 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes = GetMeasureOfGeneratorNotes(1)
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(fourVoicesInTotal);
@@ -190,6 +194,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(fourVoicesInTotal);
@@ -229,6 +234,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartTwoVoices);
@@ -269,6 +275,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
@@ -312,6 +319,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartTwoVoices);
@@ -346,6 +354,7 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes = GetMeasurePart1OfChord(1)
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(totalOfThreeVoices);
@@ -396,6 +405,7 @@ namespace MusicXmlParser.Tests
                         }).ToList()
                 }
             };
+            AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(singlePartSingleVoice);
@@ -533,6 +543,14 @@ namespace MusicXmlParser.Tests
                     Pitch = Pitch.REST
                 }
             };
+        }
+
+        private static void AddLabelToFirstNote(List<ToneGenerator> expectedToneGenerators)
+        {
+            for (var i = 1; i <= expectedToneGenerators.Count; ++i)
+            {
+                expectedToneGenerators[i - 1].GeneratorNotes.First().Label = "LBL" + i;
+            }
         }
     }
 }
