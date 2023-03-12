@@ -27,8 +27,22 @@ namespace MuseScoreParser
                     toneGenerators[g].GeneratorNotes.AddRange(generatorsInMeasure[g]);
                 }
             }
+            foreach(var toneGenerator in toneGenerators)
+            {
+                for(var i = toneGenerator.GeneratorNotes.Count - 2; i >= 0; --i)
+                {
+                    var currentNote = toneGenerator.GeneratorNotes[i];
+                    var nextNote = toneGenerator.GeneratorNotes[i + 1];
+                    if (currentNote.Pitch != Pitch.REST || nextNote.Pitch != Pitch.REST)
+                        continue;
+                    currentNote.Duration += (int)nextNote.Duration;
+                    currentNote.EndMeasure = nextNote.EndMeasure;
+                    toneGenerator.GeneratorNotes[i] = currentNote;
+                    toneGenerator.GeneratorNotes.RemoveAt(i + 1);
+                }
+            }
             return toneGenerators
-                .Where(tg => tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
+                .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
                 .ToList();
         }
 
@@ -64,9 +78,9 @@ namespace MuseScoreParser
                 {
                     StartMeasure = currentMeasure,
                     EndMeasure = currentMeasure,
-                    //TODO: Doesn't tell user when the durration is invalid
+                    //TODO: Doesn't tell user when the pitch is invalid
                     Pitch = PitchParser.TryParse(n, out var p) ? p : default,
-                    //TODO: Doesn't tell user when the durration is invalid
+                    //TODO: Doesn't tell user when the duration is invalid
                     Duration = DurationParser.TryParse(n, out var d) ? d : default
                 })
                 .ToList();
@@ -96,19 +110,5 @@ namespace MuseScoreParser
                 generatorsInMeasure.Remove(generatorToRemove);
             }
         }
-
-        private static ReadOnlyDictionary<string, int> _notesWithinOctive =
-            new ReadOnlyDictionary<string, int>(
-                new Dictionary<string, int>
-                {
-                    { "C", 0 },
-                    { "D", 2 },
-                    { "E", 4 },
-                    { "F", 5 },
-                    { "G", 7 },
-                    { "A", 9 },
-                    { "B", 11 },
-                }
-            );
     }
 }
