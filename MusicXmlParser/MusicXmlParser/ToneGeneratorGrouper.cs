@@ -28,61 +28,12 @@ namespace MusicXmlParser
 
             }
 
-            PopulateRepeatLabels(parsedParts, toneGenerators);
+            RepeatPopulator.PopulateRepeatLabels(parsedParts, toneGenerators);
 
             MergeRests(toneGenerators);
             return toneGenerators
                 .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
                 .ToList();
-        }
-
-        private static void PopulateRepeatLabels(List<NewPart> parsedParts, List<ToneGenerator> toneGenerators)
-        {
-            var repeatSuffix = 'A';
-            var mostRecentForwardRepeat = "";
-            var labelPairs = new List<(string From, string To)>();
-            var measuresWithLabel = new Dictionary<int, string>();
-            var measureCount = parsedParts.First().Measures.Count;
-            measuresWithLabel[1] = string.Empty;
-            for (var measureNumber = 1; measureNumber <= measureCount; measureNumber++)
-            {
-                var measure = parsedParts.First().Measures[measureNumber - 1];
-                if (measure.HasBackwardRepeat)
-                {
-                    var nextMeasure = measureNumber + 1;
-                    measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
-                    labelPairs.Add((repeatSuffix.ToString(), mostRecentForwardRepeat));
-                    ++repeatSuffix;
-                }
-            }
-            var generatorNumber = 0;
-            var labelPrefix = "LBL";
-            foreach (var toneGenerator in toneGenerators)
-            {
-                ++generatorNumber;
-                foreach (var labeledMeasure in measuresWithLabel)
-                {
-                    var label = labelPrefix + generatorNumber + labeledMeasure.Value.ToString();
-                    if (labeledMeasure.Key <= measureCount)
-                    {
-                        var firstNoteInMeasure = toneGenerator.GeneratorNotes.First(n => n.StartMeasure == labeledMeasure.Key);
-                        firstNoteInMeasure.Label = label;
-                    }
-                    else
-                    {
-                        var lastNoteInMeasure = toneGenerator.GeneratorNotes.Last(n => n.EndMeasure == labeledMeasure.Key - 1);
-                        lastNoteInMeasure.LabelAtEnd = label;
-                    }
-                }
-                var repeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>();
-                foreach (var (from, to) in labelPairs)
-                {
-                    var fromLabel = labelPrefix + generatorNumber + from;
-                    var toLabel = labelPrefix + generatorNumber + to;
-                    repeatLabels.Add((FromThisLabel: fromLabel, JumpToThisLabel: toLabel));
-                }
-                toneGenerator.RepeatLabels = repeatLabels;
-            }
         }
 
         private List<List<GeneratorNote>> GroupNotesByToneGenerators(List<NewPart> parsedParts, int currentMeasure)
