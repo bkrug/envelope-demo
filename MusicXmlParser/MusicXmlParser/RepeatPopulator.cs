@@ -30,6 +30,11 @@ namespace MusicXmlParser
             for (var measureNumber = 1; measureNumber <= measureCount; measureNumber++)
             {
                 var measure = parsedParts.First().Measures[measureNumber - 1];
+                if (measure.HasForwardRepeat)
+                {
+                    measuresWithLabel[measureNumber] = mostRecentForwardRepeat = repeatSuffix.ToString();
+                    ++repeatSuffix;
+                }
                 if (measure.HasBackwardRepeat)
                 {
                     var nextMeasure = measureNumber + 1;

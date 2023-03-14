@@ -56,6 +56,60 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
+        [Test]
+        public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasure()
+        {
+            var parsedMusic = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasForwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2, "LBL1A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, null, "LBL1B")
+                    }
+                }
+            };
+            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+            {
+                ( "LBL1B", "LBL1A" )
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
         private static Dictionary<string, NewVoice> GetParsedVoice()
         {
             return new Dictionary<string, NewVoice>
