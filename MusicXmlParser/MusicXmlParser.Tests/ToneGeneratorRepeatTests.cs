@@ -189,10 +189,86 @@ namespace MusicXmlParser.Tests
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "LBL1B", "LBL1" ),
-                ( "LBL1A", "LBL1B" ),
-                ( "LBL1C", "LBL1" ),
-                ( "LBL1A", "LBL1C" )
+                ( "LBL1B", "LBL1" ),    //Play through first volta bracket and return to beginning
+                ( "LBL1A", "LBL1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
+                ( "LBL1C", "LBL1" ),    //Finish second volta bracket and return to beginning
+                ( "LBL1A", "LBL1C" )    //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
+        public void ToneGenerator_VoltaBracketFollowedByForwardRepeat_PlayEachVoltaBracketThenPlayRepeatTwice()
+        {
+            var parsedMusic = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        //Measure 1
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 2
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 1,
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 3
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 2,
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 4
+                        new NewMeasure
+                        {
+                            HasForwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 6
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2, "LBL1A"),
+                        GetGeneratorNote(3, "LBL1B"),
+                        GetGeneratorNote(4, "LBL1C"),
+                        GetGeneratorNote(5),
+                        GetGeneratorNote(6, "LBL1D")
+                    }
+                }
+            };
+            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+            {
+                ( "LBL1B", "LBL1" ),  //Play through first volta bracket and return to beginning
+                ( "LBL1A", "LBL1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
+                ( "LBL1D", "LBL1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
             };
 
             //Act
