@@ -14,6 +14,7 @@ namespace MusicXmlParser.SN76489Generation
             return toneGenerators;
         }
 
+        //TODO: Write a test to confirm that we can't loose labels as a result of this
         private static void MergeRests(ref List<ToneGenerator> toneGenerators)
         {
             foreach (var toneGenerator in toneGenerators)
