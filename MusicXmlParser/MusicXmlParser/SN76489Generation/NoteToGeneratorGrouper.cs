@@ -3,13 +3,13 @@ using MusicXmlParser.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicXmlParser
+namespace MusicXmlParser.SN76489Generation
 {
-    internal class ToneGeneratorGrouper
+    internal static class NoteToGeneratorGrouper
     {
         private const int TOTAL_GENERATORS_IN_SN76489 = 3;
 
-        internal List<ToneGenerator> GetToneGenerators(List<NewPart> parsedParts)
+        internal static List<ToneGenerator> AssignNotesToToneGenerators(List<NewPart> parsedParts)
         {
             var toneGenerators = new List<ToneGenerator>()
             {
@@ -27,16 +27,13 @@ namespace MusicXmlParser
                 }
 
             }
-
-            RepeatPopulator.PopulateRepeatLabels(parsedParts, toneGenerators);
-
-            MergeRests(toneGenerators);
-            return toneGenerators
+            toneGenerators = toneGenerators
                 .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
                 .ToList();
+            return toneGenerators;
         }
 
-        private List<List<GeneratorNote>> GroupNotesByToneGenerators(List<NewPart> parsedParts, int currentMeasure)
+        private static List<List<GeneratorNote>> GroupNotesByToneGenerators(List<NewPart> parsedParts, int currentMeasure)
         {
             var generatorsInMeasure = new List<List<GeneratorNote>>();
             for (var chordIndex = 0; chordIndex < TOTAL_GENERATORS_IN_SN76489; ++chordIndex)
@@ -55,12 +52,13 @@ namespace MusicXmlParser
             return generatorsInMeasure;
         }
 
-        private List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int currentMeasure, int chordIndex)
+        private static List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int currentMeasure, int chordIndex)
         {
             var notesInMeasure = measure.Chords
-                .Select(c => c.Notes.Count > chordIndex 
+                .Select(c => c.Notes.Count > chordIndex
                     ? c.Notes.ElementAt(chordIndex)
-                    : new NewNote {
+                    : new NewNote
+                    {
                         IsRest = true,
                         Type = c.Notes.First().Type
                     })
@@ -101,24 +99,5 @@ namespace MusicXmlParser
             }
         }
 
-        private static void MergeRests(List<ToneGenerator> toneGenerators)
-        {
-            foreach (var toneGenerator in toneGenerators)
-            {
-                for (var i = toneGenerator.GeneratorNotes.Count - 2; i >= 0; --i)
-                {
-                    var currentNote = toneGenerator.GeneratorNotes[i];
-                    var nextNote = toneGenerator.GeneratorNotes[i + 1];
-                    if (currentNote.Pitch != Pitch.REST || nextNote.Pitch != Pitch.REST)
-                        continue;
-                    if ((int)currentNote.Duration + (int)nextNote.Duration > byte.MaxValue)
-                        continue;
-                    currentNote.Duration += (int)nextNote.Duration;
-                    currentNote.EndMeasure = nextNote.EndMeasure;
-                    toneGenerator.GeneratorNotes[i] = currentNote;
-                    toneGenerator.GeneratorNotes.RemoveAt(i + 1);
-                }
-            }
-        }
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicXmlParser
+namespace MusicXmlParser.SN76489Generation
 {
     internal static class RepeatPopulator
     {
-        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, List<ToneGenerator> toneGenerators)
+        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, ref List<ToneGenerator> toneGenerators)
         {
             var labelPairs = new List<(string From, string To)>();
             //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
@@ -50,7 +50,8 @@ namespace MusicXmlParser
                 }
                 if (measure.HasForwardRepeat)
                 {
-                    if (!measuresWithLabel.ContainsKey(measureNumber)) {
+                    if (!measuresWithLabel.ContainsKey(measureNumber))
+                    {
                         measuresWithLabel[measureNumber] = repeatSuffix.ToString();
                         ++repeatSuffix;
                     }

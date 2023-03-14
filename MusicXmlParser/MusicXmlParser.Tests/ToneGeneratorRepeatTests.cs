@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
+using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -50,7 +51,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -104,7 +105,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -196,7 +197,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -272,7 +273,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
