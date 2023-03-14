@@ -51,6 +51,7 @@ namespace MusicXmlParser.Models
         public int StartMeasure { get; set; }
         public int EndMeasure { get; set; }
         public string Label { get; set; }
+        //This property should only really be populated for the last note in a song, if that.
         public string LabelAtEnd { get; set; }
     }
 }

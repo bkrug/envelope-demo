@@ -110,6 +110,98 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
+        [Test]
+        public void ToneGenerator_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
+        {
+            var parsedMusic = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        //Measure 1
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 3
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 1,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 5
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 2,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        //Measure 8
+                        new NewMeasure
+                        {
+                            HasVoltaBracket = true,
+                            VoltaNumber = 3,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, "LBL1A"),
+                        GetGeneratorNote(4),
+                        GetGeneratorNote(5, "LBL1B"),
+                        GetGeneratorNote(6),
+                        GetGeneratorNote(7),
+                        GetGeneratorNote(8, "LBL1C"),
+                        GetGeneratorNote(9)
+                    }
+                }
+            };
+            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+            {
+                ( "LBL1B", "LBL1" ),
+                ( "LBL1A", "LBL1B" ),
+                ( "LBL1C", "LBL1" ),
+                ( "LBL1A", "LBL1C" )
+            };
+
+            //Act
+            var actualToneGenerators = new ToneGeneratorGrouper().GetToneGenerators(parsedMusic);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
         private static Dictionary<string, NewVoice> GetParsedVoice()
         {
             return new Dictionary<string, NewVoice>

@@ -9,6 +9,7 @@ namespace MusicXmlParser
         internal static void PopulateRepeatLabels(List<NewPart> parsedParts, List<ToneGenerator> toneGenerators)
         {
             var labelPairs = new List<(string From, string To)>();
+            //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
             var measuresWithLabel = new Dictionary<int, string>();
             var measureCount = parsedParts.First().Measures.Count;
             FindRepeats(parsedParts, measureCount, ref labelPairs, ref measuresWithLabel);
@@ -26,14 +27,34 @@ namespace MusicXmlParser
         {
             var repeatSuffix = 'A';
             var mostRecentForwardRepeat = "";
+            var mostRecentVoltaBracket1 = "";
             measuresWithLabel[1] = string.Empty;
             for (var measureNumber = 1; measureNumber <= measureCount; measureNumber++)
             {
                 var measure = parsedParts.First().Measures[measureNumber - 1];
+                if (measure.HasVoltaBracket)
+                {
+                    if (!measuresWithLabel.ContainsKey(measureNumber))
+                    {
+                        measuresWithLabel[measureNumber] = repeatSuffix.ToString();
+                        ++repeatSuffix;
+                    }
+                    if (measure.VoltaNumber == 1)
+                    {
+                        mostRecentVoltaBracket1 = measuresWithLabel[measureNumber];
+                    }
+                    else
+                    {
+                        labelPairs.Add((mostRecentVoltaBracket1, measuresWithLabel[measureNumber]));
+                    }
+                }
                 if (measure.HasForwardRepeat)
                 {
-                    measuresWithLabel[measureNumber] = mostRecentForwardRepeat = repeatSuffix.ToString();
-                    ++repeatSuffix;
+                    if (!measuresWithLabel.ContainsKey(measureNumber)) {
+                        measuresWithLabel[measureNumber] = repeatSuffix.ToString();
+                        ++repeatSuffix;
+                    }
+                    mostRecentForwardRepeat = measuresWithLabel[measureNumber];
                 }
                 if (measure.HasBackwardRepeat)
                 {
