@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,6 +17,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicXmlParser\MusicXmlParser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\Fr_Elise_SN76489.musicxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\TUNEFURELISE.asm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -12,8 +12,13 @@ namespace MusicXmlParser
     {
         internal List<NewPart> Parse(string sourceXml)
         {
-            var xml = XDocument.Parse(sourceXml);
-            var parts = xml.Root.Descendants("part");
+            var document = XDocument.Parse(sourceXml);
+            return Parse(document);
+        }
+
+        internal List<NewPart> Parse(XDocument document)
+        {
+            var parts = document.Root.Descendants("part");
             var newParts = new List<NewPart>();
             foreach (var partElem in parts)
             {
@@ -74,9 +79,9 @@ namespace MusicXmlParser
                     voices[voiceLabel].Chords.Add(new NewChord
                     {
                         Notes = new List<NewNote>
-                                {
-                                    CreateNote(noteElem, pitchElem)
-                                }
+                        {
+                            CreateNote(noteElem, pitchElem)
+                        }
                     });
                 }
             }
@@ -88,9 +93,9 @@ namespace MusicXmlParser
         {
             return new NewNote
             {
-                Octave = pitchElem.Element("octave")?.Value ?? string.Empty,
-                Alter = pitchElem.Element("alter")?.Value ?? string.Empty,
-                Step = pitchElem.Element("step")?.Value ?? string.Empty,
+                Octave = pitchElem?.Element("octave")?.Value ?? string.Empty,
+                Alter = pitchElem?.Element("alter")?.Value ?? string.Empty,
+                Step = pitchElem?.Element("step")?.Value ?? string.Empty,
                 Type = noteElem.Element("type")?.Value ?? string.Empty,
                 IsDotted = noteElem.Elements("dot").Any(),
                 IsTripplet = IsTripplet(noteElem)

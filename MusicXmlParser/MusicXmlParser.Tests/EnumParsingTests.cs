@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using MusicXmlParser;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
