@@ -12,6 +12,16 @@ namespace MusicXmlParser
         internal void WriteAssembly(ICollection<ToneGenerator> toneGenerators, Options options)
         {
             var writer = File.CreateText(options.OutputFile);
+            WriteFileHeader(options, writer);
+            writer.WriteLine();
+            WriteRepeats(toneGenerators, writer);
+            writer.WriteLine();
+            WriteNotes(toneGenerators, options, writer);
+            writer.Close();
+        }
+
+        private static void WriteFileHeader(Options options, StreamWriter writer)
+        {
             writer.WriteLine($"       DEF  {options.AsmLabel}");
             writer.WriteLine();
             writer.WriteLine("*");
@@ -34,11 +44,6 @@ namespace MusicXmlParser
             writer.WriteLine($"       DATA {options.Ratio60Hz}");
             writer.WriteLine("* Duration ratio in 50hz environment");
             writer.WriteLine($"       DATA {options.Ratio50Hz}");
-            writer.WriteLine();
-            WriteRepeats(toneGenerators, writer);
-            writer.WriteLine();
-            WriteNotes(toneGenerators, options, writer);
-            writer.Close();
         }
 
         private static void WriteRepeats(ICollection<ToneGenerator> toneGenerators, StreamWriter writer)
