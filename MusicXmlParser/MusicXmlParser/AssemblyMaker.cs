@@ -25,7 +25,7 @@ namespace MusicXmlParser
 
             var generators = _sn76489NoteGenerator.GetToneGenerators(parsedMusic.Parts);
 
-            _assemblyWriter.WriteAssembly(generators, options);
+            _assemblyWriter.WriteAssembly(generators, parsedMusic.Credits, options);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace MusicXmlParser
 {
     internal class AssemblyWriter
     {
-        internal void WriteAssembly(ICollection<ToneGenerator> toneGenerators, Options options)
+        internal void WriteAssembly(ICollection<ToneGenerator> toneGenerators, Credits credits, Options options)
         {
             var writer = File.CreateText(options.OutputFile);
-            WriteFileHeader(options, writer);
+            WriteFileHeader(credits, options, writer);
             writer.WriteLine();
             WriteRepeats(toneGenerators, writer);
             writer.WriteLine();
@@ -20,7 +20,7 @@ namespace MusicXmlParser
             writer.Close();
         }
 
-        private static void WriteFileHeader(Options options, StreamWriter writer)
+        private static void WriteFileHeader(Credits credits, Options options, StreamWriter writer)
         {
             writer.WriteLine($"       DEF  {options.AsmLabel}");
             writer.WriteLine();
@@ -28,8 +28,12 @@ namespace MusicXmlParser
             writer.WriteLine("* This is auto-generated code.");
             writer.WriteLine("* It is only included in the repo for the convenience of people who haven't cloned it.");
             writer.WriteLine("*");
-            //TODO: Put credits here
-            writer.WriteLine("*");
+            if (!string.IsNullOrEmpty(credits?.WorkTitle))
+                writer.WriteLine($"* {credits.WorkTitle}");
+            if (!string.IsNullOrEmpty(credits?.Creator))
+                writer.WriteLine($"* {credits.Creator}");
+            if (!string.IsNullOrEmpty(credits?.Source))
+                writer.WriteLine($"* Source: {credits.Source}"); writer.WriteLine("*");
             writer.WriteLine();
             writer.WriteLine("       COPY 'NOTEVAL.asm'");
             writer.WriteLine("       COPY 'CONST.asm'");
