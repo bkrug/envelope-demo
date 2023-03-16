@@ -10,13 +10,13 @@ namespace MusicXmlParser
 {
     internal class NewNoteParser
     {
-        internal List<NewPart> Parse(string sourceXml)
+        internal ParsedMusic Parse(string sourceXml)
         {
             var document = XDocument.Parse(sourceXml);
             return Parse(document);
         }
 
-        internal List<NewPart> Parse(XDocument document)
+        internal ParsedMusic Parse(XDocument document)
         {
             var parts = document.Root.Descendants("part");
             var newParts = new List<NewPart>();
@@ -38,7 +38,9 @@ namespace MusicXmlParser
                 }
                 newParts.Add(newPart);
             }
-            return newParts;
+            return new ParsedMusic {
+                Parts = newParts
+            };
         }
 
         private static (XElement, int) GetEnding(XElement measureElem)

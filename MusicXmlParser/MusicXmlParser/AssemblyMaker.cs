@@ -21,9 +21,9 @@ namespace MusicXmlParser
         internal void ConvertToAssembly(Options options)
         {
             var xml = XDocument.Load(options.InputFile);
-            var parts = _noteParser.Parse(xml);
+            var parsedMusic = _noteParser.Parse(xml);
 
-            var generators = _sn76489NoteGenerator.GetToneGenerators(parts);
+            var generators = _sn76489NoteGenerator.GetToneGenerators(parsedMusic.Parts);
 
             _assemblyWriter.WriteAssembly(generators, options);
         }

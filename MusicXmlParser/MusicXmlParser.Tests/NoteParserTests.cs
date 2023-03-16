@@ -121,7 +121,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -310,7 +310,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -406,7 +406,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -500,7 +500,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -607,7 +607,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -673,7 +673,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -739,7 +739,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
@@ -811,7 +811,7 @@ namespace MusicXmlParser.Tests
             var actualObject = new NewNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
     }
 }

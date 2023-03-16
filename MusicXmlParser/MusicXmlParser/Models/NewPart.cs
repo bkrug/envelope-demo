@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Models
 {
+    internal class ParsedMusic
+    {
+        public List<NewPart> Parts { get; set; } = new List<NewPart>();
+        public Credits Credits { get; set; } = new Credits();
+    }
+
     internal class NewPart
     {
         public List<NewMeasure> Measures { get; set; } = new List<NewMeasure>();
