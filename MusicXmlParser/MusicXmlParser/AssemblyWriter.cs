@@ -45,9 +45,9 @@ namespace MusicXmlParser
             writer.WriteLine("* Data structures dealing with repeated music");
             writer.WriteLine($"       DATA REPT1,REPT2,REPT3");
             writer.WriteLine("* Duration ratio in 60hz environment");
-            writer.WriteLine($"       DATA {options.Ratio60Hz}");
+            writer.WriteLine($"       DATA {options.Ratio60Hz.Replace(":", ",")}");
             writer.WriteLine("* Duration ratio in 50hz environment");
-            writer.WriteLine($"       DATA {options.Ratio50Hz}");
+            writer.WriteLine($"       DATA {options.Ratio50Hz.Replace(":", ",")}");
         }
 
         private static void WriteRepeats(ICollection<ToneGenerator> toneGenerators, StreamWriter writer)
