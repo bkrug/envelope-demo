@@ -830,7 +830,7 @@ namespace MusicXmlParser.Tests
         <work-title>Joe's Discount Symphony in B minor</work-title>
     </work>
     <identification>
-        <creator type=""composer"">Joe. Duh!(1986-that time his Nachos were too spicy)</creator>
+        <creator type=""composer"">Joe. Duh!(1986-that time his Nachos were a little too spicy)</creator>
         <encoding>
             <software>MuseScore 3.6.2</software>
             <encoding-date>2022-09-12</encoding-date>

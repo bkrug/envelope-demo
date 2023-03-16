@@ -18,6 +18,28 @@ namespace MusicXmlParser
 
         internal ParsedMusic Parse(XDocument document)
         {
+            return new ParsedMusic
+            {
+                Parts = GetMusicalParts(document),
+                Credits = GetCredits(document)
+            };
+        }
+
+        private static Credits GetCredits(XDocument document)
+        {
+            var work = document.Root.Descendants("work");
+            var identification = document.Root.Descendants("identification");
+            var credits = new Credits
+            {
+                WorkTitle = work?.Descendants("work-title").FirstOrDefault()?.Value,
+                Creator = identification?.Descendants("creator").FirstOrDefault()?.Value,
+                Source = identification?.Descendants("source").FirstOrDefault()?.Value
+            };
+            return credits;
+        }
+
+        private static List<NewPart> GetMusicalParts(XDocument document)
+        {
             var parts = document.Root.Descendants("part");
             var newParts = new List<NewPart>();
             foreach (var partElem in parts)
@@ -38,9 +60,8 @@ namespace MusicXmlParser
                 }
                 newParts.Add(newPart);
             }
-            return new ParsedMusic {
-                Parts = newParts
-            };
+
+            return newParts;
         }
 
         private static (XElement, int) GetEnding(XElement measureElem)
