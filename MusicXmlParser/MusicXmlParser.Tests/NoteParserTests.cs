@@ -813,5 +813,42 @@ namespace MusicXmlParser.Tests
             //Assert
             actualObject.Parts.Should().BeEquivalentTo(expectedObject);
         }
+
+        [Test]
+        public void Parse_XmlContainsCredits_Success()
+        {
+            var expectedObject = new Credits
+            {
+                WorkTitle = "Joe's Discount Symphony in B minor",
+                Creator = "Joe. Duh!(1986-that time his Nachos were a little too spicy)",
+                Source = "http://fakescore.com/user/2983/scores/17289"
+            };
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <work>
+        <work-title>Joe's Discount Symphony in B minor</work-title>
+    </work>
+    <identification>
+        <creator type=""composer"">Joe. Duh!(1986-that time his Nachos were too spicy)</creator>
+        <encoding>
+            <software>MuseScore 3.6.2</software>
+            <encoding-date>2022-09-12</encoding-date>
+            <supports element=""accidental"" type=""yes""/>
+            <supports element=""beam"" type=""yes""/>
+            <supports element=""print"" attribute=""new-page"" type=""yes"" value=""yes""/>
+            <supports element=""print"" attribute=""new-system"" type=""yes"" value=""yes""/>
+            <supports element=""stem"" type=""yes""/>
+        </encoding>
+        <source>http://fakescore.com/user/2983/scores/17289</source>
+    </identification>
+</score-partwise>";
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Credits.Should().BeEquivalentTo(expectedObject);
+        }
     }
 }
