@@ -6,7 +6,7 @@ namespace MusicXmlParser.SN76489Generation
 {
     internal static class RepeatPopulator
     {
-        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, ref List<ToneGenerator> toneGenerators)
+        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, string labelPrefix, ref List<ToneGenerator> toneGenerators)
         {
             var labelPairs = new List<(string From, string To)>();
             //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
@@ -14,7 +14,7 @@ namespace MusicXmlParser.SN76489Generation
             var measureCount = parsedParts.First().Measures.Count;
             FindRepeats(parsedParts, measureCount, ref labelPairs, ref measuresWithLabel);
             var generatorNumber = 0;
-            var labelPrefix = "LBL";
+            labelPrefix = labelPrefix.Length > 4 ? labelPrefix[..4] : labelPrefix;
             foreach (var toneGenerator in toneGenerators)
             {
                 ++generatorNumber;
