@@ -850,5 +850,112 @@ namespace MusicXmlParser.Tests
             //Assert
             actualObject.Credits.Should().BeEquivalentTo(expectedObject);
         }
+
+        [Test]
+        public void Parse_XmlContainsRests_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <note default-x=""52.68"" default-y=""-81.59"">
+                <pitch>
+                    <step>A</step>
+                    <octave>3</octave>
+                    </pitch>
+                <duration>6</duration>
+                <voice>5</voice>
+                <type>16th</type>
+            </note>
+            <note>
+                <rest/>
+                <duration>6</duration>
+                <voice>5</voice>
+                <type>16th</type>
+                <staff>2</staff>
+            </note>
+            <note>
+                <rest/>
+                <duration>12</duration>
+                <voice>5</voice>
+                <type>eighth</type>
+                <staff>2</staff>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "5",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            new NewChord
+                                            {
+                                                Notes = new List<NewNote>
+                                                {
+                                                    new NewNote
+                                                    {
+                                                        Step = "A",
+                                                        Alter = string.Empty,
+                                                        Octave = "3",
+                                                        Type = "16th"
+                                                    }
+                                                }
+                                            },
+                                            new NewChord
+                                            {
+                                                Notes = new List<NewNote>
+                                                {
+                                                    new NewNote
+                                                    {
+                                                        IsRest = true,
+                                                        Step = string.Empty,
+                                                        Alter = string.Empty,
+                                                        Octave= string.Empty,
+                                                        Type = "16th"
+                                                    }
+                                                }
+                                            },
+                                            new NewChord
+                                            {
+                                                Notes = new List<NewNote>
+                                                {
+                                                    new NewNote
+                                                    {
+                                                        IsRest = true,
+                                                        Step = string.Empty,
+                                                        Alter = string.Empty,
+                                                        Octave= string.Empty,
+                                                        Type = "eighth"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
+        }
     }
 }

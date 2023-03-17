@@ -13,9 +13,7 @@ namespace MusicXmlParser
         {
             var writer = File.CreateText(options.OutputFile);
             WriteFileHeader(credits, options, writer);
-            writer.WriteLine();
             WriteRepeats(toneGenerators, writer);
-            writer.WriteLine();
             WriteNotes(toneGenerators, options, writer);
             writer.Close();
         }
@@ -48,6 +46,7 @@ namespace MusicXmlParser
             writer.WriteLine($"       DATA {options.Ratio60Hz.Replace(":", ",")}");
             writer.WriteLine("* Duration ratio in 50hz environment");
             writer.WriteLine($"       DATA {options.Ratio50Hz.Replace(":", ",")}");
+            writer.WriteLine();
         }
 
         private static void WriteRepeats(ICollection<ToneGenerator> toneGenerators, StreamWriter writer)
@@ -64,6 +63,7 @@ namespace MusicXmlParser
                 }
                 writer.WriteLine($"       DATA REPEAT,REPT{i}");
             }
+            writer.WriteLine();
         }
 
         private static void WriteNotes(ICollection<ToneGenerator> toneGenerators, Options options, StreamWriter writer)
@@ -71,9 +71,7 @@ namespace MusicXmlParser
             for (var g = 1; g <= 3; ++g)
             {
                 var generator = toneGenerators.ElementAt(g - 1);
-                var label = options.ShortLabel + g;
                 writer.WriteLine($"* Generator {g}");
-                writer.WriteLine(label);
                 var mostRecentMeasure = 0;
                 foreach (var note in generator.GeneratorNotes)
                 {

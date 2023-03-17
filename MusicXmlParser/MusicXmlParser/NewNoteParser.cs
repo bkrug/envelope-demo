@@ -121,7 +121,8 @@ namespace MusicXmlParser
                 Step = pitchElem?.Element("step")?.Value ?? string.Empty,
                 Type = noteElem.Element("type")?.Value ?? string.Empty,
                 IsDotted = noteElem.Elements("dot").Any(),
-                IsTripplet = IsTripplet(noteElem)
+                IsTripplet = IsTripplet(noteElem),
+                IsRest = noteElem?.Element("rest") != null
             };
         }
 
