@@ -51,7 +51,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "LBL");
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -92,20 +92,20 @@ namespace MusicXmlParser.Tests
                 new ToneGenerator
                 {
                     GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "LBL1"),
-                        GetGeneratorNote(2, "LBL1A"),
+                        GetGeneratorNote(1, "MUSC1"),
+                        GetGeneratorNote(2, "MUSC1A"),
                         GetGeneratorNote(3),
-                        GetGeneratorNote(4, null, "LBL1B")
+                        GetGeneratorNote(4, null, "MUSC1B")
                     }
                 }
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "LBL1B", "LBL1A" )
+                ( "MUSC1B", "MUSC1A" )
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC");
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -176,28 +176,28 @@ namespace MusicXmlParser.Tests
                 new ToneGenerator
                 {
                     GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(1, "SOUN1"),
                         GetGeneratorNote(2),
-                        GetGeneratorNote(3, "LBL1A"),
+                        GetGeneratorNote(3, "SOUN1A"),
                         GetGeneratorNote(4),
-                        GetGeneratorNote(5, "LBL1B"),
+                        GetGeneratorNote(5, "SOUN1B"),
                         GetGeneratorNote(6),
                         GetGeneratorNote(7),
-                        GetGeneratorNote(8, "LBL1C"),
+                        GetGeneratorNote(8, "SOUN1C"),
                         GetGeneratorNote(9)
                     }
                 }
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "LBL1B", "LBL1" ),    //Play through first volta bracket and return to beginning
-                ( "LBL1A", "LBL1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
-                ( "LBL1C", "LBL1" ),    //Finish second volta bracket and return to beginning
-                ( "LBL1A", "LBL1C" )    //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+                ( "SOUN1B", "SOUN1" ),    //Play through first volta bracket and return to beginning
+                ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
+                ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
+                ( "SOUN1A", "SOUN1C" )    //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "SOUND");
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -256,24 +256,24 @@ namespace MusicXmlParser.Tests
                 new ToneGenerator
                 {
                     GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "LBL1"),
-                        GetGeneratorNote(2, "LBL1A"),
-                        GetGeneratorNote(3, "LBL1B"),
-                        GetGeneratorNote(4, "LBL1C"),
+                        GetGeneratorNote(1, "TUNE1"),
+                        GetGeneratorNote(2, "TUNE1A"),
+                        GetGeneratorNote(3, "TUNE1B"),
+                        GetGeneratorNote(4, "TUNE1C"),
                         GetGeneratorNote(5),
-                        GetGeneratorNote(6, "LBL1D")
+                        GetGeneratorNote(6, "TUNE1D")
                     }
                 }
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "LBL1B", "LBL1" ),  //Play through first volta bracket and return to beginning
-                ( "LBL1A", "LBL1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
-                ( "LBL1D", "LBL1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
+                ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
+                ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
+                ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic);
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "TUNE");
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
