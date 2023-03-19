@@ -79,18 +79,21 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        [TestCase("C", "0", "4", Pitch.C2)]
-        [TestCase("C", "1", "4", Pitch.Cs2)]
-        [TestCase("C", "-1", "4", Pitch.B1)]
-        [TestCase("B", "0", "3", Pitch.B1)]
-        [TestCase("B", "-1", "3", Pitch.Bb1)]
-        [TestCase("B", "1", "3", Pitch.C2)]
-        [TestCase("G", "0", "4", Pitch.G2)]
-        [TestCase("G", "1", "4", Pitch.Gs2)]
-        [TestCase("G", "-1", "4", Pitch.Gb2)]
-        [TestCase("E", "0", "5", Pitch.E3)]
-        [TestCase("A", "0", "2", Pitch.A0)]
-        public void ParsePitch_IsValid(string inputNote, string alter, string octave, Pitch expectedPitch)
+        [TestCase("C", "0", "4", nameof(Pitch.C2))]
+        [TestCase("C", "1", "4", nameof(Pitch.Cs2))]
+        [TestCase("C", "-1", "4", nameof(Pitch.B1))]
+        [TestCase("B", "0", "3", nameof(Pitch.B1))]
+        [TestCase("B", "-1", "3", nameof(Pitch.Bb1))]
+        [TestCase("B", "1", "3", nameof(Pitch.C2))]
+        [TestCase("G", "0", "4", nameof(Pitch.G2))]
+        [TestCase("G", "1", "4", nameof(Pitch.Gs2))]
+        [TestCase("G", "-1", "4", nameof(Pitch.Gb2))]
+        [TestCase("E", "0", "5", nameof(Pitch.E3))]
+        [TestCase("A", "0", "2", nameof(Pitch.A0))]
+        [TestCase("F", "0", "2", "F0")]    //These are outside the range of the SN76489 chip
+        [TestCase("G", "1", "1", "Gs-1")]
+        [TestCase("B", "-1", "9", "Bb7")]
+        public void ParsePitch_IsValid(string inputNote, string alter, string octave, string expectedPitch)
         {
             var note = new NewNote
             {
@@ -100,7 +103,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+            var isParsed = PitchParser.TryParse(note, out var actualPitch);
 
             //Assert
             isParsed.Should().BeTrue();
@@ -116,11 +119,11 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+            var isParsed = PitchParser.TryParse(note, out var actualPitch);
 
             //Assert
             isParsed.Should().BeTrue();
-            actualPitch.Should().Be(Pitch.REST);
+            actualPitch.Should().Be(nameof(Pitch.REST));
         }
 
         [Test]
@@ -137,7 +140,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var isParsed = PitchParser.TryParse(note, out Pitch actualPitch);
+            var isParsed = PitchParser.TryParse(note, out var actualPitch);
 
             //Assert
             isParsed.Should().BeFalse();

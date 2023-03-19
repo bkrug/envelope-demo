@@ -23,7 +23,7 @@ namespace MusicXmlParser.SN76489Generation
                 {
                     var currentNote = toneGenerator.GeneratorNotes[i];
                     var nextNote = toneGenerator.GeneratorNotes[i + 1];
-                    if (currentNote.Pitch != Pitch.REST || nextNote.Pitch != Pitch.REST)
+                    if (currentNote.Pitch != nameof(Pitch.REST) || nextNote.Pitch != nameof(Pitch.REST))
                         continue;
                     if ((int)currentNote.Duration + (int)nextNote.Duration > byte.MaxValue)
                         continue;

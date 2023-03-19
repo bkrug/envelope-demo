@@ -313,7 +313,7 @@ namespace MusicXmlParser.Tests
             {
                 StartMeasure = measure,
                 EndMeasure = measure,
-                Pitch = Pitch.C2,
+                Pitch = nameof(Pitch.C2),
                 Duration = Duration.N1,
                 Label = preceedingLabel,
                 LabelAtEnd = succeedingLabel

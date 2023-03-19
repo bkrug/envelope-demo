@@ -28,7 +28,7 @@ namespace MusicXmlParser.SN76489Generation
 
             }
             toneGenerators = toneGenerators
-                .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != Pitch.REST))
+                .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != nameof(Pitch.REST)))
                 .ToList();
             return toneGenerators;
         }
@@ -72,7 +72,7 @@ namespace MusicXmlParser.SN76489Generation
                     Duration = DurationParser.TryParse(n, out var d) ? d : default
                 })
                 .ToList();
-            if (notesInMeasure.All(n => n.Pitch == Pitch.REST))
+            if (notesInMeasure.All(n => n.Pitch == nameof(Pitch.REST)))
             {
                 return new List<GeneratorNote>
                 {
@@ -80,7 +80,7 @@ namespace MusicXmlParser.SN76489Generation
                     {
                         StartMeasure = currentMeasure,
                         EndMeasure = currentMeasure,
-                        Pitch = Pitch.REST,
+                        Pitch = nameof(Pitch.REST),
                         Duration = (Duration)notesInMeasure.Sum(n => (int)n.Duration)
                     }
                 };
@@ -93,7 +93,7 @@ namespace MusicXmlParser.SN76489Generation
         {
             while (generatorsInMeasure.Count > TOTAL_GENERATORS_IN_SN76489)
             {
-                var restsOnly = generatorsInMeasure.FirstOrDefault(g => g.All(n => n.Pitch == Pitch.REST));
+                var restsOnly = generatorsInMeasure.FirstOrDefault(g => g.All(n => n.Pitch == nameof(Pitch.REST)));
                 var generatorToRemove = restsOnly ?? generatorsInMeasure.Last();
                 generatorsInMeasure.Remove(generatorToRemove);
             }

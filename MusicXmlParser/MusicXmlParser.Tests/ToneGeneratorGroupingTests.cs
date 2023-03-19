@@ -386,21 +386,21 @@ namespace MusicXmlParser.Tests
                             {
                                 StartMeasure = 2,
                                 EndMeasure = 2,
-                                Pitch = Pitch.C2,
+                                Pitch = nameof(Pitch.C2),
                                 Duration = Duration.N4
                             },
                             new GeneratorNote
                             {
                                 StartMeasure = 2,
                                 EndMeasure = 5,
-                                Pitch = Pitch.REST,
+                                Pitch = nameof(Pitch.REST),
                                 Duration = ((int)Duration.N1 + Duration.N8)
                             },
                             new GeneratorNote
                             {
                                 StartMeasure = 5,
                                 EndMeasure = 5,
-                                Pitch = Pitch.C2,
+                                Pitch = nameof(Pitch.C2),
                                 Duration = Duration.N8
                             }
                         }).ToList()
@@ -441,11 +441,11 @@ namespace MusicXmlParser.Tests
 
             //Assert
             var notesWeHopeAreRests = actualToneGenerator.GeneratorNotes.Skip(1).Take(actualToneGenerator.GeneratorNotes.Count - 2).ToList();
-            actualToneGenerator.GeneratorNotes.First().Pitch.Should().Equals(Pitch.C2);
-            notesWeHopeAreRests.Select(n => n.Pitch).Should().AllBeEquivalentTo(Pitch.REST);
+            actualToneGenerator.GeneratorNotes.First().Pitch.Should().Equals(nameof(Pitch.C2));
+            notesWeHopeAreRests.Select(n => n.Pitch).Should().AllBeEquivalentTo(nameof(Pitch.REST));
             notesWeHopeAreRests.Sum(n => (int)n.Duration).Should().Equals(expectedDuration);
             notesWeHopeAreRests.All(n => (int)n.Duration <= byte.MaxValue).Should().BeTrue();
-            actualToneGenerator.GeneratorNotes.Last().Pitch.Should().Equals(Pitch.C2);
+            actualToneGenerator.GeneratorNotes.Last().Pitch.Should().Equals(nameof(Pitch.C2));
         }
 
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
@@ -457,14 +457,14 @@ namespace MusicXmlParser.Tests
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N8,
-                    Pitch = Pitch.Gb3
+                    Pitch = nameof(Pitch.Gb3)
                 },
                 new GeneratorNote
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N4,
-                    Pitch = Pitch.Ds3
+                    Pitch = nameof(Pitch.Ds3)
                 }
             };
         }
@@ -478,14 +478,14 @@ namespace MusicXmlParser.Tests
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N16,
-                    Pitch = Pitch.A2
+                    Pitch = nameof(Pitch.A2)
                 },
                 new GeneratorNote
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N8,
-                    Pitch = Pitch.B2
+                    Pitch = nameof(Pitch.B2)
                 }
             };
         }
@@ -499,14 +499,14 @@ namespace MusicXmlParser.Tests
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N16,
-                    Pitch = Pitch.C2
+                    Pitch = nameof(Pitch.C2)
                 },
                 new GeneratorNote
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N8,
-                    Pitch = Pitch.D2
+                    Pitch = nameof(Pitch.D2)
                 }
             };
         }
@@ -520,14 +520,14 @@ namespace MusicXmlParser.Tests
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N16,
-                    Pitch = Pitch.Eb2
+                    Pitch = nameof(Pitch.Eb2)
                 },
                 new GeneratorNote
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = Duration.N8,
-                    Pitch = Pitch.Fs2
+                    Pitch = nameof(Pitch.Fs2)
                 }
             };
         }
@@ -541,7 +541,7 @@ namespace MusicXmlParser.Tests
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
                     Duration = (Duration)((int)Duration.N4 + (int)Duration.N8),
-                    Pitch = Pitch.REST
+                    Pitch = nameof(Pitch.REST)
                 }
             };
         }
