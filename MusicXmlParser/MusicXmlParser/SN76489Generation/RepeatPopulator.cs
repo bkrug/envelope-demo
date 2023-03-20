@@ -101,6 +101,7 @@ namespace MusicXmlParser.SN76489Generation
                     repeatLabels.Add(("REPEAT", "STOP"));
                     break;
                 case RepetitionType.RepeatFromBeginning:
+                case RepetitionType.RepeatFromFirstJump:
                     repeatLabels.Add(("REPEAT", "REPT" + generatorNumber));
                     break;
             }

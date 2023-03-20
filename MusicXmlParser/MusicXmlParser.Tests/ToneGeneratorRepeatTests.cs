@@ -263,8 +263,7 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes = new List<GeneratorNote> {
                         GetGeneratorNote(1, "MUSC1"),
                         GetGeneratorNote(2, "MUSC1A"),
-                        GetGeneratorNote(3),
-                        GetGeneratorNote(4, null, "MUSC1B")
+                        GetGeneratorNote(3, null, "MUSC1B")
                     },
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
@@ -275,15 +274,14 @@ namespace MusicXmlParser.Tests
                 new ToneGenerator
                 {
                     GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "MUSC1"),
-                        GetGeneratorNote(2, "MUSC1A"),
-                        GetGeneratorNote(3),
-                        GetGeneratorNote(4, null, "MUSC1B")
+                        GetGeneratorNote(1, "MUSC2"),
+                        GetGeneratorNote(2, "MUSC2A"),
+                        GetGeneratorNote(3, null, "MUSC2B")
                     },
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
-                        ( "MUSC1B", "MUSC1A" ),
-                        ( "REPEAT", "REPT1" )
+                        ( "MUSC2B", "MUSC2A" ),
+                        ( "REPEAT", "REPT2" )
                     }
                 }
             };
