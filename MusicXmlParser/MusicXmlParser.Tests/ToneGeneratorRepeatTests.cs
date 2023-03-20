@@ -14,7 +14,7 @@ namespace MusicXmlParser.Tests
     public class ToneGeneratorRepeatTests
     {
         [Test]
-        public void ToneGenerator_OnlyBackwardRepeat_RepeatFromBeginning()
+        public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
         {
             var parsedMusic = new List<NewPart>
             {
@@ -57,6 +57,91 @@ namespace MusicXmlParser.Tests
             var options = new Options
             {
                 RepetitionType = RepetitionType.Default
+            };
+
+            //Act
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
+        public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
+        {
+            var parsedMusic = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                },
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, null, "LBL1A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL1A", "LBL1" ),
+                        ( "REPEAT", "REPT1" )
+                    }
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL2"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, null, "LBL2A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL2A", "LBL2" ),
+                        ( "REPEAT", "REPT2" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.RepeatFromBeginning
             };
 
             //Act
