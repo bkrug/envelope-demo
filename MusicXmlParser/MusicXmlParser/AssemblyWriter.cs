@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace MusicXmlParser
 {
@@ -71,25 +72,25 @@ namespace MusicXmlParser
             {
                 var generator = toneGenerators.ElementAt(g - 1);
                 writer.WriteLine($"* Generator {g}");
-                var mostRecentMeasure = 0;
-                foreach (var note in generator.GeneratorNotes)
+                foreach (var measureGroup in generator.GeneratorNotes.GroupByMeasure())
                 {
-                    if (note.StartMeasure != mostRecentMeasure)
+                    var startMeasure = measureGroup.First().StartMeasure;
+                    var endMeasure = measureGroup.Last().EndMeasure;
+                    writer.WriteLine(startMeasure == endMeasure
+                        ? $"* Measure {startMeasure}"
+                        : $"* Measure {startMeasure} - {endMeasure}"
+                    );
+
+                    foreach (var note in measureGroup)
                     {
-                        mostRecentMeasure = note.EndMeasure;
-                        writer.WriteLine(note.StartMeasure == note.EndMeasure
-                            ? $"* Measure {note.StartMeasure}"
-                            : $"* Measure {note.StartMeasure} - {note.EndMeasure}"
-                        );
+                        if (!string.IsNullOrEmpty(note.Label))
+                            writer.WriteLine(note.Label);
+
+                        writer.WriteLine(GetPitchedSound(note));
+
+                        if (!string.IsNullOrEmpty(note.LabelAtEnd))
+                            writer.WriteLine(note.LabelAtEnd);
                     }
-
-                    if (!string.IsNullOrEmpty(note.Label))
-                        writer.WriteLine(note.Label);
-
-                    writer.WriteLine(GetPitchedSound(note));
-
-                    if (!string.IsNullOrEmpty(note.LabelAtEnd))
-                        writer.WriteLine(note.LabelAtEnd);
                 }
                 writer.WriteLine("*");
                 writer.WriteLine(string.Empty);
@@ -106,6 +107,33 @@ namespace MusicXmlParser
             //TODO: Find way to handle unrecognized notes
             else
                 return $"       BYTE {Pitch.REST},{durationString}      * Invalid: Key + TiOctive";
+        }
+    }
+
+    internal static class ListExtensions
+    {
+        //Returns notes from one or more measures,
+        //but the first note in each List will be at the start of a measure, the last note will be at the end of a measure.
+        //Some of the notes in the middle are in two measures.
+        internal static IEnumerable<List<GeneratorNote>> GroupByMeasure(this IEnumerable<GeneratorNote> sourceNotes)
+        {
+            var currentMeasures = new List<GeneratorNote>();
+            foreach (var sourceNote in sourceNotes)
+            {
+                if (!currentMeasures.Any())
+                    currentMeasures.Add(sourceNote);
+                else if (sourceNote.StartMeasure == currentMeasures.LastOrDefault()?.EndMeasure)
+                    currentMeasures.Add(sourceNote);
+                else
+                {
+                    yield return currentMeasures;
+                    currentMeasures = new List<GeneratorNote>
+                    {
+                        sourceNote
+                    };
+                }
+            }
+            yield return currentMeasures;
         }
     }
 }
