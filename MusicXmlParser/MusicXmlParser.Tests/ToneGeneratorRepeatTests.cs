@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
-    //A repetition type of "Default" means that most songs will stop when they reach the end.
-    //Songs that end in a backward-repeat bar might cause the song to be played through a second time, but not a third.
+    //A repetition type of "Default" means that the song will not repeat endlessly.
+    //Most songs will stop when they reach the end.
+    //Some songs end in a backward-repeat bar, end thus get repeated one time.
     //Other repetition types are more self exclamatory.
     public class ToneGeneratorRepeatTests
     {
@@ -50,7 +51,8 @@ namespace MusicXmlParser.Tests
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "LBL1A", "LBL1" )
+                ( "LBL1A", "LBL1" ),
+                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -108,7 +110,8 @@ namespace MusicXmlParser.Tests
             };
             expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
             {
-                ( "MUSC1B", "MUSC1A" )
+                ( "MUSC1B", "MUSC1A" ),
+                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -204,7 +207,8 @@ namespace MusicXmlParser.Tests
                 ( "SOUN1B", "SOUN1" ),    //Play through first volta bracket and return to beginning
                 ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
                 ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
-                ( "SOUN1A", "SOUN1C" )    //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+                ( "SOUN1A", "SOUN1C" ),   //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -285,6 +289,7 @@ namespace MusicXmlParser.Tests
                 ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
                 ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
                 ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
+                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {

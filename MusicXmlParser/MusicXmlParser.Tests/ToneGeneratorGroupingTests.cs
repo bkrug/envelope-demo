@@ -36,7 +36,7 @@ namespace MusicXmlParser.Tests
                         .ToList(),
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
@@ -73,7 +73,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
@@ -110,7 +110,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
@@ -147,7 +147,7 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes = GetMeasureOfGeneratorNotes(1)
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
@@ -200,7 +200,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
@@ -240,7 +240,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
@@ -281,7 +281,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
@@ -325,7 +325,7 @@ namespace MusicXmlParser.Tests
                         .ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
@@ -360,7 +360,7 @@ namespace MusicXmlParser.Tests
                     GeneratorNotes = GetMeasurePart1OfChord(1)
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(totalOfThreeVoices, "LBL", _defaultOptions);
@@ -411,7 +411,7 @@ namespace MusicXmlParser.Tests
                         }).ToList()
                 }
             };
-            AddLabelToFirstNote(expectedToneGenerators);
+            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
@@ -551,11 +551,15 @@ namespace MusicXmlParser.Tests
             };
         }
 
-        private static void AddLabelToFirstNote(List<ToneGenerator> expectedToneGenerators)
+        private static void AddDetailsConsistentWithNonRepeatingSong(List<ToneGenerator> expectedToneGenerators)
         {
             for (var i = 1; i <= expectedToneGenerators.Count; ++i)
             {
                 expectedToneGenerators[i - 1].GeneratorNotes.First().Label = "LBL" + i;
+                expectedToneGenerators[i - 1].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                {
+                    ( "REPEAT", "STOP" )
+                };
             }
         }
     }

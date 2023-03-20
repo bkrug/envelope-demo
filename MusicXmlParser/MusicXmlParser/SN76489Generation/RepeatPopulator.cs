@@ -1,4 +1,5 @@
-﻿using MusicXmlParser.Models;
+﻿using MusicXmlParser.Enums;
+using MusicXmlParser.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace MusicXmlParser.SN76489Generation
             {
                 ++generatorNumber;
                 AfixLabelsToNotes(measuresWithLabel, measureCount, generatorNumber, labelPrefix, toneGenerator);
-                PopulatRepeatList(labelPairs, generatorNumber, labelPrefix, toneGenerator);
+                PopulatRepeatList(labelPairs, generatorNumber, labelPrefix, toneGenerator, options);
             }
         }
 
@@ -85,7 +86,7 @@ namespace MusicXmlParser.SN76489Generation
             }
         }
 
-        private static void PopulatRepeatList(List<(string From, string To)> labelPairs, int generatorNumber, string labelPrefix, ToneGenerator toneGenerator)
+        private static void PopulatRepeatList(List<(string From, string To)> labelPairs, int generatorNumber, string labelPrefix, ToneGenerator toneGenerator, Options options)
         {
             var repeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>();
             foreach (var (from, to) in labelPairs)
@@ -93,6 +94,10 @@ namespace MusicXmlParser.SN76489Generation
                 var fromLabel = labelPrefix + generatorNumber + from;
                 var toLabel = labelPrefix + generatorNumber + to;
                 repeatLabels.Add((FromThisLabel: fromLabel, JumpToThisLabel: toLabel));
+            }
+            if (options.RepetitionType == RepetitionType.Default)
+            {
+                repeatLabels.Add(("REPEAT", "STOP"));
             }
             toneGenerator.RepeatLabels = repeatLabels;
         }
