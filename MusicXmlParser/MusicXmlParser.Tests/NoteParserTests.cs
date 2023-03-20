@@ -2,13 +2,14 @@ using FluentAssertions;
 using MusicXmlParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicXmlParser.Tests
 {
     //TODO: Write failure cases where expected elements are missing
     public class NoteParserTests
     {
-        private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string type)
+        private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string type, bool isGraceSlash = false)
         {
             return new NewChord
             {
@@ -19,7 +20,8 @@ namespace MusicXmlParser.Tests
                         Step = step,
                         Alter = alter,
                         Octave = octave,
-                        Type = type
+                        Type = type,
+                        IsGraceSlash = isGraceSlash
                     }
                 }
             };
@@ -941,6 +943,79 @@ namespace MusicXmlParser.Tests
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Parts.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_XmlContainsGraceSlash_OutputsTheNotesWithDurationOfZero()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <note>
+                <grace slash=""yes""/>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <type>eighth</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = new Dictionary<string, NewVoice>
+                            {
+                                {
+                                    "1",
+                                    new NewVoice
+                                    {
+                                        Chords = new List<NewChord>
+                                        {
+                                            GenerateSingleNoteChord("E", "", "5", "16th", true),
+                                            GenerateSingleNoteChord("D", "1", "5", "eighth"),
+                                            GenerateSingleNoteChord("A", "1", "4", "16th")
                                         }
                                     }
                                 }

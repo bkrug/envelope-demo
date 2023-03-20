@@ -102,11 +102,10 @@ namespace MusicXmlParser
             var durationString = Enum.IsDefined(typeof(Duration), note.Duration) ? note.Duration.ToString() : ((int)note.Duration).ToString();
             if (durationString == string.Empty || durationString == "0")
                 return $"*       BYTE {note.Pitch},{durationString}";
-            else if (note.Pitch != null)
+            else if (note.IsPitchValid)
                 return $"       BYTE {note.Pitch},{durationString}";
-            //TODO: Find way to handle unrecognized notes
             else
-                return $"       BYTE {Pitch.REST},{durationString}      * Invalid: Key + TiOctive";
+                return $"       BYTE {Pitch.REST},{durationString}      * Invalid: {note.Pitch}";
         }
     }
 }
