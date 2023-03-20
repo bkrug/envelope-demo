@@ -65,7 +65,7 @@ namespace MusicXmlParser.SN76489Generation
                     labelPairs.Add((repeatSuffix.ToString(), mostRecentForwardRepeat));
                     ++repeatSuffix;
                 }
-                if (options.RepetitionType == RepetitionType.RepeatFromBeginning && measureNumber == measureCount && labelPairs.Last().To != measuresWithLabel[1])
+                if (options.RepetitionType == RepetitionType.RepeatFromBeginning && measureNumber == measureCount && labelPairs.LastOrDefault().To != measuresWithLabel[1])
                 {
                     var nextMeasure = measureNumber + 1;
                     if (!measuresWithLabel.ContainsKey(nextMeasure))
