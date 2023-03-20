@@ -543,16 +543,16 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(7),
                         GetGeneratorNote(8, "SOUN1C"),
                         GetGeneratorNote(9)
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "SOUN1B", "SOUN1" ),    //Play through first volta bracket and return to beginning
+                        ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
+                        ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
+                        ( "SOUN1A", "SOUN1C" ),   //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+                        ( "REPEAT", "STOP" )
                     }
                 }
-            };
-            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-            {
-                ( "SOUN1B", "SOUN1" ),    //Play through first volta bracket and return to beginning
-                ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
-                ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
-                ( "SOUN1A", "SOUN1C" ),   //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
-                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -625,15 +625,15 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(4, "TUNE1C"),
                         GetGeneratorNote(5),
                         GetGeneratorNote(6, "TUNE1D")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
+                        ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
+                        ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
+                        ( "REPEAT", "STOP" )
                     }
                 }
-            };
-            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-            {
-                ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
-                ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
-                ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
-                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
