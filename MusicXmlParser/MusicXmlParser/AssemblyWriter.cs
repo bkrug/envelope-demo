@@ -61,7 +61,6 @@ namespace MusicXmlParser
                 {
                     writer.WriteLine($"       DATA {repeatPair.FromThisLabel},{repeatPair.JumpToThisLabel}");
                 }
-                writer.WriteLine($"       DATA REPEAT,REPT{i}");
             }
             writer.WriteLine();
         }

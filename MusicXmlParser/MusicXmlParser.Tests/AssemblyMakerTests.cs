@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
@@ -17,7 +18,8 @@ namespace MusicXmlParser.Tests
                 OutputFile = "Files//actual_TUNEFURELISE.asm",
                 AsmLabel = "BEETHV",
                 Ratio60Hz = "2:1",
-                Ratio50Hz = "10:6"
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
             };
 
             //Act
