@@ -6,7 +6,6 @@ using System.Collections.Generic;
 namespace MusicXmlParser.Tests
 {
     //TODO: Write failure cases where expected elements are missing
-    //TODO: Write case that includes a rest
     public class NoteParserTests
     {
         private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string type)
