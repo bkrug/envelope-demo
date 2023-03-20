@@ -95,9 +95,14 @@ namespace MusicXmlParser.SN76489Generation
                 var toLabel = labelPrefix + generatorNumber + to;
                 repeatLabels.Add((FromThisLabel: fromLabel, JumpToThisLabel: toLabel));
             }
-            if (options.RepetitionType == RepetitionType.Default)
+            switch (options.RepetitionType)
             {
-                repeatLabels.Add(("REPEAT", "STOP"));
+                case RepetitionType.Default:
+                    repeatLabels.Add(("REPEAT", "STOP"));
+                    break;
+                case RepetitionType.RepeatFromBeginning:
+                    repeatLabels.Add(("REPEAT", "REPT" + generatorNumber));
+                    break;
             }
             toneGenerator.RepeatLabels = repeatLabels;
         }

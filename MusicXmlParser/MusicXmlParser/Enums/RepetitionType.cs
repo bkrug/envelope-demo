@@ -4,6 +4,6 @@
     {
         Default,
         RepeatFromBeginning,
-        RepeatFromFirstForwardBar
+        RepeatFromFirstJump
     }
 }
