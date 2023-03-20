@@ -44,7 +44,7 @@ namespace MusicXmlParser.Models
         public bool IsRest { get; set; }
         public bool IsDotted { get; set; }
         public bool IsTripplet { get; set; }
-        public bool IsGraceSlash { get; set; }
+        public bool IsGraceNote { get; set; }
         public string Type { get; set; }
     }
 
@@ -58,6 +58,7 @@ namespace MusicXmlParser.Models
     {
         public string Pitch { get; set; }
         public Duration Duration { get; set; }
+        public bool IsGraceNote { get; set; }
         public int StartMeasure { get; set; }
         public int EndMeasure { get; set; }
         public string Label { get; set; }

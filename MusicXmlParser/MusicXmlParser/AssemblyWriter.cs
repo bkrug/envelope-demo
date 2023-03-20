@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace MusicXmlParser
 {
@@ -100,8 +99,8 @@ namespace MusicXmlParser
         private static string GetPitchedSound(GeneratorNote note)
         {
             var durationString = Enum.IsDefined(typeof(Duration), note.Duration) ? note.Duration.ToString() : ((int)note.Duration).ToString();
-            if (durationString == string.Empty || durationString == "0")
-                return $"*       BYTE {note.Pitch},{durationString}";
+            if (note.IsGraceNote)
+                return $"*       BYTE {note.Pitch},{durationString}        Grace Note";
             else if (note.IsPitchValid)
                 return $"       BYTE {note.Pitch},{durationString}";
             else

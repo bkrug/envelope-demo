@@ -21,7 +21,7 @@ namespace MusicXmlParser.Tests
                         Alter = alter,
                         Octave = octave,
                         Type = type,
-                        IsGraceSlash = isGraceSlash
+                        IsGraceNote = isGraceSlash
                     }
                 }
             };

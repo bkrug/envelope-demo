@@ -122,8 +122,17 @@ namespace MusicXmlParser
                 Type = noteElem.Element("type")?.Value ?? string.Empty,
                 IsDotted = noteElem.Elements("dot").Any(),
                 IsTripplet = IsTripplet(noteElem),
-                IsRest = noteElem?.Element("rest") != null
+                IsRest = noteElem?.Element("rest") != null,
+                IsGraceNote = IsTrue(noteElem?.Element("grace")?.Attribute("slash")?.Value)
             };
+        }
+
+        private static bool IsTrue(string text)
+        {
+            text ??= string.Empty;
+            return bool.TryParse(text, out var parseResult)
+                ? parseResult
+                : text.Equals("yes", StringComparison.OrdinalIgnoreCase) || text.Equals("on", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsTripplet(XElement noteElem)

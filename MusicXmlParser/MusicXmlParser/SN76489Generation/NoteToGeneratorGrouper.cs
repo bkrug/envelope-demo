@@ -69,7 +69,8 @@ namespace MusicXmlParser.SN76489Generation
                     //TODO: Doesn't tell user when the pitch is invalid
                     Pitch = PitchParser.TryParse(n, out var p) ? p : default,
                     //TODO: Doesn't tell user when the duration is invalid
-                    Duration = DurationParser.TryParse(n, out var d) ? d : default
+                    Duration = DurationParser.TryParse(n, out var d) ? d : default,
+                    IsGraceNote = n.IsGraceNote
                 })
                 .ToList();
             if (notesInMeasure.All(n => n.Pitch == nameof(Pitch.REST)))
