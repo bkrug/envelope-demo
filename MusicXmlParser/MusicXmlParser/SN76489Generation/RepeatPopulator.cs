@@ -13,7 +13,7 @@ namespace MusicXmlParser.SN76489Generation
             //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
             var measuresWithLabel = new Dictionary<int, string>();
             var measureCount = parsedParts.First().Measures.Count;
-            FindRepeats(parsedParts, measureCount, ref labelPairs, ref measuresWithLabel);
+            FindRepeats(parsedParts, measureCount, options, ref labelPairs, ref measuresWithLabel);
             var generatorNumber = 0;
             labelPrefix = labelPrefix.Length > 4 ? labelPrefix[..4] : labelPrefix;
             foreach (var toneGenerator in toneGenerators)
@@ -24,7 +24,7 @@ namespace MusicXmlParser.SN76489Generation
             }
         }
 
-        private static void FindRepeats(List<NewPart> parsedParts, int measureCount, ref List<(string From, string To)> labelPairs, ref Dictionary<int, string> measuresWithLabel)
+        private static void FindRepeats(List<NewPart> parsedParts, int measureCount, Options options, ref List<(string From, string To)> labelPairs, ref Dictionary<int, string> measuresWithLabel)
         {
             var repeatSuffix = 'A';
             var mostRecentForwardRepeat = "";
@@ -64,6 +64,13 @@ namespace MusicXmlParser.SN76489Generation
                     measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
                     labelPairs.Add((repeatSuffix.ToString(), mostRecentForwardRepeat));
                     ++repeatSuffix;
+                }
+                if (options.RepetitionType == RepetitionType.RepeatFromBeginning && measureNumber == measureCount && labelPairs.Last().To != measuresWithLabel[1])
+                {
+                    var nextMeasure = measureNumber + 1;
+                    if (!measuresWithLabel.ContainsKey(nextMeasure))
+                        measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
+                    labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
                 }
             }
         }

@@ -46,13 +46,13 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(1, "LBL1"),
                         GetGeneratorNote(2),
                         GetGeneratorNote(3, null, "LBL1A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL1A", "LBL1" ),
+                        ( "REPEAT", "STOP" )
                     }
                 }
-            };
-            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-            {
-                ( "LBL1A", "LBL1" ),
-                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -190,13 +190,13 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(2, "MUSC1A"),
                         GetGeneratorNote(3),
                         GetGeneratorNote(4, null, "MUSC1B")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "MUSC1B", "MUSC1A" ),
+                        ( "REPEAT", "STOP" )
                     }
                 }
-            };
-            expectedGenerators[0].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-            {
-                ( "MUSC1B", "MUSC1A" ),
-                ( "REPEAT", "STOP" )
             };
             var options = new Options
             {
@@ -292,6 +292,105 @@ namespace MusicXmlParser.Tests
 
             //Act
             var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
+        public void ToneGenerator_RepeatBarsInMiddleOfSong_WholeSongForever()
+        {
+            var parsedMusic = new List<NewPart>
+            {
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasForwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                },
+                new NewPart
+                {
+                    Measures = new List<NewMeasure>
+                    {
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasForwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            HasBackwardRepeat = true,
+                            Voices = GetParsedVoice()
+                        },
+                        new NewMeasure
+                        {
+                            Voices = GetParsedVoice()
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "OPRA1"),
+                        GetGeneratorNote(2, "OPRA1A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, "OPRA1B", "OPRA1C")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "OPRA1B", "OPRA1A" ),
+                        ( "OPRA1C", "OPRA1" ),
+                        ( "REPEAT", "REPT1" )
+                    }
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "OPRA2"),
+                        GetGeneratorNote(2, "OPRA2A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, "OPRA2B", "OPRA2C")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "OPRA2B", "OPRA2A" ),
+                        ( "OPRA2C", "OPRA2" ),
+                        ( "REPEAT", "REPT2" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+
+            //Act
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "OPRA", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
