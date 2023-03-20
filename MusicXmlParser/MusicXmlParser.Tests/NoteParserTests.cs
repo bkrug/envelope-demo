@@ -2,11 +2,11 @@ using FluentAssertions;
 using MusicXmlParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MusicXmlParser.Tests
 {
     //TODO: Write failure cases where expected elements are missing
+    //TODO: Write a case when rest does not have "type" element. Ex: Measure 83 in MusicXML (81 in MuseScore)
     public class NoteParserTests
     {
         private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, string type, bool isGraceSlash = false)
