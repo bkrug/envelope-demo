@@ -13,6 +13,11 @@ namespace MusicXmlParser.Tests
     {
         //TODO: Add failure case when measure counts don't match
 
+        private readonly Options _defaultOptions = new Options
+        {
+            RepetitionType = RepetitionType.Default
+        };
+
         [Test]
         public void GroupByGenerator_OnePartOneVoiceNoChords_Success()
         {
@@ -34,7 +39,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -71,7 +76,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -108,7 +113,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -145,7 +150,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -198,7 +203,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -238,7 +243,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -279,7 +284,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -323,7 +328,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -358,7 +363,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(totalOfThreeVoices, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(totalOfThreeVoices, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -409,7 +414,7 @@ namespace MusicXmlParser.Tests
             AddLabelToFirstNote(expectedToneGenerators);
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL");
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
@@ -437,7 +442,7 @@ namespace MusicXmlParser.Tests
                 + (int)Duration.N4;                           //length of rest in last measure
 
             //Act
-            var actualToneGenerator = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL").Single();
+            var actualToneGenerator = new SN76489NoteGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions).Single();
 
             //Assert
             var notesWeHopeAreRests = actualToneGenerator.GeneratorNotes.Skip(1).Take(actualToneGenerator.GeneratorNotes.Count - 2).ToList();

@@ -6,7 +6,7 @@ namespace MusicXmlParser.SN76489Generation
 {
     internal static class RepeatPopulator
     {
-        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, string labelPrefix, ref List<ToneGenerator> toneGenerators)
+        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, string labelPrefix, Options options, ref List<ToneGenerator> toneGenerators)
         {
             var labelPairs = new List<(string From, string To)>();
             //A dictionary of all measures that will have an Assembly Language label at beginning of the measure

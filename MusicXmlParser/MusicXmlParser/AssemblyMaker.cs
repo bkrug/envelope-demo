@@ -23,7 +23,7 @@ namespace MusicXmlParser
             var xml = XDocument.Load(options.InputFile);
             var parsedMusic = _noteParser.Parse(xml);
 
-            var generators = _sn76489NoteGenerator.GetToneGenerators(parsedMusic.Parts, options.Label6Char);
+            var generators = _sn76489NoteGenerator.GetToneGenerators(parsedMusic.Parts, options.Label6Char, options);
 
             _assemblyWriter.WriteAssembly(generators, parsedMusic.Credits, options);
         }

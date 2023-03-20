@@ -1,4 +1,6 @@
-﻿namespace MusicXmlParser.Models
+﻿using MusicXmlParser.Enums;
+
+namespace MusicXmlParser.Models
 {
     class Options
     {
@@ -9,5 +11,6 @@
         public string Ratio50Hz { get; set; }
         public string ShortLabel => AsmLabel.Length > 4 ? AsmLabel.Substring(0, 4) : AsmLabel;
         public string Label6Char => (AsmLabel + "      ").Substring(0, 6);
+        public RepetitionType RepetitionType { get; set; }
     }
 }
