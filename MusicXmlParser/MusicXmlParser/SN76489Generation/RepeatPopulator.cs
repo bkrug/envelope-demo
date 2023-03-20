@@ -9,11 +9,8 @@ namespace MusicXmlParser.SN76489Generation
     {
         internal static void PopulateRepeatLabels(List<NewPart> parsedParts, string labelPrefix, Options options, ref List<ToneGenerator> toneGenerators)
         {
-            var labelPairs = new List<(string From, string To)>();
-            //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
-            var measuresWithLabel = new Dictionary<int, string>();
             var measureCount = parsedParts.First().Measures.Count;
-            FindRepeats(parsedParts, measureCount, options, ref labelPairs, ref measuresWithLabel);
+            FindRepeats(parsedParts, measureCount, options, out var labelPairs, out var measuresWithLabel);
             var generatorNumber = 0;
             labelPrefix = labelPrefix.Length > 4 ? labelPrefix[..4] : labelPrefix;
             foreach (var toneGenerator in toneGenerators)
@@ -24,8 +21,16 @@ namespace MusicXmlParser.SN76489Generation
             }
         }
 
-        private static void FindRepeats(List<NewPart> parsedParts, int measureCount, Options options, ref List<(string From, string To)> labelPairs, ref Dictionary<int, string> measuresWithLabel)
+        private static void FindRepeats(
+            List<NewPart> parsedParts,
+            int measureCount, Options options,
+            out List<(string From, string To)> labelPairs,
+            out Dictionary<int, string> measuresWithLabel)
         {
+            labelPairs = new List<(string From, string To)>();
+            //A dictionary of all measures that will have an Assembly Language label at beginning of the measure
+            measuresWithLabel = new Dictionary<int, string>();
+
             var repeatSuffix = 'A';
             var mostRecentForwardRepeat = "";
             var mostRecentVoltaBracket1 = "";
