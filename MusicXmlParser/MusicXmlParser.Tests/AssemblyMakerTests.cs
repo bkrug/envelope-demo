@@ -7,9 +7,9 @@ using System.IO;
 
 namespace MusicXmlParser.Tests
 {
-    //TODO: Add a test for situations where a single note crosses two measures
-    //TODO: Add a test for situations where a note is outside of the chip's range
-    //TODO: Add a test for situations where a note has a duration of zero
+    //TODO: Add a (shorter) test for situations where a single note crosses two measures
+    //TODO: Add a (shorter) test for situations where a note is outside of the chip's range
+    //TODO: Add a (shorter) test for a grace note
     public class AssemblyMakerTests
     {
         [Test]
