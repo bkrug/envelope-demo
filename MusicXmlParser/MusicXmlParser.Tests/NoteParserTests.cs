@@ -146,14 +146,14 @@ namespace MusicXmlParser.Tests
     <part>
         <measure>
             <attributes>
-                <divisions>24</divisions>
+                <divisions>48</divisions>
             </attributes>
             <note>
                 <pitch>
                     <step>E</step>
                     <octave>5</octave>
                 </pitch>
-                <duration>6</duration>
+                <duration>18</duration>
                 <type>16th</type>
                 <dot/>
                 <voice>1</voice>
@@ -162,7 +162,7 @@ namespace MusicXmlParser.Tests
     </part>
 </score-partwise>";
             var expectedObject = new ParsedMusic {
-                Divisions = "24",
+                Divisions = "48",
                 Parts = new List<NewPart>
                 {
                     new NewPart
@@ -189,6 +189,7 @@ namespace MusicXmlParser.Tests
                                                             Alter = string.Empty,
                                                             Octave = "5",
                                                             Type = "16th",
+                                                            Duration = "18",
                                                             IsDotted = true
                                                         }
                                                     }

@@ -20,9 +20,16 @@ namespace MusicXmlParser
         {
             return new ParsedMusic
             {
+                Divisions = GetDivision(document),
                 Parts = GetMusicalParts(document),
                 Credits = GetCredits(document)
             };
+        }
+
+        private static string GetDivision(XDocument document)
+        {
+            var division = document.Root.Descendants("divisions");
+            return division.FirstOrDefault()?.Value;
         }
 
         private static Credits GetCredits(XDocument document)
@@ -120,6 +127,7 @@ namespace MusicXmlParser
                 Alter = pitchElem?.Element("alter")?.Value ?? string.Empty,
                 Step = pitchElem?.Element("step")?.Value ?? string.Empty,
                 Type = noteElem.Element("type")?.Value ?? string.Empty,
+                Duration = noteElem.Element("duration")?.Value ?? string.Empty,
                 IsDotted = noteElem.Elements("dot").Any(),
                 IsTripplet = IsTripplet(noteElem),
                 IsRest = noteElem?.Element("rest") != null,
