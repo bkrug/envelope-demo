@@ -8,6 +8,7 @@ namespace MusicXmlParser.Models
 {
     internal class ParsedMusic
     {
+        public string Divisions { get; set; }
         public List<NewPart> Parts { get; set; } = new List<NewPart>();
         public Credits Credits { get; set; } = new Credits();
     }
@@ -45,6 +46,7 @@ namespace MusicXmlParser.Models
         public bool IsDotted { get; set; }
         public bool IsTripplet { get; set; }
         public bool IsGraceNote { get; set; }
+        public string Duration { get; set; }
         public string Type { get; set; }
     }
 
