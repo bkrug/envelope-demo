@@ -16,33 +16,36 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
-                    }
-                },
-                new NewPart
-                {
-                    Measures = new List<NewMeasure>
+                    },
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -89,24 +92,27 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -142,43 +148,46 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
-                    }
-                },
-                new NewPart
-                {
-                    Measures = new List<NewMeasure>
+                    },
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -227,29 +236,32 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureOnce()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24", 
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -286,45 +298,48 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
-                    }
-                },
-                new NewPart
-                {
-                    Measures = new List<NewMeasure>
+                    },
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -373,53 +388,56 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_RepeatBarsInMiddleOfSong_WholeSongForever()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
-                    }
-                },
-                new NewPart
-                {
-                    Measures = new List<NewMeasure>
+                    },
+                    new NewPart
                     {
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -472,59 +490,62 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        //Measure 1
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 3
-                        new NewMeasure
-                        {
-                            HasVoltaBracket = true,
-                            VoltaNumber = 1,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 5
-                        new NewMeasure
-                        {
-                            HasVoltaBracket = true,
-                            VoltaNumber = 2,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 8
-                        new NewMeasure
-                        {
-                            HasVoltaBracket = true,
-                            VoltaNumber = 3,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            //Measure 1
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 3
+                            new NewMeasure
+                            {
+                                HasVoltaBracket = true,
+                                VoltaNumber = 1,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 5
+                            new NewMeasure
+                            {
+                                HasVoltaBracket = true,
+                                VoltaNumber = 2,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 8
+                            new NewMeasure
+                            {
+                                HasVoltaBracket = true,
+                                VoltaNumber = 3,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -569,47 +590,50 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_VoltaBracketFollowedByForwardRepeat_PlayEachVoltaBracketThenPlayRepeatTwice()
         {
-            var parsedMusic = new List<NewPart>
-            {
-                new NewPart
+            var parsedMusic = new ParsedMusic {
+                Divisions = "24",
+                Parts = new List<NewPart>
                 {
-                    Measures = new List<NewMeasure>
+                    new NewPart
                     {
-                        //Measure 1
-                        new NewMeasure
+                        Measures = new List<NewMeasure>
                         {
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 2
-                        new NewMeasure
-                        {
-                            HasVoltaBracket = true,
-                            VoltaNumber = 1,
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 3
-                        new NewMeasure
-                        {
-                            HasVoltaBracket = true,
-                            VoltaNumber = 2,
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 4
-                        new NewMeasure
-                        {
-                            HasForwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        new NewMeasure
-                        {
-                            HasBackwardRepeat = true,
-                            Voices = GetParsedVoice()
-                        },
-                        //Measure 6
-                        new NewMeasure
-                        {
-                            Voices = GetParsedVoice()
+                            //Measure 1
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 2
+                            new NewMeasure
+                            {
+                                HasVoltaBracket = true,
+                                VoltaNumber = 1,
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 3
+                            new NewMeasure
+                            {
+                                HasVoltaBracket = true,
+                                VoltaNumber = 2,
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 4
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            //Measure 6
+                            new NewMeasure
+                            {
+                                Voices = GetParsedVoice()
+                            }
                         }
                     }
                 }
@@ -665,7 +689,8 @@ namespace MusicXmlParser.Tests
                                     {
                                         Step = "C",
                                         Octave = "4",
-                                        Type = "whole"
+                                        Type = "whole",
+                                        Duration = "96"
                                     }
                                 }
                             }

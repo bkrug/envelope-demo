@@ -6,10 +6,10 @@ namespace MusicXmlParser.SN76489Generation
 {
     internal class SN76489NoteGenerator
     {
-        internal List<ToneGenerator> GetToneGenerators(List<NewPart> parsedParts, string labelPrefix, Options options)
+        internal List<ToneGenerator> GetToneGenerators(ParsedMusic parsedMusic, string labelPrefix, Options options)
         {
-            var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedParts);
-            RepeatPopulator.PopulateRepeatLabels(parsedParts, labelPrefix, options, ref toneGenerators);
+            var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedMusic);
+            RepeatPopulator.PopulateRepeatLabels(parsedMusic.Parts, labelPrefix, options, ref toneGenerators);
             MergeRests(ref toneGenerators);
             return toneGenerators;
         }

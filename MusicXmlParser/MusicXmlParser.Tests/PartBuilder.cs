@@ -30,7 +30,8 @@ namespace MusicXmlParser.Tests
                                 Step = "G",
                                 Alter = "-1",
                                 Octave = "5",
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             }
                         }
                     },
@@ -43,7 +44,8 @@ namespace MusicXmlParser.Tests
                                 Step = "D",
                                 Alter = "1",
                                 Octave = "5",
-                                Type = "quarter"
+                                Type = "quarter",
+                                Duration = "24"
                             }
                         }
                     }
@@ -67,21 +69,24 @@ namespace MusicXmlParser.Tests
                                 Step = "A",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "16th"
+                                Type = "16th",
+                                Duration = "6"
                             },
                             new NewNote
                             {
                                 Step = "C",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "16th"
+                                Type = "16th",
+                                Duration = "6"
                             },
                             new NewNote
                             {
                                 Step = "E",
                                 Alter = "-1",
                                 Octave = "4",
-                                Type = "16th"
+                                Type = "16th",
+                                Duration = "6"
                             }
                         }
                     },
@@ -94,21 +99,24 @@ namespace MusicXmlParser.Tests
                                 Step = "B",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             },
                             new NewNote
                             {
                                 Step = "D",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             },
                             new NewNote
                             {
                                 Step = "F",
                                 Alter = "1",
                                 Octave = "4",
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             }
                         }
                     }
@@ -131,7 +139,8 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "C",
                                 Octave = "4",
-                                Type = "quarter"
+                                Type = "quarter",
+                                Duration = "24"
                             }
                         }
                     },
@@ -142,7 +151,8 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             }
                         }
                     }
@@ -164,7 +174,8 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "quarter"
+                                Type = "quarter",
+                                Duration = "24"
                             }
                         }
                     },
@@ -176,7 +187,8 @@ namespace MusicXmlParser.Tests
                             {
                                 Step = "C",
                                 Octave = "4",
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             }
                         }
                     }
@@ -198,7 +210,8 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "quarter"
+                                Type = "quarter",
+                                Duration = "24"
                             }
                         }
                     },
@@ -209,7 +222,8 @@ namespace MusicXmlParser.Tests
                             new NewNote
                             {
                                 IsRest = true,
-                                Type = "eighth"
+                                Type = "eighth",
+                                Duration = "12"
                             }
                         }
                     }
@@ -218,7 +232,7 @@ namespace MusicXmlParser.Tests
             return this;
         }
 
-        public List<NewPart> Build()
+        public ParsedMusic Build()
         {
             var parts = new List<NewPart>();
             var measureCount = _voices.First().Value.Count;
@@ -240,7 +254,10 @@ namespace MusicXmlParser.Tests
                 }
                 parts.Add(part);
             }
-            return parts;
+            return new ParsedMusic {
+                Divisions = "24",
+                Parts = parts
+            };
         }
     }
 }

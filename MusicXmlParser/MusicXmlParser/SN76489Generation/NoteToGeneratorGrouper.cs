@@ -9,8 +9,9 @@ namespace MusicXmlParser.SN76489Generation
     {
         private const int TOTAL_GENERATORS_IN_SN76489 = 3;
 
-        internal static List<ToneGenerator> AssignNotesToToneGenerators(List<NewPart> parsedParts)
+        internal static List<ToneGenerator> AssignNotesToToneGenerators(ParsedMusic parsedMusic)
         {
+            var parsedParts = parsedMusic.Parts;
             var toneGenerators = new List<ToneGenerator>()
             {
                 new ToneGenerator(),
@@ -19,7 +20,7 @@ namespace MusicXmlParser.SN76489Generation
             };
             for (var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
             {
-                var generatorsInMeasure = GroupNotesByToneGenerators(parsedParts, currentMeasure);
+                var generatorsInMeasure = GroupNotesByToneGenerators(parsedMusic, currentMeasure);
                 RemoveExtraGenerators(generatorsInMeasure);
                 for (var g = 0; g < generatorsInMeasure.Count; ++g)
                 {
@@ -33,18 +34,19 @@ namespace MusicXmlParser.SN76489Generation
             return toneGenerators;
         }
 
-        private static List<List<GeneratorNote>> GroupNotesByToneGenerators(List<NewPart> parsedParts, int currentMeasure)
+        private static List<List<GeneratorNote>> GroupNotesByToneGenerators(ParsedMusic parsedMusic, int currentMeasure)
         {
+            var divisions = int.TryParse(parsedMusic.Divisions, out var parseResult) ? parseResult : 0;
             var generatorsInMeasure = new List<List<GeneratorNote>>();
             for (var chordIndex = 0; chordIndex < TOTAL_GENERATORS_IN_SN76489; ++chordIndex)
             {
-                foreach (var parsedPart in parsedParts)
+                foreach (var parsedPart in parsedMusic.Parts)
                 {
                     var voiceKeys = parsedPart.Measures[currentMeasure - 1].Voices.Keys;
                     foreach (var voiceKey in voiceKeys)
                     {
                         var voice = parsedPart.Measures[currentMeasure - 1].Voices[voiceKey];
-                        var notesInMeasure = GetNotesForOneToneGenerator(voice, currentMeasure, chordIndex);
+                        var notesInMeasure = GetNotesForOneToneGenerator(voice, divisions, currentMeasure, chordIndex);
                         generatorsInMeasure.Add(notesInMeasure);
                     }
                 }
@@ -52,7 +54,7 @@ namespace MusicXmlParser.SN76489Generation
             return generatorsInMeasure;
         }
 
-        private static List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int currentMeasure, int chordIndex)
+        private static List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int lengthOfQuarter, int currentMeasure, int chordIndex)
         {
             var notesInMeasure = measure.Chords
                 .Select(c => c.Notes.Count > chordIndex
@@ -60,7 +62,8 @@ namespace MusicXmlParser.SN76489Generation
                     : new NewNote
                     {
                         IsRest = true,
-                        Type = c.Notes.First().Type
+                        Type = c.Notes.First().Type,
+                        Duration = c.Notes.First().Duration
                     })
                 .Select(n => new GeneratorNote
                 {
@@ -69,7 +72,7 @@ namespace MusicXmlParser.SN76489Generation
                     //TODO: Doesn't tell user when the pitch is invalid
                     Pitch = PitchParser.TryParse(n, out var p) ? p : default,
                     //TODO: Doesn't tell user when the duration is invalid
-                    Duration = DurationParser.TryParse(n, out var d) ? d : default,
+                    Duration = int.TryParse(n.Duration, out var d) ? (Duration)(lengthOfQuarter/24*d) : 0,
                     IsGraceNote = n.IsGraceNote
                 })
                 .ToList();
