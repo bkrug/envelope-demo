@@ -671,6 +671,90 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
+        [Test]
+        public void ToneGenerator_BackwardAndForwardRepeat_LabelsRetainedWhenRestMerged()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<NewPart>
+                {
+                    new NewPart
+                    {
+                        Measures = new List<NewMeasure>
+                        {
+                            new NewMeasure
+                            {
+                                Voices = GetParsedMeasureEndingInRest()
+                            },
+                            new NewMeasure
+                            {
+                                Voices = GetParsedMeasureOfRests()
+                            },
+                            new NewMeasure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedMeasureOfRests()
+                            },
+                            new NewMeasure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedMeasureOfRests()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        new GeneratorNote
+                        {
+                            StartMeasure = 1,
+                            EndMeasure = 1,
+                            Pitch = nameof(Pitch.C2),
+                            Duration = Duration.N4,
+                            Label = "MUSC1",
+                            LabelAtEnd = null
+                        },
+                        new GeneratorNote
+                        {
+                            StartMeasure = 1,
+                            EndMeasure = 2,
+                            Pitch = nameof(Pitch.REST),
+                            Duration = Duration.N2DOT,
+                        },
+                        new GeneratorNote
+                        {
+                            StartMeasure = 3,
+                            EndMeasure = 4,
+                            Pitch = nameof(Pitch.REST),
+                            Duration = Duration.N1,
+                            Label = "MUSC1A",
+                            LabelAtEnd = "MUSC1B"
+                        }
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "MUSC1B", "MUSC1A" ),
+                        ( "REPEAT", "REPT1" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.RepeatFromFirstJump
+            };
+
+            //Act
+            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
         private static Dictionary<string, NewVoice> GetParsedVoice()
         {
             return new Dictionary<string, NewVoice>
@@ -691,6 +775,88 @@ namespace MusicXmlParser.Tests
                                         Octave = "4",
                                         Type = "whole",
                                         Duration = "96"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        private static Dictionary<string, NewVoice> GetParsedMeasureEndingInRest()
+        {
+            return new Dictionary<string, NewVoice>
+            {
+                {
+                    "v1p1",
+                    new NewVoice
+                    {
+                        Chords = new List<NewChord>
+                        {
+                            new NewChord
+                            {
+                                Notes = new List<NewNote>
+                                {
+                                    new NewNote
+                                    {
+                                        Step = "C",
+                                        Octave = "4",
+                                        Type = "quarter",
+                                        Duration = "24"
+                                    }
+                                }
+                            },
+                            new NewChord
+                            {
+                                Notes = new List<NewNote>
+                                {
+                                    new NewNote
+                                    {
+                                        IsRest = true,
+                                        Type = "quarter",
+                                        IsDotted = true,
+                                        Duration = "24"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        private static Dictionary<string, NewVoice> GetParsedMeasureOfRests()
+        {
+            return new Dictionary<string, NewVoice>
+            {
+                {
+                    "v1p1",
+                    new NewVoice
+                    {
+                        Chords = new List<NewChord>
+                        {
+                            new NewChord
+                            {
+                                Notes = new List<NewNote>
+                                {
+                                    new NewNote
+                                    {
+                                        IsRest = true,
+                                        Type = "quarter",
+                                        Duration = "24"
+                                    }
+                                }
+                            },
+                            new NewChord
+                            {
+                                Notes = new List<NewNote>
+                                {
+                                    new NewNote
+                                    {
+                                        IsRest = true,
+                                        Type = "quarter",
+                                        Duration = "24"
                                     }
                                 }
                             }

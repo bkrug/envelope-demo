@@ -27,8 +27,11 @@ namespace MusicXmlParser.SN76489Generation
                         continue;
                     if ((int)currentNote.Duration + (int)nextNote.Duration > byte.MaxValue)
                         continue;
+                    if (!string.IsNullOrWhiteSpace(currentNote.LabelAtEnd) || !string.IsNullOrWhiteSpace(nextNote.Label))
+                        continue;
                     currentNote.Duration += (int)nextNote.Duration;
                     currentNote.EndMeasure = nextNote.EndMeasure;
+                    currentNote.LabelAtEnd = nextNote.LabelAtEnd;
                     toneGenerator.GeneratorNotes[i] = currentNote;
                     toneGenerator.GeneratorNotes.RemoveAt(i + 1);
                 }

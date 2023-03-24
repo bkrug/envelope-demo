@@ -76,19 +76,6 @@ namespace MusicXmlParser.SN76489Generation
                     IsGraceNote = n.IsGraceNote
                 })
                 .ToList();
-            if (notesInMeasure.All(n => n.Pitch == nameof(Pitch.REST)))
-            {
-                return new List<GeneratorNote>
-                {
-                    new GeneratorNote
-                    {
-                        StartMeasure = currentMeasure,
-                        EndMeasure = currentMeasure,
-                        Pitch = nameof(Pitch.REST),
-                        Duration = (Duration)notesInMeasure.Sum(n => (int)n.Duration)
-                    }
-                };
-            }
             return notesInMeasure;
         }
 
