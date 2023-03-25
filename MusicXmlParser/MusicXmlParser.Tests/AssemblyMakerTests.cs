@@ -46,7 +46,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void AssemblyMaker_GraceNoteInSource_CommentedOutNoteInOutput()
         {
-            const string MUSIC_XML = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+            const string MUSIC_XML = 
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
 <!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
 <score-partwise version=""3.1"">
   <work>
@@ -98,7 +99,8 @@ namespace MusicXmlParser.Tests
     </measure>
   </part>
 </score-partwise>";
-            const string EXPECTED_TEXT = @"       DEF  MELDY
+            const string EXPECTED_TEXT =
+@"       DEF  MELDY
 
 *
 * This is auto-generated code.
