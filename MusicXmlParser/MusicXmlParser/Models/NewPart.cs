@@ -9,35 +9,35 @@ namespace MusicXmlParser.Models
     internal class ParsedMusic
     {
         public string Divisions { get; set; }
-        public List<NewPart> Parts { get; set; } = new List<NewPart>();
+        public List<Part> Parts { get; set; } = new List<Part>();
         public Credits Credits { get; set; } = new Credits();
     }
 
-    internal class NewPart
+    internal class Part
     {
-        public List<NewMeasure> Measures { get; set; } = new List<NewMeasure>();
+        public List<Measure> Measures { get; set; } = new List<Measure>();
     }
 
-    internal class NewMeasure
+    internal class Measure
     {
         public bool HasVoltaBracket { get; set; }
         public int VoltaNumber { get; set; }
         public bool HasBackwardRepeat { get; set; }
         public bool HasForwardRepeat { get; set; }
-        public Dictionary<string, NewVoice> Voices { get; set; } = new Dictionary<string, NewVoice>();
+        public Dictionary<string, Voice> Voices { get; set; } = new Dictionary<string, Voice>();
     }
 
-    internal class NewVoice
+    internal class Voice
     {
-        public List<NewChord> Chords { get; set; } = new List<NewChord>();
+        public List<Chord> Chords { get; set; } = new List<Chord>();
     }
 
-    internal class NewChord
+    internal class Chord
     {
-        public List<NewNote> Notes { get; set; } = new List<NewNote>();
+        public List<Note> Notes { get; set; } = new List<Note>();
     }
 
-    internal struct NewNote
+    internal struct Note
     {
         public string Step { get; set; }
         public string Alter { get; set; }

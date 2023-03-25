@@ -18,31 +18,31 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
                         }
                     },
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
@@ -94,21 +94,21 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
@@ -150,40 +150,40 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             }
                         }
                     },
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
@@ -238,26 +238,26 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24", 
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
@@ -300,42 +300,42 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             }
                         }
                     },
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
@@ -390,51 +390,51 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
                         }
                     },
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
@@ -492,57 +492,57 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
                             //Measure 1
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
                             //Measure 3
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 1,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
                             //Measure 5
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 2,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
                             //Measure 8
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 3,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
@@ -592,19 +592,19 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
                             //Measure 1
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             },
                             //Measure 2
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 1,
@@ -612,25 +612,25 @@ namespace MusicXmlParser.Tests
                                 Voices = GetParsedVoice()
                             },
                             //Measure 3
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 2,
                                 Voices = GetParsedVoice()
                             },
                             //Measure 4
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedVoice()
                             },
                             //Measure 6
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedVoice()
                             }
@@ -677,26 +677,26 @@ namespace MusicXmlParser.Tests
             var parsedMusic = new ParsedMusic
             {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedMeasureEndingInRest()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 Voices = GetParsedMeasureOfRests()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
                                 Voices = GetParsedMeasureOfRests()
                             },
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
                                 Voices = GetParsedMeasureOfRests()
@@ -755,21 +755,21 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
-        private static Dictionary<string, NewVoice> GetParsedVoice()
+        private static Dictionary<string, Voice> GetParsedVoice()
         {
-            return new Dictionary<string, NewVoice>
+            return new Dictionary<string, Voice>
             {
                 {
                     "v1p1",
-                    new NewVoice
+                    new Voice
                     {
-                        Chords = new List<NewChord>
+                        Chords = new List<Chord>
                         {
-                            new NewChord
+                            new Chord
                             {
-                                Notes = new List<NewNote>
+                                Notes = new List<Note>
                                 {
-                                    new NewNote
+                                    new Note
                                     {
                                         Step = "C",
                                         Octave = "4",
@@ -784,21 +784,21 @@ namespace MusicXmlParser.Tests
             };
         }
 
-        private static Dictionary<string, NewVoice> GetParsedMeasureEndingInRest()
+        private static Dictionary<string, Voice> GetParsedMeasureEndingInRest()
         {
-            return new Dictionary<string, NewVoice>
+            return new Dictionary<string, Voice>
             {
                 {
                     "v1p1",
-                    new NewVoice
+                    new Voice
                     {
-                        Chords = new List<NewChord>
+                        Chords = new List<Chord>
                         {
-                            new NewChord
+                            new Chord
                             {
-                                Notes = new List<NewNote>
+                                Notes = new List<Note>
                                 {
-                                    new NewNote
+                                    new Note
                                     {
                                         Step = "C",
                                         Octave = "4",
@@ -807,11 +807,11 @@ namespace MusicXmlParser.Tests
                                     }
                                 }
                             },
-                            new NewChord
+                            new Chord
                             {
-                                Notes = new List<NewNote>
+                                Notes = new List<Note>
                                 {
-                                    new NewNote
+                                    new Note
                                     {
                                         IsRest = true,
                                         Type = "quarter",
@@ -826,21 +826,21 @@ namespace MusicXmlParser.Tests
             };
         }
 
-        private static Dictionary<string, NewVoice> GetParsedMeasureOfRests()
+        private static Dictionary<string, Voice> GetParsedMeasureOfRests()
         {
-            return new Dictionary<string, NewVoice>
+            return new Dictionary<string, Voice>
             {
                 {
                     "v1p1",
-                    new NewVoice
+                    new Voice
                     {
-                        Chords = new List<NewChord>
+                        Chords = new List<Chord>
                         {
-                            new NewChord
+                            new Chord
                             {
-                                Notes = new List<NewNote>
+                                Notes = new List<Note>
                                 {
-                                    new NewNote
+                                    new Note
                                     {
                                         IsRest = true,
                                         Type = "quarter",
@@ -848,11 +848,11 @@ namespace MusicXmlParser.Tests
                                     }
                                 }
                             },
-                            new NewChord
+                            new Chord
                             {
-                                Notes = new List<NewNote>
+                                Notes = new List<Note>
                                 {
-                                    new NewNote
+                                    new Note
                                     {
                                         IsRest = true,
                                         Type = "quarter",

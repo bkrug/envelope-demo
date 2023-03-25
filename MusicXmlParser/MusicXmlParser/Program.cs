@@ -9,7 +9,7 @@ namespace MusicXmlParser
         static void Main(string[] args)
         {
             Options options = GetOptions(args);
-            var assemblyMaker = new AssemblyMaker(new NewNoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
+            var assemblyMaker = new AssemblyMaker(new NoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
             assemblyMaker.ConvertToAssembly(options);
         }
 

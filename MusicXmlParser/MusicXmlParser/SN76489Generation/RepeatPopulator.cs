@@ -7,7 +7,7 @@ namespace MusicXmlParser.SN76489Generation
 {
     internal static class RepeatPopulator
     {
-        internal static void PopulateRepeatLabels(List<NewPart> parsedParts, string labelPrefix, Options options, ref List<ToneGenerator> toneGenerators)
+        internal static void PopulateRepeatLabels(List<Part> parsedParts, string labelPrefix, Options options, ref List<ToneGenerator> toneGenerators)
         {
             var measureCount = parsedParts.First().Measures.Count;
             FindRepeats(parsedParts, measureCount, options, out var labelPairs, out var measuresWithLabel);
@@ -22,7 +22,7 @@ namespace MusicXmlParser.SN76489Generation
         }
 
         private static void FindRepeats(
-            List<NewPart> parsedParts,
+            List<Part> parsedParts,
             int measureCount, Options options,
             out List<(string From, string To)> labelPairs,
             out Dictionary<int, string> measuresWithLabel)

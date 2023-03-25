@@ -54,12 +54,12 @@ namespace MusicXmlParser.SN76489Generation
             return generatorsInMeasure;
         }
 
-        private static List<GeneratorNote> GetNotesForOneToneGenerator(NewVoice measure, int lengthOfQuarter, int currentMeasure, int chordIndex)
+        private static List<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex)
         {
             var notesInMeasure = measure.Chords
                 .Select(c => c.Notes.Count > chordIndex
                     ? c.Notes.ElementAt(chordIndex)
-                    : new NewNote
+                    : new Note
                     {
                         IsRest = true,
                         Type = c.Notes.First().Type,

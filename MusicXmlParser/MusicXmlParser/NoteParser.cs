@@ -8,7 +8,7 @@ using System.Xml.Linq;
 [assembly: InternalsVisibleTo("MusicXmlParser.Tests")]
 namespace MusicXmlParser
 {
-    internal class NewNoteParser
+    internal class NoteParser
     {
         internal ParsedMusic Parse(string sourceXml)
         {
@@ -45,18 +45,18 @@ namespace MusicXmlParser
             return credits;
         }
 
-        private static List<NewPart> GetMusicalParts(XDocument document)
+        private static List<Part> GetMusicalParts(XDocument document)
         {
             var parts = document.Root.Descendants("part");
-            var newParts = new List<NewPart>();
+            var newParts = new List<Part>();
             foreach (var partElem in parts)
             {
                 var measures = partElem.Descendants("measure");
-                var newPart = new NewPart();
+                var newPart = new Part();
                 foreach (var measureElem in measures)
                 {
                     var (endingElem, voltaNumber) = GetEnding(measureElem);
-                    newPart.Measures.Add(new NewMeasure
+                    newPart.Measures.Add(new Measure
                     {
                         HasBackwardRepeat = HasRepeat(measureElem, "backward"),
                         HasForwardRepeat = HasRepeat(measureElem, "forward"),
@@ -87,9 +87,9 @@ namespace MusicXmlParser
                 .Any(foundDirection => string.Equals(foundDirection, direction, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static Dictionary<string, NewVoice> CreateVoicesWithinMeasure(XElement measureElem)
+        private static Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem)
         {
-            var voices = new Dictionary<string, NewVoice>();
+            var voices = new Dictionary<string, Voice>();
             foreach (var noteElem in measureElem.Descendants("note"))
             {
                 var voiceLabel = noteElem.Element("voice").Value;
@@ -97,7 +97,7 @@ namespace MusicXmlParser
                 var isChord = noteElem.Element("chord") != null;
                 if (!voices.ContainsKey(voiceLabel))
                 {
-                    voices.Add(voiceLabel, new NewVoice());
+                    voices.Add(voiceLabel, new Voice());
                 }
 
                 if (isChord)
@@ -106,9 +106,9 @@ namespace MusicXmlParser
                 }
                 else
                 {
-                    voices[voiceLabel].Chords.Add(new NewChord
+                    voices[voiceLabel].Chords.Add(new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
                             CreateNote(noteElem, pitchElem)
                         }
@@ -119,9 +119,9 @@ namespace MusicXmlParser
             return voices;
         }
 
-        private static NewNote CreateNote(XElement noteElem, XElement pitchElem)
+        private static Note CreateNote(XElement noteElem, XElement pitchElem)
         {
-            return new NewNote
+            return new Note
             {
                 Octave = pitchElem?.Element("octave")?.Value ?? string.Empty,
                 Alter = pitchElem?.Element("alter")?.Value ?? string.Empty,

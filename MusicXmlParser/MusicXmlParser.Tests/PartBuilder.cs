@@ -7,25 +7,25 @@ namespace MusicXmlParser.Tests
 {
     class PartBuilder
     {
-        private Dictionary<(string part, string voice), List<NewVoice>> _voices = new Dictionary<(string part, string voice), List<NewVoice>>();
+        private Dictionary<(string part, string voice), List<Voice>> _voices = new Dictionary<(string part, string voice), List<Voice>>();
 
         public PartBuilder AddPartAndVoice(string part, string voice)
         {
-            _voices.Add((part, voice), new List<NewVoice>());
+            _voices.Add((part, voice), new List<Voice>());
             return this;
         }
 
         public PartBuilder AddMeasureOfOneNoteChords(string part, string voice)
         {
-            _voices[(part, voice)].Add(new NewVoice
+            _voices[(part, voice)].Add(new Voice
             {
-                Chords = new List<NewChord>
+                Chords = new List<Chord>
                 {
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "G",
                                 Alter = "-1",
@@ -35,11 +35,11 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "D",
                                 Alter = "1",
@@ -56,15 +56,15 @@ namespace MusicXmlParser.Tests
 
         public PartBuilder AddMeasureOfThreeNoteChords(string part, string voice)
         {
-            _voices[(part, voice)].Add(new NewVoice
+            _voices[(part, voice)].Add(new Voice
             {
-                Chords = new List<NewChord>
+                Chords = new List<Chord>
                 {
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "A",
                                 Alter = string.Empty,
@@ -72,7 +72,7 @@ namespace MusicXmlParser.Tests
                                 Type = "16th",
                                 Duration = "6"
                             },
-                            new NewNote
+                            new Note
                             {
                                 Step = "C",
                                 Alter = string.Empty,
@@ -80,7 +80,7 @@ namespace MusicXmlParser.Tests
                                 Type = "16th",
                                 Duration = "6"
                             },
-                            new NewNote
+                            new Note
                             {
                                 Step = "E",
                                 Alter = "-1",
@@ -90,11 +90,11 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "B",
                                 Alter = string.Empty,
@@ -102,7 +102,7 @@ namespace MusicXmlParser.Tests
                                 Type = "eighth",
                                 Duration = "12"
                             },
-                            new NewNote
+                            new Note
                             {
                                 Step = "D",
                                 Alter = string.Empty,
@@ -110,7 +110,7 @@ namespace MusicXmlParser.Tests
                                 Type = "eighth",
                                 Duration = "12"
                             },
-                            new NewNote
+                            new Note
                             {
                                 Step = "F",
                                 Alter = "1",
@@ -127,15 +127,15 @@ namespace MusicXmlParser.Tests
 
         public PartBuilder AddMeasureEndingInRest(string part, string voice)
         {
-            _voices[(part, voice)].Add(new NewVoice
+            _voices[(part, voice)].Add(new Voice
             {
-                Chords = new List<NewChord>
+                Chords = new List<Chord>
                 {
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "C",
                                 Octave = "4",
@@ -144,11 +144,11 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 IsRest = true,
                                 Type = "eighth",
@@ -163,15 +163,15 @@ namespace MusicXmlParser.Tests
 
         public PartBuilder AddMeasureStartingInRest(string part, string voice)
         {
-            _voices[(part, voice)].Add(new NewVoice
+            _voices[(part, voice)].Add(new Voice
             {
-                Chords = new List<NewChord>
+                Chords = new List<Chord>
                 {
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 IsRest = true,
                                 Type = "quarter",
@@ -179,11 +179,11 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 Step = "C",
                                 Octave = "4",
@@ -199,15 +199,15 @@ namespace MusicXmlParser.Tests
 
         public PartBuilder AddMeasureOfRests(string part, string voice)
         {
-            _voices[(part, voice)].Add(new NewVoice
+            _voices[(part, voice)].Add(new Voice
             {
-                Chords = new List<NewChord>
+                Chords = new List<Chord>
                 {
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 IsRest = true,
                                 Type = "quarter",
@@ -215,11 +215,11 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewChord
+                    new Chord
                     {
-                        Notes = new List<NewNote>
+                        Notes = new List<Note>
                         {
-                            new NewNote
+                            new Note
                             {
                                 IsRest = true,
                                 Type = "eighth",
@@ -234,15 +234,15 @@ namespace MusicXmlParser.Tests
 
         public ParsedMusic Build()
         {
-            var parts = new List<NewPart>();
+            var parts = new List<Part>();
             var measureCount = _voices.First().Value.Count;
             Assert.That(_voices.All(v => v.Value.Count == measureCount), "All voices must have the same number of measures");
             foreach (var partAndVoices in _voices.Keys.GroupBy(k => k.part))
             {
-                var part = new NewPart();
+                var part = new Part();
                 for (var m = 0; m < measureCount; ++m)
                 {
-                    part.Measures.Add(new NewMeasure
+                    part.Measures.Add(new Measure
                     {
                         Voices = _voices
                             .Where(v => partAndVoices.Contains(v.Key))

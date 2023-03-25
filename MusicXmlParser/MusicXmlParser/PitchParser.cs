@@ -32,7 +32,7 @@ namespace MusicXmlParser
                 }
             );
 
-        internal static bool TryParse(NewNote givenNote, out string pitchParsed)
+        internal static bool TryParse(Note givenNote, out string pitchParsed)
         {
             pitchParsed = default;
             if (givenNote.IsRest)
@@ -59,7 +59,7 @@ namespace MusicXmlParser
             return true;
         }
 
-        private static Pitch GetEnumValue(NewNote givenNote, int musicXmlOctave, int alterInt)
+        private static Pitch GetEnumValue(Note givenNote, int musicXmlOctave, int alterInt)
         {
             const int notesPerOctave = 12;
             const int adjustToSN76489_octaves = 2 * notesPerOctave;

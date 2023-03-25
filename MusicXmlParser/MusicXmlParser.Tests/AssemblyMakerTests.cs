@@ -17,7 +17,7 @@ namespace MusicXmlParser.Tests
         //            DATA REPT1,REPT2,REPT3
         private AssemblyMaker GetAssemblyMaker()
         {
-            return new AssemblyMaker(new NewNoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
+            return new AssemblyMaker(new NoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
         }
 
         /// <summary>

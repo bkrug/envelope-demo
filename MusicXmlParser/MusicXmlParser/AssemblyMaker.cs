@@ -8,10 +8,10 @@ namespace MusicXmlParser
     internal class AssemblyMaker
     {
         private readonly SN76489NoteGenerator _sn76489NoteGenerator;
-        private readonly NewNoteParser _noteParser;
+        private readonly NoteParser _noteParser;
         private readonly AssemblyWriter _assemblyWriter;
 
-        internal AssemblyMaker(NewNoteParser noteParser, SN76489NoteGenerator sn76489NoteGenerator, AssemblyWriter assemblyWriter)
+        internal AssemblyMaker(NoteParser noteParser, SN76489NoteGenerator sn76489NoteGenerator, AssemblyWriter assemblyWriter)
         {
             _sn76489NoteGenerator = sn76489NoteGenerator;
             _noteParser = noteParser;

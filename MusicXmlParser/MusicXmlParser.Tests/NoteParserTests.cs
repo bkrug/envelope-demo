@@ -10,13 +10,13 @@ namespace MusicXmlParser.Tests
     //TODO: Write a case when rest does not have "type" element. Ex: Measure 83 in MusicXML (81 in MuseScore)
     public class NoteParserTests
     {
-        private static NewChord GenerateSingleNoteChord(string step, string alter, string octave, Duration duration, string type, bool isGraceSlash = false)
+        private static Chord GenerateSingleNoteChord(string step, string alter, string octave, Duration duration, string type, bool isGraceSlash = false)
         {
-            return new NewChord
+            return new Chord
             {
-                Notes = new List<NewNote>
+                Notes = new List<Note>
                 {
-                    new NewNote
+                    new Note
                     {
                         Step = step,
                         Alter = alter,
@@ -85,21 +85,21 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("E", "", "5", Duration.N16, "16th"),
                                                 GenerateSingleNoteChord("D", "1", "5", Duration.N8, "eighth"),
@@ -109,15 +109,15 @@ namespace MusicXmlParser.Tests
                                     }
                                 }
                             },
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("B", "", "3", Duration.N4, "quarter"),
                                             }
@@ -131,7 +131,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -163,27 +163,27 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "48",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "E",
                                                             Alter = string.Empty,
@@ -205,7 +205,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -268,27 +268,27 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "48",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "A",
                                                             Alter = string.Empty,
@@ -299,11 +299,11 @@ namespace MusicXmlParser.Tests
                                                         }
                                                     }
                                                 },
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "B",
                                                             Alter = string.Empty,
@@ -314,11 +314,11 @@ namespace MusicXmlParser.Tests
                                                         }
                                                     }
                                                 },
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "C",
                                                             Alter = string.Empty,
@@ -340,7 +340,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -391,27 +391,27 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "12",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "G",
                                                             Octave = "3",
@@ -419,7 +419,7 @@ namespace MusicXmlParser.Tests
                                                             Duration = "2",
                                                             Alter = string.Empty
                                                         },
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "E",
                                                             Octave = "3",
@@ -427,7 +427,7 @@ namespace MusicXmlParser.Tests
                                                             Duration = "2",
                                                             Alter = string.Empty
                                                         },
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "C",
                                                             Octave = "3",
@@ -448,7 +448,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -512,21 +512,21 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "I",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("B", "-1", "2", Duration.N2, "half"),
                                                 GenerateSingleNoteChord("A", "1", "2", Duration.N4, "quarter")
@@ -535,9 +535,9 @@ namespace MusicXmlParser.Tests
                                     },
                                     {
                                         "V",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("F", "1", "1", Duration.N4, "quarter"),
                                                 GenerateSingleNoteChord("A", "", "1", Duration.N2, "half")
@@ -552,7 +552,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -617,21 +617,21 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "I",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("B", "-1", "2", Duration.N2, "half"),
                                                 GenerateSingleNoteChord("A", "1", "2", Duration.N4, "quarter")
@@ -642,19 +642,19 @@ namespace MusicXmlParser.Tests
                             }
                         }
                     },
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "II",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("F", "1", "1", Duration.N4, "quarter"),
                                                 GenerateSingleNoteChord("A", "", "1", Duration.N2, "half")
@@ -669,7 +669,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -713,22 +713,22 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 HasForwardRepeat = true,
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("B", "", "5", Duration.N4, "quarter"),
                                                 GenerateSingleNoteChord("F", "", "5", Duration.N4, "quarter")
@@ -743,7 +743,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -787,22 +787,22 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 HasBackwardRepeat = true,
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("G", "", "4", Duration.N4, "quarter"),
                                                 GenerateSingleNoteChord("C", "", "5", Duration.N4, "quarter")
@@ -817,7 +817,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -865,24 +865,24 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24", 
-                Parts =  new List<NewPart>
+                Parts =  new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
                                 HasVoltaBracket = true,
                                 VoltaNumber = 1,
                                 HasBackwardRepeat = true,
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("E", "", "3", Duration.N2, "half"),
                                                 GenerateSingleNoteChord("A", "", "3", Duration.N2, "half")
@@ -897,7 +897,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -934,7 +934,7 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Credits.Should().BeEquivalentTo(expectedObject);
@@ -979,27 +979,27 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "5",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             Step = "A",
                                                             Alter = string.Empty,
@@ -1009,11 +1009,11 @@ namespace MusicXmlParser.Tests
                                                         }
                                                     }
                                                 },
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             IsRest = true,
                                                             Step = string.Empty,
@@ -1024,11 +1024,11 @@ namespace MusicXmlParser.Tests
                                                         }
                                                     }
                                                 },
-                                                new NewChord
+                                                new Chord
                                                 {
-                                                    Notes = new List<NewNote>
+                                                    Notes = new List<Note>
                                                     {
-                                                        new NewNote
+                                                        new Note
                                                         {
                                                             IsRest = true,
                                                             Step = string.Empty,
@@ -1050,7 +1050,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -1102,21 +1102,21 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic {
                 Divisions = "24",
-                Parts = new List<NewPart>
+                Parts = new List<Part>
                 {
-                    new NewPart
+                    new Part
                     {
-                        Measures = new List<NewMeasure>
+                        Measures = new List<Measure>
                         {
-                            new NewMeasure
+                            new Measure
                             {
-                                Voices = new Dictionary<string, NewVoice>
+                                Voices = new Dictionary<string, Voice>
                                 {
                                     {
                                         "1",
-                                        new NewVoice
+                                        new Voice
                                         {
-                                            Chords = new List<NewChord>
+                                            Chords = new List<Chord>
                                             {
                                                 GenerateSingleNoteChord("E", "", "5", Duration.N16, "16th", true),
                                                 GenerateSingleNoteChord("D", "1", "5", Duration.N8, "eighth"),
@@ -1132,7 +1132,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NewNoteParser().Parse(SOURCE_XML);
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
