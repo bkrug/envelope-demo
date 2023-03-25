@@ -25,29 +25,29 @@ BEETHV DATA BEET1,BEET2,BEET3
 
 REPT1
        DATA BEET1B,BEET1
-       DATA BEET1A,BEET1C
-       DATA BEET1F,BEET1D
-       DATA BEET1E,BEET1G
-       DATA BEET1H,BEET1
+       DATA BEET1A,BEET1B
+       DATA BEET1E,BEET1C
+       DATA BEET1D,BEET1E
+       DATA BEET1F,BEET1
        DATA REPEAT,REPT1
 REPT2
        DATA BEET2B,BEET2
-       DATA BEET2A,BEET2C
-       DATA BEET2F,BEET2D
-       DATA BEET2E,BEET2G
-       DATA BEET2H,BEET2
+       DATA BEET2A,BEET2B
+       DATA BEET2E,BEET2C
+       DATA BEET2D,BEET2E
+       DATA BEET2F,BEET2
        DATA REPEAT,REPT2
 REPT3
        DATA BEET3B,BEET3
-       DATA BEET3A,BEET3C
-       DATA BEET3F,BEET3D
-       DATA BEET3E,BEET3G
-       DATA BEET3H,BEET3
+       DATA BEET3A,BEET3B
+       DATA BEET3E,BEET3C
+       DATA BEET3D,BEET3E
+       DATA BEET3F,BEET3
        DATA REPEAT,REPT3
 
 * Generator 1
-BEET1
 * Measure 1
+BEET1
        BYTE E3,N16
        BYTE Ds3,N16
 * Measure 2
@@ -97,16 +97,15 @@ BEET1
 * Measure 9
 BEET1A
        BYTE A2,N4
-BEET1B
 * Measure 10
-BEET1C
+BEET1B
        BYTE A2,N8
        BYTE REST,N16
        BYTE B2,N16
        BYTE C3,N16
        BYTE D3,N16
 * Measure 11
-BEET1D
+BEET1C
        BYTE E3,N8DOT
        BYTE G2,N16
        BYTE F3,N16
@@ -182,23 +181,22 @@ BEET1D
        BYTE C3,N16
        BYTE B2,N16
 * Measure 24
-BEET1E
+BEET1D
        BYTE A2,N8
        BYTE REST,N16
        BYTE B2,N16
        BYTE C3,N16
        BYTE D3,N16
-BEET1F
 * Measure 25
-BEET1G
+BEET1E
        BYTE A2,N8
        BYTE REST,N16
        BYTE E2,N16
        BYTE F2,N16
        BYTE E2,N16
 * Measure 26
-*       BYTE F2,0
-*       BYTE A2,0
+*       BYTE F2,0        Grace Note
+*       BYTE A2,0        Grace Note
        BYTE C3,N4
        BYTE F3,N16DOT
        BYTE E3,N32
@@ -217,7 +215,7 @@ BEET1G
 * Measure 29
        BYTE Bb2,N8
        BYTE A2,N8
-*       BYTE Bb2,0
+*       BYTE Bb2,0        Grace Note
        BYTE A2,N32
        BYTE G2,N32
        BYTE A2,N32
@@ -674,151 +672,12 @@ BEET1G
 * Measure 106
        BYTE A2,N8
        BYTE REST,N4
-BEET1H
+BEET1F
 *
 
 * Generator 2
-BEET2
-* Measure 1 - 7
-       BYTE REST,228
-* Measure 8
-       BYTE REST,N4DOT
-* Measure 9
-BEET2A
-       BYTE REST,N4
-BEET2B
-* Measure 10
-BEET2C
-       BYTE REST,N4DOT
-* Measure 11 - 17
-BEET2D
-       BYTE REST,252
-* Measure 18 - 23
-       BYTE REST,216
-* Measure 24
-BEET2E
-       BYTE REST,N4DOT
-BEET2F
-* Measure 25
-BEET2G
-       BYTE REST,N8DOT
-       BYTE C3,N16
-       BYTE C3,N16
-       BYTE G2,N16
-* Measure 26 - 28
-       BYTE REST,84
-       BYTE G1,N16
-       BYTE REST,N16
-       BYTE G1,N16
-       BYTE REST,102
-       BYTE D2,N16
-       BYTE REST,42
-* Measure 33
-       BYTE E2,N8
-       BYTE REST,N16
-       BYTE G2,N16
-       BYTE G2,N16
-       BYTE F2,N16
-* Measure 34
-       BYTE E2,N8
-       BYTE A1,N8
-       BYTE B1,N8
-* Measure 35
-       BYTE REST,N8DOT
-       BYTE G2,N16
-       BYTE G2,N16
-       BYTE F2,N16
-* Measure 36
-       BYTE E2,N8
-       BYTE A1,N8
-       BYTE B1,N8
-* Measure 37 - 43
-       BYTE B1,N8
-       BYTE REST,240
-* Measure 44 - 50
-       BYTE REST,252
-* Measure 51 - 57
-       BYTE REST,252
-* Measure 58 - 62
-       BYTE REST,180
-* Measure 63
-       BYTE G2,N4DOT
-* Measure 64
-       BYTE A2,N4
-       BYTE E3,N16
-       BYTE F3,N16
-* Measure 65
-       BYTE D3,N4
-       BYTE D3,N8
-* Measure 66
-       BYTE C3,N4DOT
-* Measure 67
-       BYTE D3,N4
-       BYTE C3,N16
-       BYTE B2,N16
-* Measure 68
-       BYTE Fs2,N4
-       BYTE A2,N8
-* Measure 69
-       BYTE A2,N8
-       BYTE C3,N8
-       BYTE B2,N8
-* Measure 70
-       BYTE A2,N4DOT
-* Measure 71
-       BYTE G2,N4DOT
-* Measure 72
-       BYTE A2,N4
-       BYTE E3,N16
-       BYTE F3,N16
-* Measure 73
-       BYTE F3,N4
-       BYTE F3,N8
-* Measure 74
-       BYTE F3,N4DOT
-* Measure 75
-       BYTE Eb3,N4
-       BYTE D3,N16
-       BYTE C3,N16
-* Measure 76
-       BYTE F2,N4
-       BYTE F2,N8
-* Measure 77
-       BYTE F2,N4
-       BYTE F2,N8
-* Measure 78
-       BYTE E2,N4
-       BYTE REST,N8
-* Measure 79 - 80
-       BYTE B2,N8
-       BYTE REST,N2
-       BYTE C2,N8
-* Measure 81
-       BYTE C2,N8
-       BYTE REST,N8
-       BYTE C2,N8
-* Measure 82
-       BYTE C2,N8
-       BYTE REST,N8
-       BYTE C2,N8
-* Measure 83 - 89
-       BYTE C2,N8
-       BYTE REST,240
-* Measure 90 - 96
-       BYTE REST,252
-* Measure 97 - 103
-       BYTE REST,252
-* Measure 104 - 105
-       BYTE REST,N2DOT
-* Measure 106
-       BYTE A0,N8
-       BYTE REST,N4
-BEET2H
-*
-
-* Generator 3
-BEET3
 * Measure 1 - 2
+BEET2
        BYTE REST,N2
 * Measure 3
        BYTE A0,N16
@@ -846,20 +705,19 @@ BEET3
        BYTE Gs1,N16
        BYTE REST,N8DOT
 * Measure 9
-BEET3A
+BEET2A
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N16
-BEET3B
 * Measure 10
-BEET3C
+BEET2B
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N8DOT
 * Measure 11
-BEET3D
+BEET2C
        BYTE C1,N16
        BYTE G1,N16
        BYTE C2,N16
@@ -880,7 +738,7 @@ BEET3D
        BYTE E2,N16
        BYTE REST,N8
        BYTE E2,N16
-* Measure 15 - 16
+* Measure 15 - 17
        BYTE E3,N16
        BYTE REST,N8
        BYTE Ds3,N16
@@ -915,14 +773,13 @@ BEET3D
        BYTE Gs1,N16
        BYTE REST,N8DOT
 * Measure 24
-BEET3E
+BEET2D
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
        BYTE REST,N8DOT
-BEET3F
 * Measure 25
-BEET3G
+BEET2E
        BYTE A0,N16
        BYTE E1,N16
        BYTE A1,N16
@@ -1052,7 +909,7 @@ BEET3G
        BYTE E2,N16
        BYTE REST,N8
        BYTE E2,N16
-* Measure 53 - 54
+* Measure 53 - 55
        BYTE E3,N16
        BYTE REST,N8
        BYTE Ds3,N16
@@ -1270,7 +1127,7 @@ BEET3G
        BYTE E2,N16
        BYTE REST,N8
        BYTE E2,N16
-* Measure 97 - 98
+* Measure 97 - 99
        BYTE E3,N16
        BYTE REST,N8
        BYTE Ds3,N16
@@ -1307,6 +1164,143 @@ BEET3G
 * Measure 106
        BYTE REST,N8      * Invalid: A-1
        BYTE REST,N4
-BEET3H
+BEET2F
+*
+
+* Generator 3
+* Measure 1
+BEET3
+       BYTE REST,N8
+* Measure 2 - 8
+       BYTE REST,252
+* Measure 9
+BEET3A
+       BYTE REST,N4
+* Measure 10
+BEET3B
+       BYTE REST,N4DOT
+* Measure 11 - 16
+BEET3C
+       BYTE REST,216
+* Measure 17 - 23
+       BYTE REST,252
+* Measure 24
+BEET3D
+       BYTE REST,N4DOT
+* Measure 25
+BEET3E
+       BYTE REST,N8DOT
+       BYTE C3,N16
+       BYTE C3,N16
+       BYTE G2,N16
+* Measure 26 - 32
+       BYTE REST,84
+       BYTE G1,N16
+       BYTE REST,N16
+       BYTE G1,N16
+       BYTE REST,102
+       BYTE D2,N16
+       BYTE REST,42
+* Measure 33
+       BYTE E2,N8
+       BYTE REST,N16
+       BYTE G2,N16
+       BYTE G2,N16
+       BYTE F2,N16
+* Measure 34
+       BYTE E2,N8
+       BYTE A1,N8
+       BYTE B1,N8
+* Measure 35
+       BYTE REST,N8DOT
+       BYTE G2,N16
+       BYTE G2,N16
+       BYTE F2,N16
+* Measure 36
+       BYTE E2,N8
+       BYTE A1,N8
+       BYTE B1,N8
+* Measure 37 - 41
+       BYTE B1,N8
+       BYTE REST,168
+* Measure 42 - 48
+       BYTE REST,252
+* Measure 49 - 55
+       BYTE REST,252
+* Measure 56 - 62
+       BYTE REST,252
+* Measure 63
+       BYTE G2,N4DOT
+* Measure 64
+       BYTE A2,N4
+       BYTE E3,N16
+       BYTE F3,N16
+* Measure 65
+       BYTE D3,N4
+       BYTE D3,N8
+* Measure 66
+       BYTE C3,N4DOT
+* Measure 67
+       BYTE D3,N4
+       BYTE C3,N16
+       BYTE B2,N16
+* Measure 68
+       BYTE Fs2,N4
+       BYTE A2,N8
+* Measure 69
+       BYTE A2,N8
+       BYTE C3,N8
+       BYTE B2,N8
+* Measure 70
+       BYTE A2,N4DOT
+* Measure 71
+       BYTE G2,N4DOT
+* Measure 72
+       BYTE A2,N4
+       BYTE E3,N16
+       BYTE F3,N16
+* Measure 73
+       BYTE F3,N4
+       BYTE F3,N8
+* Measure 74
+       BYTE F3,N4DOT
+* Measure 75
+       BYTE Eb3,N4
+       BYTE D3,N16
+       BYTE C3,N16
+* Measure 76
+       BYTE F2,N4
+       BYTE F2,N8
+* Measure 77
+       BYTE F2,N4
+       BYTE F2,N8
+* Measure 78
+       BYTE E2,N4
+       BYTE REST,N8
+* Measure 79 - 80
+       BYTE B2,N8
+       BYTE REST,N2
+       BYTE C2,N8
+* Measure 81
+       BYTE C2,N8
+       BYTE REST,N8
+       BYTE C2,N8
+* Measure 82
+       BYTE C2,N8
+       BYTE REST,N8
+       BYTE C2,N8
+* Measure 83 - 84
+       BYTE C2,N8
+       BYTE REST,60
+* Measure 85 - 91
+       BYTE REST,252
+* Measure 92 - 98
+       BYTE REST,252
+* Measure 99 - 105
+       BYTE REST,252
+* Measure 106
+       BYTE A0,N8
+       BYTE REST,N4
+BEET3F
 *
 

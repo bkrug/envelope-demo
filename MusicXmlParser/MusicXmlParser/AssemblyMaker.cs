@@ -1,8 +1,6 @@
 ﻿using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
-using System.Collections;
 using System.IO;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace MusicXmlParser

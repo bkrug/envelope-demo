@@ -1,7 +1,6 @@
 ﻿using MusicXmlParser.Models;
+using MusicXmlParser.SN76489Generation;
 using System;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace MusicXmlParser
 {
@@ -10,10 +9,8 @@ namespace MusicXmlParser
         static void Main(string[] args)
         {
             Options options = GetOptions(args);
-            var xml = XDocument.Load(options.InputFile);
-            var credits = GetCredits(xml);
-            var notes = NoteParser.GetNotes(xml, options.ShortLabel, out var repeatLabels);
-            FileWriter.WriteFile(options, credits, notes, repeatLabels);
+            var assemblyMaker = new AssemblyMaker(new NewNoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
+            assemblyMaker.ConvertToAssembly(options);
         }
 
         private static Options GetOptions(string[] args)
@@ -30,28 +27,10 @@ namespace MusicXmlParser
             options.Ratio60Hz = args.Length > 3 ? args[3].Replace(":", ",") : "1:1";
             options.Ratio50Hz = args.Length > 4 ? args[4].Replace(":", ",") : "5:6";
 
+            //TODO: Take this from command line
+            options.RepetitionType = Enums.RepetitionType.RepeatFromBeginning;
+
             return options;
-        }
-
-        private static Credits GetCredits(XDocument xml)
-        {
-            var credits = new Credits();
-
-            var work = xml.Root.Descendants("work").Descendants("work-title").FirstOrDefault();
-            if (work != null)
-            {
-                credits.WorkTitle = work.Value;
-            }
-
-            var identification = xml.Root.Descendants("identification").FirstOrDefault();
-            if (identification != null)
-            {
-                var creator = identification.Descendants("creator").FirstOrDefault();
-                if (creator != null) credits.Creator = creator.Value;
-                var source = identification.Descendants("source").FirstOrDefault();
-                if (source != null) credits.Source = source.Value;
-            }
-            return credits;
         }
     }
 }
