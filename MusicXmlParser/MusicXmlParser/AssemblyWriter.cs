@@ -9,13 +9,11 @@ namespace MusicXmlParser
 {
     internal class AssemblyWriter
     {
-        internal void WriteAssembly(ICollection<ToneGenerator> toneGenerators, Credits credits, Options options)
+        internal void WriteAssemblyToSteam(ICollection<ToneGenerator> toneGenerators, Credits credits, Options options, ref StreamWriter writer)
         {
-            var writer = File.CreateText(options.OutputFile);
             WriteFileHeader(credits, options, writer);
             WriteRepeats(toneGenerators, writer);
             WriteNotes(toneGenerators, options, writer);
-            writer.Close();
         }
 
         private static void WriteFileHeader(Credits credits, Options options, StreamWriter writer)
@@ -31,7 +29,8 @@ namespace MusicXmlParser
             if (!string.IsNullOrEmpty(credits?.Creator))
                 writer.WriteLine($"* {credits.Creator}");
             if (!string.IsNullOrEmpty(credits?.Source))
-                writer.WriteLine($"* Source: {credits.Source}"); writer.WriteLine("*");
+                writer.WriteLine($"* Source: {credits.Source}");
+            writer.WriteLine("*");
             writer.WriteLine();
             writer.WriteLine("       COPY 'NOTEVAL.asm'");
             writer.WriteLine("       COPY 'CONST.asm'");
@@ -67,7 +66,7 @@ namespace MusicXmlParser
 
         private static void WriteNotes(ICollection<ToneGenerator> toneGenerators, Options options, StreamWriter writer)
         {
-            for (var g = 1; g <= 3; ++g)
+            for (var g = 1; g <= Math.Min(3, toneGenerators.Count); ++g)
             {
                 var generator = toneGenerators.ElementAt(g - 1);
                 writer.WriteLine($"* Generator {g}");

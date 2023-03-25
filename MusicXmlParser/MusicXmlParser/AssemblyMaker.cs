@@ -1,6 +1,7 @@
 ﻿using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using System.Collections;
+using System.IO;
 using System.Xml.Linq;
 
 namespace MusicXmlParser
@@ -20,12 +21,27 @@ namespace MusicXmlParser
 
         internal void ConvertToAssembly(Options options)
         {
-            var xml = XDocument.Load(options.InputFile);
+            var xmlDocument = XDocument.Load(options.InputFile);
+            var writer = File.CreateText(options.OutputFile);
+
+            var parsedMusic = _noteParser.Parse(xmlDocument);
+            ConvertToAssembly(options, parsedMusic, ref writer);
+
+            writer.Close();
+        }
+
+        //This method exists only for unit testing.
+        //But it does the same stuff as the other method.
+        internal void ConvertToAssembly(Options options, string xml, ref StreamWriter streamWriter)
+        {
             var parsedMusic = _noteParser.Parse(xml);
+            ConvertToAssembly(options, parsedMusic, ref streamWriter);
+        }
 
+        private void ConvertToAssembly(Options options, ParsedMusic parsedMusic, ref StreamWriter streamWriter)
+        {
             var generators = _sn76489NoteGenerator.GetToneGenerators(parsedMusic, options.Label6Char, options);
-
-            _assemblyWriter.WriteAssembly(generators, parsedMusic.Credits, options);
+            _assemblyWriter.WriteAssemblyToSteam(generators, parsedMusic.Credits, options, ref streamWriter);
         }
     }
 }
