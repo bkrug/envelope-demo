@@ -10,7 +10,7 @@ namespace MusicXmlParser.Tests
 {
     public class AssemblyMakerTests
     {
-        //TODO: Add a (shorter) test for situations where a note is outside of the chip's range
+        //TODO: Add a (shorter) test for situations where a single note crosses two measures
         //TODO: Why to we expect three REPT when only one tone generator is required?
         //     ORCHES DATA ORCH1,ORCH2,ORCH3
         //     * Data structures dealing with repeated music
