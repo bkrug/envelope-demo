@@ -102,9 +102,10 @@ namespace MusicXmlParser
                     voices.Add(voiceLabel, new Voice());
                 }
 
+                var note = CreateNote(noteElem, pitchElem, measureNumber);
                 if (isChord)
                 {
-                    voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem, measureNumber));
+                    voices[voiceLabel].Chords.Last().Notes.Add(note);
                 }
                 else
                 {
@@ -112,7 +113,7 @@ namespace MusicXmlParser
                     {
                         Notes = new List<Note>
                         {
-                            CreateNote(noteElem, pitchElem, measureNumber)
+                            note
                         }
                     });
                 }
