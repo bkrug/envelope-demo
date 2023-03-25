@@ -34,6 +34,7 @@ ONE    BYTE >01
        EVEN
 
 *
+* Public Method:
 * Initialize
 *
 PLYINT
@@ -68,7 +69,9 @@ INT1   MOV  R2,@NOTERT
        RT
 
 *
-* Executable
+* Public Method:
+* Continue playing music.
+* Check if it is time to switch notes.
 *
 PLYMSC DECT R10
        MOV  R11,*R10
@@ -166,7 +169,9 @@ PLY1   C    *R2,@STOPVL
 *
 * Play tone
 *
-* Look up tone-code based on note-code
+* Look up tone-code based on note-code.
+* Note-codes (see NOTEVAL.asm) are one byte values.
+* Tone-codes (see TONETABLE.asm) are 10-bit values understood by the SN76489.
 PLY2   MOVB *R2,R5
        CB   R5,@RESTVL
        JEQ  PLY3
@@ -350,6 +355,8 @@ ADSR2
 
 DOSTAG DATA DOATCK,DODECY,DOSSTN,DORELS
 
+* Attack.
+* Increase the volume at the rate specfied in the rate list
 * R5 contains address of current rate-list
 DOATCK SB   *R5,*R4
        JGT  DOA1
@@ -357,6 +364,8 @@ DOATCK SB   *R5,*R4
        AB   @ONE,@SNDMOD(R1)
 DOA1   RT
 
+* Decay.
+* Decrease the volume until it reaches the sustain level.
 * R5 contains address of current rate-list
 DODECY AB   @1(R5),*R4
        CB   *R4,@2(R5)
@@ -365,10 +374,15 @@ DODECY AB   @1(R5),*R4
        AB   @ONE,@SNDMOD(R1)
 DOD1   RT
 
+* Sustain.
+* Maintain the sustain-volume until the time specified in rate list.
+* R3 contains address of remaining time in note
 * R5 contains address of current rate-list
-DOSSTN MOVB @2(R5),*R4
-* the above line of code is for just incase someone
-* switched envelopes mid-note
+DOSSTN
+* The address in R4 probably already contains the correct volume.
+* Refresh that value, just in case someone switched envelopes mid-note.
+       MOVB @2(R5),*R4
+*
        MOVB @3(R5),R6
        SRL  R6,8
        C    *R3,R6
@@ -376,6 +390,8 @@ DOSSTN MOVB @2(R5),*R4
        AB   @ONE,@SNDMOD(R1)
 DOS1   RT
 
+* Release.
+* Decrease the volume at the rate specifed in the rate list
 * R5 contains address of current rate-list
 DORELS AB   @4(R5),*R4
        CB   *R4,@NOVOL
@@ -383,6 +399,9 @@ DORELS AB   @4(R5),*R4
        MOVB @NOVOL,*R4
 DOR1   RT
 
+*
+* Various ADSR rates
+*
 D      EQU  15      * Mode Disabled
 * byte 0 = attack rate
 * byte 1 = decay rate

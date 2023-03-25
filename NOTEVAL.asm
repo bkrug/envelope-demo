@@ -36,7 +36,7 @@ N2DOT  EQU  N2+N4
 N1DOT  EQU  N1+N2
 
 *
-* Tones
+* Note Codes
 *
 A0     EQU  >00
 As0    EQU  >01
