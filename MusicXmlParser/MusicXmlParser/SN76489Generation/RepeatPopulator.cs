@@ -109,7 +109,7 @@ namespace MusicXmlParser.SN76489Generation
             }
             switch (options.RepetitionType)
             {
-                case RepetitionType.Default:
+                case RepetitionType.StopAtEnd:
                     repeatLabels.Add(("REPEAT", "STOP"));
                     break;
                 case RepetitionType.RepeatFromBeginning:

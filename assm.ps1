@@ -24,11 +24,12 @@ ForEach($file in $fileList) {
 
 #Auto-generate tune
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
-    ".\Fr_Elise_SN76489.musicxml" `
-    ".\TUNEFURELISE.asm" `
-    "BEETHV" `
-    "2:1" `
-    "10:6"
+    --input ".\Fr_Elise_SN76489.musicxml" `
+    --output ".\TUNEFURELISE.asm" `
+    --asmLabel "BEETHV" `
+    --ratio60Hz "2:1" `
+    --ratio50Hz "10:6" `
+    --repetitionType "RepeatFromBeginning"
 
 #Assembling files
 write-host 'Assembling source code'

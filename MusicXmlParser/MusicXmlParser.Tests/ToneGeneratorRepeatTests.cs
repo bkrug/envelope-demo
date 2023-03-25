@@ -135,7 +135,7 @@ namespace MusicXmlParser.Tests
             };
             var options = new Options
             {
-                RepetitionType = RepetitionType.Default
+                RepetitionType = RepetitionType.StopAtEnd
             };
 
             //Act
@@ -285,7 +285,7 @@ namespace MusicXmlParser.Tests
             };
             var options = new Options
             {
-                RepetitionType = RepetitionType.Default
+                RepetitionType = RepetitionType.StopAtEnd
             };
 
             //Act
@@ -577,7 +577,7 @@ namespace MusicXmlParser.Tests
             };
             var options = new Options
             {
-                RepetitionType = RepetitionType.Default
+                RepetitionType = RepetitionType.StopAtEnd
             };
 
             //Act
@@ -661,7 +661,7 @@ namespace MusicXmlParser.Tests
             };
             var options = new Options
             {
-                RepetitionType = RepetitionType.Default
+                RepetitionType = RepetitionType.StopAtEnd
             };
 
             //Act

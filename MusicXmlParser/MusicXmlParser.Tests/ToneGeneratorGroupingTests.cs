@@ -14,7 +14,7 @@ namespace MusicXmlParser.Tests
 
         private readonly Options _defaultOptions = new Options
         {
-            RepetitionType = RepetitionType.Default
+            RepetitionType = RepetitionType.StopAtEnd
         };
 
         [Test]

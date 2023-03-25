@@ -2,7 +2,7 @@
   "profiles": {
     "MusicXmlParser": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\Fr_Elise_SN76489.musicxml\" \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\TUNE.asm\" \"BEETHV\" \"2:1\" \"10:6\""
+      "commandLineArgs": "--input \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\Fr_Elise_SN76489.musicxml\" --output \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\TUNE.asm\" --asmLabel \"BEETHV\" --ratio60Hz \"2:1\" --ratio50Hz \"10:6\""
     }
   }
 }

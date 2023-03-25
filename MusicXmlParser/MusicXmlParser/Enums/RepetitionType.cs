@@ -2,7 +2,7 @@
 {
     public enum RepetitionType
     {
-        Default,
+        StopAtEnd,
         RepeatFromBeginning,
         RepeatFromFirstJump
     }
