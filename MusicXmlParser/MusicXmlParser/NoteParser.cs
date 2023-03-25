@@ -53,8 +53,10 @@ namespace MusicXmlParser
             {
                 var measures = partElem.Descendants("measure");
                 var newPart = new Part();
+                var measureNumber = 0;
                 foreach (var measureElem in measures)
                 {
+                    ++measureNumber;
                     var (endingElem, voltaNumber) = GetEnding(measureElem);
                     newPart.Measures.Add(new Measure
                     {
@@ -62,7 +64,7 @@ namespace MusicXmlParser
                         HasForwardRepeat = HasRepeat(measureElem, "forward"),
                         HasVoltaBracket = endingElem != null,
                         VoltaNumber = voltaNumber,
-                        Voices = CreateVoicesWithinMeasure(measureElem)
+                        Voices = CreateVoicesWithinMeasure(measureElem, measureNumber)
                     });
                 }
                 newParts.Add(newPart);
@@ -87,7 +89,7 @@ namespace MusicXmlParser
                 .Any(foundDirection => string.Equals(foundDirection, direction, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem)
+        private static Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem, int measureNumber)
         {
             var voices = new Dictionary<string, Voice>();
             foreach (var noteElem in measureElem.Descendants("note"))
@@ -102,7 +104,7 @@ namespace MusicXmlParser
 
                 if (isChord)
                 {
-                    voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem));
+                    voices[voiceLabel].Chords.Last().Notes.Add(CreateNote(noteElem, pitchElem, measureNumber));
                 }
                 else
                 {
@@ -110,7 +112,7 @@ namespace MusicXmlParser
                     {
                         Notes = new List<Note>
                         {
-                            CreateNote(noteElem, pitchElem)
+                            CreateNote(noteElem, pitchElem, measureNumber)
                         }
                     });
                 }
@@ -119,9 +121,9 @@ namespace MusicXmlParser
             return voices;
         }
 
-        private static Note CreateNote(XElement noteElem, XElement pitchElem)
+        private static Note CreateNote(XElement noteElem, XElement pitchElem, int measureNumber)
         {
-            return new Note
+            var note = new Note
             {
                 Octave = pitchElem?.Element("octave")?.Value ?? string.Empty,
                 Alter = pitchElem?.Element("alter")?.Value ?? string.Empty,
@@ -133,6 +135,9 @@ namespace MusicXmlParser
                 IsRest = noteElem?.Element("rest") != null,
                 IsGraceNote = IsTrue(noteElem?.Element("grace")?.Attribute("slash")?.Value)
             };
+            if (!note.IsRest && string.IsNullOrEmpty(note.Step))
+                throw new Exception($"Note in measure {measureNumber} missing a 'step' tag.");
+            return note;
         }
 
         private static bool IsTrue(string text)

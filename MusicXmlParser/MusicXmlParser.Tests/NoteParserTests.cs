@@ -2,6 +2,7 @@ using FluentAssertions;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
@@ -1136,6 +1137,46 @@ namespace MusicXmlParser.Tests
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_StepIsMissingInSource_ExceptionIsThrown()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>6</duration>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <alter>1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <duration>12</duration>
+                <type>eighth</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+
+            //Act
+            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+
+            //Assert
+            ex.Message.Should().Be("Note in measure 1 missing a 'step' tag.");
         }
     }
 }
