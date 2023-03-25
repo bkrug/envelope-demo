@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Xml.Linq;
+using FluentAssertions;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
@@ -150,7 +151,7 @@ MELD1A
 
             //Act
             var streamWriter = new StreamWriter(memoryStream);
-            GetAssemblyMaker().ConvertToAssembly(options, MUSIC_XML, ref streamWriter);
+            GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
             streamWriter.Flush();
 
             //Assert
