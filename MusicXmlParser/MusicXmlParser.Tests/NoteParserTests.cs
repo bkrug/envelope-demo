@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
-    //TODO: Write failure cases where expected elements are missing
-    //TODO: Write a case when rest does not have "type" element. Ex: Measure 83 in MusicXML (81 in MuseScore)
     public class NoteParserTests
     {
         private static Chord GenerateSingleNoteChord(string step, string alter, string octave, Duration duration, string type, bool isGraceSlash = false)
@@ -1037,6 +1035,77 @@ namespace MusicXmlParser.Tests
                                                             Octave= string.Empty,
                                                             Duration = "12",
                                                             Type = "eighth"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = new NoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
+        public void Parse_XmlRestHasNoTypeElement_Success()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>6</duration>
+                <voice>5</voice>
+                <staff>2</staff>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = new Dictionary<string, Voice>
+                                {
+                                    {
+                                        "5",
+                                        new Voice
+                                        {
+                                            Chords = new List<Chord>
+                                            {
+                                                new Chord
+                                                {
+                                                    Notes = new List<Note>
+                                                    {
+                                                        new Note
+                                                        {
+                                                            IsRest = true,
+                                                            Step = string.Empty,
+                                                            Alter = string.Empty,
+                                                            Octave= string.Empty,
+                                                            Duration = "6",
+                                                            Type = string.Empty
                                                         }
                                                     }
                                                 }
