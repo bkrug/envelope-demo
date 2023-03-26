@@ -3,6 +3,7 @@ using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,8 +11,6 @@ namespace MusicXmlParser.Tests
 {
     public class ToneGeneratorGroupingTests
     {
-        //TODO: Add failure case when measure counts don't match
-
         private readonly Options _defaultOptions = new Options
         {
             RepetitionType = RepetitionType.StopAtEnd
@@ -450,6 +449,29 @@ namespace MusicXmlParser.Tests
             notesWeHopeAreRests.Sum(n => (int)n.Duration).Should().Equals(expectedDuration);
             notesWeHopeAreRests.All(n => (int)n.Duration <= byte.MaxValue).Should().BeTrue();
             actualToneGenerator.GeneratorNotes.Last().Pitch.Should().Equals(nameof(Pitch.C2));
+        }
+
+        [Test]
+        public void GroupByGenerator_TwoPartsDifferentPlayLengths_ThrowException()
+        {
+            var singlePartTwoVoices = new PartBuilder()
+                .AddPartAndVoice("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddMeasureOfOneNoteChords("p1", "v1")
+                .AddPartAndVoice("p2", "v3")
+                .AddMeasureOfOneNoteChords("p2", "v3")
+                .AddMeasureOfOneNoteChords("p2", "v3")
+                .Build();
+            const int DURATION_OF_THESE_HYPOTHETICAL_MEASURES = 36;
+            const int DURATION_OF_PART1 = DURATION_OF_THESE_HYPOTHETICAL_MEASURES * 3;
+            const int DURATION_OF_PART2 = DURATION_OF_THESE_HYPOTHETICAL_MEASURES * 2;
+
+            //Act
+            var ex = Assert.Throws<Exception>(() => new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions));
+
+            //Assert
+            ex.Message.Should().Be($"Part 'p1' voice 'v1' has a duration of {DURATION_OF_PART1} over 3 measures, but Part 'p2' voice 'v1' has a curation of {DURATION_OF_PART2} over 2 measures.");
         }
 
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
