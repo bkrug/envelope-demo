@@ -13,6 +13,10 @@ namespace MusicXmlParser.Tests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
 
+        //TODO: Write test cases with voices of different duration within a measure.
+        //     Need to start using <backup> tag.
+        //     In one case the backup tag always takes us to beginning of measure, but one voice last whole-measure, another lasts half-measure, so add rest at end.
+        //     In one case the backup tag doesn't take us to beginning of measure, so we must insert a rest at start of sound generator.
         //TODO: Why to we expect three REPT when only one tone generator is required?
         //     ORCHES DATA ORCH1,ORCH2,ORCH3
         //     * Data structures dealing with repeated music
