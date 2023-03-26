@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Moq;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
@@ -13,6 +14,13 @@ namespace MusicXmlParser.Tests
     //Other repetition types are more self exclamatory.
     public class ToneGeneratorRepeatTests
     {
+        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
+        
+        private SN76489NoteGenerator GetGenerator()
+        {
+            return new SN76489NoteGenerator(_logger.Object);
+        }
+
         [Test]
         public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever()
         {
@@ -83,7 +91,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "SYM", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "SYM", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -139,7 +147,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -227,7 +235,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -289,7 +297,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -379,7 +387,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -481,7 +489,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "OPRA", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "OPRA", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -581,7 +589,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "SOUND", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "SOUND", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -665,7 +673,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "TUNE", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "TUNE", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -749,7 +757,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualToneGenerators = new SN76489NoteGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);

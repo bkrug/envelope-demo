@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Moq;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
@@ -9,6 +10,8 @@ namespace MusicXmlParser.Tests
 {
     public class NoteParserTests
     {
+        private readonly Mock<ILogger> _logger = new Mock<ILogger>();
+        
         private static Chord GenerateSingleNoteChord(string step, string alter, string octave, Duration duration, string type, bool isGraceSlash = false)
         {
             return new Chord
@@ -26,6 +29,11 @@ namespace MusicXmlParser.Tests
                     }
                 }
             };
+        }
+
+        private NoteParser GetNoteParser()
+        {
+            return new NoteParser(_logger.Object);
         }
 
         [Test]
@@ -130,7 +138,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -204,7 +212,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -339,7 +347,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -447,7 +455,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -551,7 +559,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -668,7 +676,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -742,7 +750,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -816,7 +824,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -896,7 +904,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -933,7 +941,7 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Credits.Should().BeEquivalentTo(expectedObject);
@@ -1049,7 +1057,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -1120,7 +1128,7 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
@@ -1202,14 +1210,14 @@ namespace MusicXmlParser.Tests
             };
 
             //Act
-            var actualObject = new NoteParser().Parse(SOURCE_XML);
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
             actualObject.Should().BeEquivalentTo(expectedObject);
         }
 
         [Test]
-        public void Parse_StepIsMissingInSource_ExceptionIsThrown()
+        public void Parse_StepIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -1240,16 +1248,19 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
+            string actualMessage = string.Empty;
+            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
 
             //Act
-            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+            GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            ex.Message.Should().Be("Note in measure 1 missing a 'step' tag.");
+            actualMessage.Should().Be("Note in measure 1 missing a 'step' tag.");
         }
 
         [Test]
-        public void Parse_OctaveIsMissingInSource_ExceptionIsThrown()
+        public void Parse_OctaveIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -1282,16 +1293,19 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
+            string actualMessage = string.Empty;
+            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
 
             //Act
-            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+            GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            ex.Message.Should().Be("Note in measure 2 missing an 'octave' tag.");
+            actualMessage.Should().Be("Note in measure 2 missing an 'octave' tag.");
         }
 
         [Test]
-        public void Parse_DurationIsMissingInSource_ExceptionIsThrown()
+        public void Parse_DurationIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -1322,16 +1336,19 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
+            string actualMessage = string.Empty;
+            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
 
             //Act
-            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+            GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            ex.Message.Should().Be("Note in measure 1 missing a 'duration' tag.");
+            actualMessage.Should().Be("Note in measure 1 missing a 'duration' tag.");
         }
 
         [Test]
-        public void Parse_VoiceIsMissingInSource_ExceptionIsThrown()
+        public void Parse_VoiceIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -1365,12 +1382,15 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
+            string actualMessage = string.Empty;
+            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
 
             //Act
-            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+            GetNoteParser().Parse(SOURCE_XML);
 
             //Assert
-            ex.Message.Should().Be("Note in measure 2 missing a 'voice' tag.");
+            actualMessage.Should().Be("Note in measure 2 missing a 'voice' tag.");
         }
     }
 }

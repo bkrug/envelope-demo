@@ -10,6 +10,13 @@ namespace MusicXmlParser
 {
     internal class NoteParser
     {
+        private readonly ILogger _logger;
+
+        internal NoteParser(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         internal ParsedMusic Parse(string sourceXml)
         {
             var document = XDocument.Parse(sourceXml);
@@ -45,7 +52,7 @@ namespace MusicXmlParser
             return credits;
         }
 
-        private static List<Part> GetMusicalParts(XDocument document)
+        private List<Part> GetMusicalParts(XDocument document)
         {
             var parts = document.Root.Descendants("part");
             var newParts = new List<Part>();
@@ -89,7 +96,7 @@ namespace MusicXmlParser
                 .Any(foundDirection => string.Equals(foundDirection, direction, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem, int measureNumber)
+        private Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem, int measureNumber)
         {
             var voices = new Dictionary<string, Voice>();
             foreach (var noteElem in measureElem.Descendants("note"))
@@ -99,7 +106,10 @@ namespace MusicXmlParser
                 var isChord = noteElem.Element("chord") != null;
 
                 if (string.IsNullOrWhiteSpace(voiceLabel))
-                    throw new Exception($"Note in measure {measureNumber} missing a 'voice' tag.");
+                {
+                    _logger.WriteError($"Note in measure {measureNumber} missing a 'voice' tag.");
+                    continue;
+                }
 
                 if (!voices.ContainsKey(voiceLabel))
                     voices.Add(voiceLabel, new Voice());
@@ -124,7 +134,7 @@ namespace MusicXmlParser
             return voices;
         }
 
-        private static Note CreateNote(XElement noteElem, XElement pitchElem, int measureNumber)
+        private Note CreateNote(XElement noteElem, XElement pitchElem, int measureNumber)
         {
             var note = new Note
             {
@@ -139,11 +149,11 @@ namespace MusicXmlParser
                 IsGraceNote = IsTrue(noteElem?.Element("grace")?.Attribute("slash")?.Value)
             };
             if (!note.IsRest && string.IsNullOrEmpty(note.Step))
-                throw new Exception($"Note in measure {measureNumber} missing a 'step' tag.");
+                _logger.WriteError($"Note in measure {measureNumber} missing a 'step' tag.");
             if (!note.IsRest && string.IsNullOrEmpty(note.Octave))
-                throw new Exception($"Note in measure {measureNumber} missing an 'octave' tag.");
+                _logger.WriteError($"Note in measure {measureNumber} missing an 'octave' tag.");
             if (!note.IsGraceNote && string.IsNullOrEmpty(note.Duration))
-                throw new Exception($"Note in measure {measureNumber} missing a 'duration' tag.");
+                _logger.WriteError($"Note in measure {measureNumber} missing a 'duration' tag.");
             return note;
         }
 

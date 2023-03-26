@@ -8,6 +8,13 @@ namespace MusicXmlParser.SN76489Generation
 {
     internal class SN76489NoteGenerator
     {
+        private readonly ILogger _logger;
+
+        internal SN76489NoteGenerator(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         internal List<ToneGenerator> GetToneGenerators(ParsedMusic parsedMusic, string labelPrefix, Options options)
         {
             var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedMusic);

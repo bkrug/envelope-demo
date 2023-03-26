@@ -58,6 +58,7 @@ namespace MusicXmlParser
 
         private static void ConvertXmlToAssembly(string inputFile, string outputFile, string asmLabel, string ratio60Hz, string ratio50Hz, RepetitionType repetitionType)
         {
+            new Logger().WriteError("Oh, no! It works!");
             var options = new Options()
             {
                 InputFile = inputFile,
@@ -68,7 +69,8 @@ namespace MusicXmlParser
                 RepetitionType = repetitionType
             };
 
-            var assemblyMaker = new AssemblyMaker(new NoteParser(), new SN76489NoteGenerator(), new AssemblyWriter());
+            var logger = new Logger();
+            var assemblyMaker = new AssemblyMaker(new NoteParser(logger), new SN76489NoteGenerator(logger), new AssemblyWriter());
             assemblyMaker.ConvertToAssembly(options);
         }
     }

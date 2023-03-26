@@ -65,15 +65,17 @@ namespace MusicXmlParser.SN76489Generation
                         Type = c.Notes.First().Type,
                         Duration = c.Notes.First().Duration
                     })
-                .Select(n => new GeneratorNote
-                {
-                    StartMeasure = currentMeasure,
-                    EndMeasure = currentMeasure,
-                    //TODO: Doesn't tell user when the pitch is invalid
-                    Pitch = PitchParser.TryParse(n, out var p) ? p : default,
-                    //TODO: Doesn't tell user when the duration is invalid
-                    Duration = int.TryParse(n.Duration, out var d) ? (Duration)(lengthOfQuarter/24*d) : 0,
-                    IsGraceNote = n.IsGraceNote
+                .Select(n => {
+                    return new GeneratorNote
+                    {
+                        StartMeasure = currentMeasure,
+                        EndMeasure = currentMeasure,
+                        //TODO: Doesn't tell user when the pitch is invalid
+                        Pitch = PitchParser.TryParse(n, out var p) ? p : default,
+                        //TODO: Doesn't tell user when the duration is invalid
+                        Duration = int.TryParse(n.Duration, out var d) ? (Duration)(lengthOfQuarter / 24 * d) : 0,
+                        IsGraceNote = n.IsGraceNote
+                    };
                 })
                 .ToList();
             return notesInMeasure;
