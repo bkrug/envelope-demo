@@ -1178,5 +1178,130 @@ namespace MusicXmlParser.Tests
             //Assert
             ex.Message.Should().Be("Note in measure 1 missing a 'step' tag.");
         }
+
+        [Test]
+        public void Parse_OctaveIsMissingInSource_ExceptionIsThrown()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>6</duration>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+        <measure>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                </pitch>
+                <duration>12</duration>
+                <type>eighth</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+
+            //Act
+            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+
+            //Assert
+            ex.Message.Should().Be("Note in measure 2 missing an 'octave' tag.");
+        }
+
+        [Test]
+        public void Parse_DurationIsMissingInSource_ExceptionIsThrown()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <duration>12</duration>
+                <type>eighth</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+
+            //Act
+            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+
+            //Assert
+            ex.Message.Should().Be("Note in measure 1 missing a 'duration' tag.");
+        }
+
+        [Test]
+        public void Parse_VoiceIsMissingInSource_ExceptionIsThrown()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                    <octave>5</octave>
+                </pitch>
+                <duration>12</duration>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+        </measure>
+        <measure>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <alter>1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <duration>12</duration>
+                <type>eighth</type>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+
+            //Act
+            var ex = Assert.Throws<Exception>(() => new NoteParser().Parse(SOURCE_XML));
+
+            //Assert
+            ex.Message.Should().Be("Note in measure 2 missing a 'voice' tag.");
+        }
     }
 }

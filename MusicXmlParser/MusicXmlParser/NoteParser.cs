@@ -94,13 +94,15 @@ namespace MusicXmlParser
             var voices = new Dictionary<string, Voice>();
             foreach (var noteElem in measureElem.Descendants("note"))
             {
-                var voiceLabel = noteElem.Element("voice").Value;
+                var voiceLabel = noteElem.Element("voice")?.Value;
                 var pitchElem = noteElem.Element("pitch");
                 var isChord = noteElem.Element("chord") != null;
+
+                if (string.IsNullOrWhiteSpace(voiceLabel))
+                    throw new Exception($"Note in measure {measureNumber} missing a 'voice' tag.");
+
                 if (!voices.ContainsKey(voiceLabel))
-                {
                     voices.Add(voiceLabel, new Voice());
-                }
 
                 var note = CreateNote(noteElem, pitchElem, measureNumber);
                 if (isChord)
@@ -138,6 +140,10 @@ namespace MusicXmlParser
             };
             if (!note.IsRest && string.IsNullOrEmpty(note.Step))
                 throw new Exception($"Note in measure {measureNumber} missing a 'step' tag.");
+            if (!note.IsRest && string.IsNullOrEmpty(note.Octave))
+                throw new Exception($"Note in measure {measureNumber} missing an 'octave' tag.");
+            if (!note.IsGraceNote && string.IsNullOrEmpty(note.Duration))
+                throw new Exception($"Note in measure {measureNumber} missing a 'duration' tag.");
             return note;
         }
 
