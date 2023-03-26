@@ -17,7 +17,7 @@ namespace MusicXmlParser.SN76489Generation
 
         internal List<ToneGenerator> GetToneGenerators(ParsedMusic parsedMusic, string labelPrefix, Options options)
         {
-            var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedMusic);
+            var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedMusic, _logger);
             RepeatPopulator.PopulateRepeatLabels(parsedMusic.Parts, labelPrefix, options, ref toneGenerators);
             MergeRests(ref toneGenerators);
 
