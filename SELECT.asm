@@ -1,6 +1,6 @@
        DEF  PRCKEY
 *
-       REF  MWRLD,BEETHV                Ref from TUNEx
+       REF  MWRLD,BEETHV,FOSTER         Ref from TUNEx
        REF  CURKEY,PRVKEY               Ref from VAR
        REF  CURENV                      "
        REF  SONGHD,HERTZ,CURMNU         "
@@ -17,7 +17,7 @@ CHGHTZ BYTE '3'
 ESCKEY BYTE >0F
 * Range of keys that can select a song
 LOWSNG BYTE 'A'
-HGHSNG BYTE 'B'
+HGHSNG BYTE 'C'
 * Range of keys that can select an envelope
 LOWENV BYTE 'A'
 HGHENV BYTE 'I'
@@ -98,7 +98,7 @@ MSONG
 *
        JMP  PRCRT
 
-SNGLST DATA MWRLD,BEETHV
+SNGLST DATA MWRLD,BEETHV,FOSTER
 
 *
 * Envelope Sub-menu

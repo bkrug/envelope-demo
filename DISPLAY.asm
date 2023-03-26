@@ -15,7 +15,8 @@ MAIN0
 
 SONG1  TEXT 'A) Mario World Overworld'
 SONG2  TEXT 'B) Fu:r Elise'
-SONG3  TEXT 'FCTN-9) Previous Menu'
+SONG3  TEXT 'C) Old Folks At Home'
+SONG4  TEXT 'FCTN-9) Previous Menu'
 SONG0
 
 ENV1   TEXT 'A) Constant volume (no pause)'
@@ -41,7 +42,7 @@ MMAIN  DATA MAIN1,MAIN2,MAIN3
 MMAIN0 DATA MAIN0
 
 * Sub menu for selecting song
-MSONG  DATA SONG1,SONG2,SONG3
+MSONG  DATA SONG1,SONG2,SONG3,SONG4
 MSONG0 DATA SONG0
 
 * Sub menu for selecting envelope
