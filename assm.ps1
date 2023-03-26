@@ -35,8 +35,8 @@ ForEach($file in $fileList) {
     --input ".\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml" `
     --output ".\TUNEOLDFOLKS.asm" `
     --asmLabel "FOSTER" `
-    --ratio60Hz "1:1" `
-    --ratio50Hz "5:6" `
+    --ratio60Hz "5:4" `
+    --ratio50Hz "1:1" `
     --repetitionType "RepeatFromBeginning"
 
 #Assembling files
