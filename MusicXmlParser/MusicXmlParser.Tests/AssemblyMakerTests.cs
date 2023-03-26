@@ -13,6 +13,8 @@ namespace MusicXmlParser.Tests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
 
+        //TODO: Create a way to omit message about keeping auto-generated code in the repo.
+        //TODO: Shorten some of the tests by omitting the credits.
         //TODO: Write test cases with voices of different duration within a measure.
         //     Need to start using <backup> tag.
         //     In one case the backup tag always takes us to beginning of measure, but one voice last whole-measure, another lasts half-measure, so add rest at end.
