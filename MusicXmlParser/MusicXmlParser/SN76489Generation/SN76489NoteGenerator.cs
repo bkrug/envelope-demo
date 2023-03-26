@@ -1,6 +1,8 @@
 ﻿using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicXmlParser.SN76489Generation
 {
@@ -11,6 +13,14 @@ namespace MusicXmlParser.SN76489Generation
             var toneGenerators = NoteToGeneratorGrouper.AssignNotesToToneGenerators(parsedMusic);
             RepeatPopulator.PopulateRepeatLabels(parsedMusic.Parts, labelPrefix, options, ref toneGenerators);
             MergeRests(ref toneGenerators);
+
+            if (toneGenerators.Count > 1)
+            {
+                var expectedDuration = toneGenerators.First().GeneratorNotes.Sum(n => (int)n.Duration);
+                if (!toneGenerators.Skip(1).All(tg => tg.GeneratorNotes.Sum(n => (int)n.Duration) == expectedDuration))
+                    throw new Exception("All voices must have the same duration");
+            }
+
             return toneGenerators;
         }
 

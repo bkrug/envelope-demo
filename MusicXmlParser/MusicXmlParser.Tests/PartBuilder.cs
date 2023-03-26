@@ -69,24 +69,24 @@ namespace MusicXmlParser.Tests
                                 Step = "A",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "16th",
-                                Duration = "6"
+                                Type = "quarter",
+                                Duration = "24"
                             },
                             new Note
                             {
                                 Step = "C",
                                 Alter = string.Empty,
                                 Octave = "4",
-                                Type = "16th",
-                                Duration = "6"
+                                Type = "quarter",
+                                Duration = "24"
                             },
                             new Note
                             {
                                 Step = "E",
                                 Alter = "-1",
                                 Octave = "4",
-                                Type = "16th",
-                                Duration = "6"
+                                Type = "quarter",
+                                Duration = "24"
                             }
                         }
                     },

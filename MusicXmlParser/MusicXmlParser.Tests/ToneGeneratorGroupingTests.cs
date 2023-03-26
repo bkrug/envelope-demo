@@ -462,16 +462,17 @@ namespace MusicXmlParser.Tests
                 .AddPartAndVoice("p2", "v3")
                 .AddMeasureOfOneNoteChords("p2", "v3")
                 .AddMeasureOfOneNoteChords("p2", "v3")
+                .AddMeasureOfOneNoteChords("p2", "v3")
                 .Build();
-            const int DURATION_OF_THESE_HYPOTHETICAL_MEASURES = 36;
-            const int DURATION_OF_PART1 = DURATION_OF_THESE_HYPOTHETICAL_MEASURES * 3;
-            const int DURATION_OF_PART2 = DURATION_OF_THESE_HYPOTHETICAL_MEASURES * 2;
+            //Each voice has the same measure count, but one has a shorter duration
+            var voice3 = singlePartTwoVoices.Parts[1].Measures.Last().Voices["v3"];
+            voice3.Chords.Remove(voice3.Chords.Last());
 
             //Act
             var ex = Assert.Throws<Exception>(() => new SN76489NoteGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions));
 
             //Assert
-            ex.Message.Should().Be($"Part 'p1' voice 'v1' has a duration of {DURATION_OF_PART1} over 3 measures, but Part 'p2' voice 'v1' has a curation of {DURATION_OF_PART2} over 2 measures.");
+            ex.Message.Should().Be($"All voices must have the same duration");
         }
 
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)
@@ -503,7 +504,7 @@ namespace MusicXmlParser.Tests
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
-                    Duration = Duration.N16,
+                    Duration = Duration.N4,
                     Pitch = nameof(Pitch.A2)
                 },
                 new GeneratorNote
@@ -524,7 +525,7 @@ namespace MusicXmlParser.Tests
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
-                    Duration = Duration.N16,
+                    Duration = Duration.N4,
                     Pitch = nameof(Pitch.C2)
                 },
                 new GeneratorNote
@@ -545,7 +546,7 @@ namespace MusicXmlParser.Tests
                 {
                     StartMeasure = measureNumber,
                     EndMeasure = measureNumber,
-                    Duration = Duration.N16,
+                    Duration = Duration.N4,
                     Pitch = nameof(Pitch.Eb2)
                 },
                 new GeneratorNote
