@@ -2,7 +2,7 @@
   "profiles": {
     "MusicXmlParser": {
       "commandName": "Project",
-      "commandLineArgs": "--input \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\Fr_Elise_SN76489.musicxml\" --output \"C:\\Program Files Uninstalled\\classic99\\repos\\envelope-demo\\TUNE.asm\" --asmLabel \"BEETHV\" --ratio60Hz \"2:1\" --ratio50Hz \"10:6\""
+      "commandLineArgs": "--input \"..\\..\\..\\..\\..\\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml\" --output \"..\\..\\..\\..\\..\\TUNEOLDFOLKS.asm\" --asmLabel \"FOSTER\" --ratio60Hz \"1:1\" --ratio50Hz \"5:6\" --repetitionType \"RepeatFromBeginning\""
     }
   }
 }

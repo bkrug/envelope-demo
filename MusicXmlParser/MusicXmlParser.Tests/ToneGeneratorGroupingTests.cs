@@ -475,11 +475,98 @@ namespace MusicXmlParser.Tests
             var voice3 = singlePartTwoVoices.Parts[1].Measures.Last().Voices["v3"];
             voice3.Chords.Remove(voice3.Chords.Last());
 
+            string actualMessage = string.Empty;
+            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
+
             //Act
-            var ex = Assert.Throws<Exception>(() => GetGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions));
+            GetGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
 
             //Assert
-            ex.Message.Should().Be($"All voices must have the same duration");
+            actualMessage.Should().Be($"All voices must have the same duration");
+        }
+
+        [Test]
+        public void GroupByGenerator_DivisionOf4_Success()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Divisions = "4",
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = new Dictionary<string, Voice>
+                                {
+                                    {
+                                        "v1",
+                                        new Voice
+                                        {
+                                            Chords = new List<Chord>
+                                            {
+                                                new Chord
+                                                {
+                                                    Notes = new List<Note>
+                                                    {
+                                                        new Note
+                                                        {
+                                                            Step = "C",
+                                                            Octave = "4",
+                                                            Type = "half",
+                                                            Duration = "8"
+                                                        }
+                                                    }
+                                                },
+                                                new Chord
+                                                {
+                                                    Notes = new List<Note>
+                                                    {
+                                                        new Note
+                                                        {
+                                                            Step = "C",
+                                                            Octave = "4",
+                                                            Type = "16th",
+                                                            Duration = "1"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedNotes = new List<GeneratorNote>
+            {
+                new GeneratorNote
+                {
+                    Label = "LBL1",
+                    Pitch = "C2",
+                    Duration = Duration.N2,
+                    StartMeasure = 1,
+                    EndMeasure = 1
+                },
+                new GeneratorNote
+                {
+                    Pitch = "C2",
+                    Duration = Duration.N16,
+                    StartMeasure = 1,
+                    EndMeasure = 1
+                }
+            };
+
+            //Act
+            var actualGeneratorNotes = GetGenerator().GetToneGenerators(parsedMusic, "LBL", _defaultOptions);
+
+            //Assert
+            actualGeneratorNotes.Single().GeneratorNotes.Should().BeEquivalentTo(expectedNotes);
         }
 
         private static List<GeneratorNote> GetMeasureOfGeneratorNotes(int measureNumber)

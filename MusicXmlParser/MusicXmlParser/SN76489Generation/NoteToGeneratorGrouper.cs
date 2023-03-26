@@ -76,7 +76,7 @@ namespace MusicXmlParser.SN76489Generation
                         StartMeasure = currentMeasure,
                         EndMeasure = currentMeasure,
                         Pitch = pitch,
-                        Duration = (Duration)(lengthOfQuarter / 24 * duration),
+                        Duration = (Duration)((double)Duration.N4 / lengthOfQuarter * duration),
                         IsGraceNote = n.IsGraceNote
                     };
                 })

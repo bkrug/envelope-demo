@@ -11,7 +11,7 @@ if ($mode -ne 'release') {
     $mode = 'debug'
 }
 
-$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'TUNEMARIOW', 'TUNEFURELISE', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
+$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'TUNEMARIOW', 'TUNEFURELISE', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
 
 #Deleting old work files
 write-host 'Deleting old work files'
@@ -29,6 +29,14 @@ ForEach($file in $fileList) {
     --asmLabel "BEETHV" `
     --ratio60Hz "2:1" `
     --ratio50Hz "10:6" `
+    --repetitionType "RepeatFromBeginning"
+
+.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
+    --input ".\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml" `
+    --output ".\TUNEOLDFOLKS.asm" `
+    --asmLabel "FOSTER" `
+    --ratio60Hz "1:1" `
+    --ratio50Hz "5:6" `
     --repetitionType "RepeatFromBeginning"
 
 #Assembling files
@@ -61,6 +69,7 @@ xas99.py -b -a ">6000" -o musiceffectsC.bin -l `
     VDP.obj `
     DISPLAY.obj `
     CHARPAT.obj `
+    TUNEOLDFOLKS.obj `
     TUNEFURELISE.obj
 
 #Delete work files
