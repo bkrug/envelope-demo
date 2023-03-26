@@ -100,6 +100,8 @@ namespace MusicXmlParser
             var durationString = Enum.IsDefined(typeof(Duration), note.Duration) ? note.Duration.ToString() : ((int)note.Duration).ToString();
             if (note.IsGraceNote)
                 return $"*       BYTE {note.Pitch},{durationString}        Grace Note";
+            else if (note.Duration == 0)
+                return $"*       BYTE {note.Pitch},{durationString}        Invalid duration";
             else if (note.IsPitchValid)
                 return $"       BYTE {note.Pitch},{durationString}";
             else

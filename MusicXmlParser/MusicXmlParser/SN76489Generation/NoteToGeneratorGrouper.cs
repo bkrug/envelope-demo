@@ -68,16 +68,15 @@ namespace MusicXmlParser.SN76489Generation
                     })
                 .Select(n => {
                     if (!PitchParser.TryParse(n, out var pitch))
-                    {
                         logger.WriteError("Could not parse pitch: " + JsonConvert.SerializeObject(n));
-                    }
+                    if (!int.TryParse(n.Duration, out var duration))
+                        logger.WriteError("Could not parse duration: " + JsonConvert.SerializeObject(n));
                     return new GeneratorNote
                     {
                         StartMeasure = currentMeasure,
                         EndMeasure = currentMeasure,
                         Pitch = pitch,
-                        //TODO: Doesn't tell user when the duration is invalid
-                        Duration = int.TryParse(n.Duration, out var d) ? (Duration)(lengthOfQuarter / 24 * d) : 0,
+                        Duration = (Duration)(lengthOfQuarter / 24 * duration),
                         IsGraceNote = n.IsGraceNote
                     };
                 })
