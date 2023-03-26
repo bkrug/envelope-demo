@@ -694,7 +694,7 @@ ORCH1A
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
             actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
-            actualMessage.Should().BeEquivalentTo("Could not parse pitch: {\"Step\":\"chalkboards\",\"Alter\":\"are\",\"Octave\":\"instruments\",\"IsRest\":false,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"6\",\"Type\":\"16th\"}");
+            actualMessage.Should().BeEquivalentTo("Could not parse pitch in measure 1: {\"Step\":\"chalkboards\",\"Alter\":\"are\",\"Octave\":\"instruments\",\"IsRest\":false,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"6\",\"Type\":\"16th\"}");
         }
 
         [Test]
@@ -815,7 +815,7 @@ ORCH1A
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
             actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
-            actualMessage.Should().BeEquivalentTo("Could not parse duration: {\"Step\":null,\"Alter\":null,\"Octave\":null,\"IsRest\":true,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"not-parsable\",\"Type\":\"16th\"}");
+            actualMessage.Should().BeEquivalentTo("Could not parse duration in measure 1: \"not-parsable\"");
         }
     }
 }

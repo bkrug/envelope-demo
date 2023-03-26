@@ -58,7 +58,6 @@ namespace MusicXmlParser
 
         private static void ConvertXmlToAssembly(string inputFile, string outputFile, string asmLabel, string ratio60Hz, string ratio50Hz, RepetitionType repetitionType)
         {
-            new Logger().WriteError("Oh, no! It works!");
             var options = new Options()
             {
                 InputFile = inputFile,
