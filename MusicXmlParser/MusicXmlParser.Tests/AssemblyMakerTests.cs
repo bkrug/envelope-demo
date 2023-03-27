@@ -710,13 +710,6 @@ ORCH1A
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
 <!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
 <score-partwise version=""3.1"">
-  <work>
-    <work-title>I Love Eggs</work-title>
-  </work>
-  <identification>
-    <creator type=""composer"">Somebody Somewhere</creator>
-    <source>http://whitehouse.gov</source>
-  </identification>
   <part-list>
     <score-part id=""P13"">
     </score-part>
@@ -767,9 +760,6 @@ ORCH1A
 * This is auto-generated code.
 * It is only included in the repo for the convenience of people who haven't cloned it.
 *
-* I Love Eggs
-* Somebody Somewhere
-* Source: http://whitehouse.gov
 *
 
        COPY 'NOTEVAL.asm'
