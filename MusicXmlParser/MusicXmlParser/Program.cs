@@ -38,7 +38,12 @@ namespace MusicXmlParser
                 name: "--repetitionType",
                 description: "specifies whether and how a song should be repeated when it completes",
                 getDefaultValue: () => RepetitionType.RepeatFromBeginning);
-            
+
+            var displayRepoWarningOption = new Option<bool>(
+                name: "--displayRepoWarning",
+                description: "if true, adds a message saying that this is generated code that is only included in the repo for others' benefit",
+                getDefaultValue: () => false);
+
             var rootCommand = new RootCommand("MusicXml parser for TMS9900 assembly and SN76489 sound chip");
             rootCommand.AddOption(inputOption);
             rootCommand.AddOption(outputOption);
@@ -46,28 +51,29 @@ namespace MusicXmlParser
             rootCommand.AddOption(ratio60HzOption);
             rootCommand.AddOption(ratio50HzOption);
             rootCommand.AddOption(repetitionTypeOption);
+            rootCommand.AddOption(displayRepoWarningOption);
 
-            rootCommand.SetHandler((input, output, asmLabel, ratio60hz, ratio50hz, repetitionType) =>
+            rootCommand.SetHandler((input, output, asmLabel, ratio60Hz, ratio50Hz, repetitionType, displayRepoWarning) =>
                 {
-                    ConvertXmlToAssembly(input, output, asmLabel, ratio60hz, ratio50hz, repetitionType);
+                    var options = new Options()
+                    {
+                        InputFile = input,
+                        OutputFile = output,
+                        AsmLabel = asmLabel,
+                        Ratio60Hz = ratio60Hz.Replace(":", ","),
+                        Ratio50Hz = ratio50Hz.Replace(":", ","),
+                        RepetitionType = repetitionType, 
+                        DisplayRepoWarning = displayRepoWarning
+                    };
+                    ConvertXmlToAssembly(options);
                 },
-                inputOption, outputOption, asmLabelOption, ratio60HzOption, ratio50HzOption, repetitionTypeOption);
+                inputOption, outputOption, asmLabelOption, ratio60HzOption, ratio50HzOption, repetitionTypeOption, displayRepoWarningOption);
 
             return rootCommand.Invoke(args);
         }
 
-        private static void ConvertXmlToAssembly(string inputFile, string outputFile, string asmLabel, string ratio60Hz, string ratio50Hz, RepetitionType repetitionType)
+        private static void ConvertXmlToAssembly(Options options)
         {
-            var options = new Options()
-            {
-                InputFile = inputFile,
-                OutputFile = outputFile,
-                AsmLabel = asmLabel,
-                Ratio60Hz = ratio60Hz.Replace(":", ","),
-                Ratio50Hz = ratio50Hz.Replace(":", ","),
-                RepetitionType = repetitionType
-            };
-
             var logger = new Logger();
             var assemblyMaker = new AssemblyMaker(new NoteParser(logger), new SN76489NoteGenerator(logger), new AssemblyWriter());
             assemblyMaker.ConvertToAssembly(options);

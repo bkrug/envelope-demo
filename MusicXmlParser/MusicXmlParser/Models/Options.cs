@@ -12,5 +12,6 @@ namespace MusicXmlParser.Models
         public string ShortLabel => AsmLabel.Length > 4 ? AsmLabel.Substring(0, 4) : AsmLabel;
         public string Label6Char => (AsmLabel + "      ").Substring(0, 6);
         public RepetitionType RepetitionType { get; set; }
+        public bool DisplayRepoWarning { get; set; }
     }
 }

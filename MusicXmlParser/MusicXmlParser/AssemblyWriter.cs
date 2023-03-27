@@ -20,18 +20,26 @@ namespace MusicXmlParser
         {
             writer.WriteLine($"       DEF  {options.AsmLabel}");
             writer.WriteLine();
-            writer.WriteLine("*");
-            writer.WriteLine("* This is auto-generated code.");
-            writer.WriteLine("* It is only included in the repo for the convenience of people who haven't cloned it.");
-            writer.WriteLine("*");
-            if (!string.IsNullOrEmpty(credits?.WorkTitle))
-                writer.WriteLine($"* {credits.WorkTitle}");
-            if (!string.IsNullOrEmpty(credits?.Creator))
-                writer.WriteLine($"* {credits.Creator}");
-            if (!string.IsNullOrEmpty(credits?.Source))
-                writer.WriteLine($"* Source: {credits.Source}");
-            writer.WriteLine("*");
-            writer.WriteLine();
+            if (options.DisplayRepoWarning)
+            {
+                writer.WriteLine("*");
+                writer.WriteLine("* This is auto-generated code.");
+                writer.WriteLine("* It is only included in the repo for the convenience of people who haven't cloned it.");
+                writer.WriteLine("*");
+                writer.WriteLine();
+            }
+            if (credits?.WorkTitle != null && credits?.Creator != null && credits?.Source != null)
+            {
+                writer.WriteLine("*");
+                if (!string.IsNullOrEmpty(credits?.WorkTitle))
+                    writer.WriteLine($"* {credits.WorkTitle}");
+                if (!string.IsNullOrEmpty(credits?.Creator))
+                    writer.WriteLine($"* {credits.Creator}");
+                if (!string.IsNullOrEmpty(credits?.Source))
+                    writer.WriteLine($"* Source: {credits.Source}");
+                writer.WriteLine("*");
+                writer.WriteLine();
+            }
             writer.WriteLine("       COPY 'NOTEVAL.asm'");
             writer.WriteLine("       COPY 'CONST.asm'");
             writer.WriteLine();

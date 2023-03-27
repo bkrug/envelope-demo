@@ -29,7 +29,8 @@ ForEach($file in $fileList) {
     --asmLabel "BEETHV" `
     --ratio60Hz "2:1" `
     --ratio50Hz "10:6" `
-    --repetitionType "RepeatFromBeginning"
+    --repetitionType "RepeatFromBeginning" `
+    --displayRepoWarning 'true'
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml" `
@@ -37,7 +38,8 @@ ForEach($file in $fileList) {
     --asmLabel "FOSTER" `
     --ratio60Hz "5:4" `
     --ratio50Hz "1:1" `
-    --repetitionType "RepeatFromBeginning"
+    --repetitionType "RepeatFromBeginning" `
+    --displayRepoWarning 'true'
 
 #Assembling files
 write-host 'Assembling source code'
