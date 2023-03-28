@@ -4,6 +4,8 @@
 * This is auto-generated code.
 * It is only included in the repo for the convenience of people who haven't cloned it.
 *
+
+*
 * Old Folks At Home
 * Stephen Foster
 * Source: http://musescore.com/user/75150/scores/3562236
@@ -19,9 +21,9 @@ FOSTER DATA FOST1,FOST2,FOST3
 * Data structures dealing with repeated music
        DATA REPT1,REPT2,REPT3
 * Duration ratio in 60hz environment
-       DATA 1,1
+       DATA 5,4
 * Duration ratio in 50hz environment
-       DATA 5,6
+       DATA 1,1
 
 REPT1
        DATA FOST1B,FOST1A
@@ -657,8 +659,10 @@ FOST2
        BYTE A1,N4
 * Measure 18
        BYTE B2,N2
+       BYTE REST,N2
 * Measure 19
        BYTE C3,N2
+       BYTE REST,N2
 * Measure 20
        BYTE REST,N4      * Invalid: G0
        BYTE G1,N4
@@ -1103,12 +1107,11 @@ FOST3
        BYTE B1,N4
        BYTE REST,N4
        BYTE Fs1,N4
-* Measure 8
+* Measure 8 - 16
        BYTE REST,N4
        BYTE B1,N4
        BYTE B1,N4
-* Measure 9 - 16
-       BYTE REST,N8
+       BYTE REST,N4DOT
        BYTE REST,252
        BYTE REST,252
        BYTE REST,252
