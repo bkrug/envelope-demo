@@ -124,17 +124,7 @@ namespace MusicXmlParser
 
                     if (lengthOfRestToInsert > 0)
                     {
-                        voices[voiceLabel].Chords.Add(new Chord
-                        {
-                            Notes = new List<Note>
-                            {
-                                new Note
-                                {
-                                    IsRest = true,
-                                    Duration = lengthOfRestToInsert.ToString()
-                                }
-                            }
-                        });
+                        voices[voiceLabel].Chords.Add(GetNewRest(lengthOfRestToInsert));
                         lengthOfRestToInsert = 0;
                     }
 
@@ -145,13 +135,7 @@ namespace MusicXmlParser
                     }
                     else
                     {
-                        voices[voiceLabel].Chords.Add(new Chord
-                        {
-                            Notes = new List<Note>
-                            {
-                                note
-                            }
-                        });
+                        voices[voiceLabel].Chords.Add(GetNewChord(note));
 
                         if (int.TryParse(note.Duration, out var d))
                             currentTime += d;
@@ -171,26 +155,47 @@ namespace MusicXmlParser
                 }
             }
 
+            AddRestsToEqualizeDurationOfVoices(voices, timesByVoice);
+
+            return voices;
+        }
+
+        private static Chord GetNewChord(Note note)
+        {
+            return new Chord
+            {
+                Notes = new List<Note>
+                {
+                    note
+                }
+            };
+        }
+
+        private static Chord GetNewRest(int duration)
+        {
+            return new Chord
+            {
+                Notes = new List<Note>
+                {
+                    new Note
+                    {
+                        IsRest = true,
+                        Duration = duration.ToString()
+                    }
+                }
+            };
+        }
+
+        private static void AddRestsToEqualizeDurationOfVoices(Dictionary<string, Voice> voices, Dictionary<string, int> timesByVoice)
+        {
             var lengthOfMeasure = timesByVoice.Any() ? timesByVoice.Max(kvp => kvp.Value) : 0;
             foreach (var timeByVoice in timesByVoice)
             {
                 if (timeByVoice.Value < lengthOfMeasure)
                 {
-                    voices[timeByVoice.Key].Chords.Add(new Chord
-                    {
-                        Notes = new List<Note>
-                        {
-                            new Note
-                            {
-                                IsRest = true,
-                                Duration = (lengthOfMeasure - timeByVoice.Value).ToString()
-                            }
-                        }
-                    });
+                    voices[timeByVoice.Key].Chords.Add(GetNewRest(lengthOfMeasure - timeByVoice.Value));
                 }
             }
-
-            return voices;
         }
 
         private Note CreateNote(XElement noteElem, XElement pitchElem, int measureNumber)
