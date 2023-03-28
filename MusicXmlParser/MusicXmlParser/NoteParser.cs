@@ -124,6 +124,7 @@ namespace MusicXmlParser
                     if (lengthOfRestToInsert > 0)
                     {
                         voices[voiceLabel].Chords.Add(GetNewRest(lengthOfRestToInsert));
+                        currentTime = lengthOfRestToInsert;
                         lengthOfRestToInsert = 0;
                     }
 
