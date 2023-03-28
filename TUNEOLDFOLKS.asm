@@ -653,7 +653,7 @@ FOST2
        BYTE G1,N4
        BYTE REST,N4
 * Measure 17
-       BYTE REST,N4      * Invalid: D0
+       BYTE A0,N4
        BYTE A1,N4
        BYTE A1,N4
        BYTE A1,N4
@@ -664,7 +664,7 @@ FOST2
        BYTE C3,N2
        BYTE REST,N2
 * Measure 20
-       BYTE REST,N4      * Invalid: G0
+       BYTE D1,N4
        BYTE G1,N4
        BYTE G1,N4
        BYTE REST,N4
@@ -1062,10 +1062,10 @@ FOST2D
 * Measure 87
        BYTE D1,N4
        BYTE REST,N4
-       BYTE REST,N4      * Invalid: D0
+       BYTE A0,N4
        BYTE REST,N4
 * Measure 88
-       BYTE REST,N2DOT      * Invalid: G0
+       BYTE B0,N2DOT
        BYTE REST,N4
 FOST2E
 *
@@ -1121,7 +1121,7 @@ FOST3
        BYTE A3,N4
        BYTE D3,N4
 * Measure 18
-       BYTE REST,N4      * Invalid: G0
+       BYTE D1,N4
        BYTE B1,N4
        BYTE B1,N4
        BYTE B1,N4
