@@ -110,7 +110,6 @@ namespace MusicXmlParser
                 if (noteElem != null)
                 {
                     var voiceLabel = noteElem.Element("voice")?.Value;
-                    var pitchElem = noteElem.Element("pitch");
                     var isChord = noteElem.Element("chord") != null;
 
                     if (string.IsNullOrWhiteSpace(voiceLabel))
@@ -128,18 +127,17 @@ namespace MusicXmlParser
                         lengthOfRestToInsert = 0;
                     }
 
-                    var note = CreateNote(noteElem, pitchElem, measureNumber);
-                    if (isChord)
-                    {
-                        voices[voiceLabel].Chords.Last().Notes.Add(note);
-                    }
-                    else
+                    var note = CreateNote(noteElem, measureNumber);
+                    if (!isChord)
                     {
                         voices[voiceLabel].Chords.Add(GetNewChord(note));
-
                         if (int.TryParse(note.Duration, out var d))
                             currentTime += d;
                         timesByVoice[voiceLabel] = currentTime;
+                    }
+                    else
+                    {
+                        voices[voiceLabel].Chords.Last().Notes.Add(note);
                     }
                 }
                 else if (backupElem != null)
@@ -198,8 +196,9 @@ namespace MusicXmlParser
             }
         }
 
-        private Note CreateNote(XElement noteElem, XElement pitchElem, int measureNumber)
+        private Note CreateNote(XElement noteElem, int measureNumber)
         {
+            var pitchElem = noteElem.Element("pitch");
             var note = new Note
             {
                 Octave = pitchElem?.Element("octave")?.Value ?? string.Empty,
