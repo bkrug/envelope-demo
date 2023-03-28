@@ -493,7 +493,7 @@ namespace MusicXmlParser.Tests
                 <voice>I</voice>
             </note>
             <backup>
-                <type>eighth</type>
+                <duration>72</duration>
             </backup>
             <note>
                 <pitch>

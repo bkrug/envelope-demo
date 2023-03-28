@@ -99,33 +99,92 @@ namespace MusicXmlParser
         private Dictionary<string, Voice> CreateVoicesWithinMeasure(XElement measureElem, int measureNumber)
         {
             var voices = new Dictionary<string, Voice>();
-            foreach (var noteElem in measureElem.Descendants("note"))
+            var currentTime = 0;
+            var lengthOfRestToInsert = 0;
+            var timesByVoice = new Dictionary<string, int>();
+            foreach (var currentElem in measureElem.Descendants())
             {
-                var voiceLabel = noteElem.Element("voice")?.Value;
-                var pitchElem = noteElem.Element("pitch");
-                var isChord = noteElem.Element("chord") != null;
+                var noteElem = currentElem.Name.LocalName.Equals("note", StringComparison.OrdinalIgnoreCase) ? currentElem : null;
+                var backupElem = currentElem.Name.LocalName.Equals("backup", StringComparison.OrdinalIgnoreCase) ? currentElem : null;
 
-                if (string.IsNullOrWhiteSpace(voiceLabel))
+                if (noteElem != null)
                 {
-                    _logger.WriteError($"Note in measure {measureNumber} missing a 'voice' tag.");
-                    continue;
+                    var voiceLabel = noteElem.Element("voice")?.Value;
+                    var pitchElem = noteElem.Element("pitch");
+                    var isChord = noteElem.Element("chord") != null;
+
+                    if (string.IsNullOrWhiteSpace(voiceLabel))
+                    {
+                        _logger.WriteError($"Note in measure {measureNumber} missing a 'voice' tag.");
+                        continue;
+                    }
+
+                    if (!voices.ContainsKey(voiceLabel))
+                        voices.Add(voiceLabel, new Voice());
+
+                    if (lengthOfRestToInsert > 0)
+                    {
+                        voices[voiceLabel].Chords.Add(new Chord
+                        {
+                            Notes = new List<Note>
+                            {
+                                new Note
+                                {
+                                    IsRest = true,
+                                    Duration = lengthOfRestToInsert.ToString()
+                                }
+                            }
+                        });
+                        lengthOfRestToInsert = 0;
+                    }
+
+                    var note = CreateNote(noteElem, pitchElem, measureNumber);
+                    if (isChord)
+                    {
+                        voices[voiceLabel].Chords.Last().Notes.Add(note);
+                    }
+                    else
+                    {
+                        voices[voiceLabel].Chords.Add(new Chord
+                        {
+                            Notes = new List<Note>
+                            {
+                                note
+                            }
+                        });
+
+                        if (int.TryParse(note.Duration, out var d))
+                            currentTime += d;
+                        timesByVoice[voiceLabel] = currentTime;
+                    }
                 }
-
-                if (!voices.ContainsKey(voiceLabel))
-                    voices.Add(voiceLabel, new Voice());
-
-                var note = CreateNote(noteElem, pitchElem, measureNumber);
-                if (isChord)
+                else if (backupElem != null)
                 {
-                    voices[voiceLabel].Chords.Last().Notes.Add(note);
+                    if (int.TryParse(backupElem.Element("duration")?.Value, out var d))
+                        currentTime -= d;
+
+                    if (currentTime > 0)
+                    {
+                        lengthOfRestToInsert = currentTime;
+                        currentTime = 0;
+                    }
                 }
-                else
+            }
+
+            var lengthOfMeasure = timesByVoice.Any() ? timesByVoice.Max(kvp => kvp.Value) : 0;
+            foreach (var timeByVoice in timesByVoice)
+            {
+                if (timeByVoice.Value < lengthOfMeasure)
                 {
-                    voices[voiceLabel].Chords.Add(new Chord
+                    voices[timeByVoice.Key].Chords.Add(new Chord
                     {
                         Notes = new List<Note>
                         {
-                            note
+                            new Note
+                            {
+                                IsRest = true,
+                                Duration = (lengthOfMeasure - timeByVoice.Value).ToString()
+                            }
                         }
                     });
                 }

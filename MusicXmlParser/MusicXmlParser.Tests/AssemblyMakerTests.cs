@@ -925,5 +925,249 @@ ORCH1A
             var actualText = streamReader.ReadToEnd();
             actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
         }
+
+        [Test]
+        public void AssemblyMaker_SecondVoiceHasShorterDurationThanFirst_RestAddedToOutput()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
+<score-partwise version=""3.1"">
+  <part-list>
+    <score-part id=""P1"">
+    </score-part>
+  </part-list>
+  <part id=""P1"">
+    <measure number=""0"">
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <measure number=""1"">
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <backup>
+        <duration>48</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            const string EXPECTED_TEXT =
+@"       DEF  ORCHES
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+ORCHES DATA ORCH1,ORCH2,ORCH3
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,REPT3
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
+REPT2
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
+
+* Generator 1
+* Measure 1
+ORCH1
+       BYTE A0,N4
+* Measure 2
+       BYTE B0,N4
+       BYTE C1,N4
+ORCH1A
+*
+
+* Generator 2
+* Measure 1
+ORCH2
+       BYTE REST,N4
+* Measure 2
+       BYTE D1,N4
+       BYTE REST,N4
+ORCH2A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var memoryStream = new MemoryStream();
+
+            //Act
+            var streamWriter = new StreamWriter(memoryStream);
+            GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            memoryStream.Position = 0;
+            using var streamReader = new StreamReader(memoryStream);
+            var actualText = streamReader.ReadToEnd();
+            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+        }
+
+        [Test]
+        public void AssemblyMaker_FirstVoiceHasShorterDurationThanSecond_RestAddedToOutput()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
+<score-partwise version=""3.1"">
+  <part-list>
+    <score-part id=""P1"">
+    </score-part>
+  </part-list>
+  <part id=""P1"">
+    <measure number=""0"">
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <measure number=""1"">
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            const string EXPECTED_TEXT =
+@"       DEF  ORCHES
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+ORCHES DATA ORCH1,ORCH2,ORCH3
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,REPT3
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
+REPT2
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
+
+* Generator 1
+* Measure 1
+ORCH1
+       BYTE A0,N4
+* Measure 2
+       BYTE B0,N4
+       BYTE REST,N4
+ORCH1A
+*
+
+* Generator 2
+* Measure 1
+ORCH2
+       BYTE REST,N4
+* Measure 2
+       BYTE C1,N4
+       BYTE D1,N4
+ORCH2A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var memoryStream = new MemoryStream();
+
+            //Act
+            var streamWriter = new StreamWriter(memoryStream);
+            GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            memoryStream.Position = 0;
+            using var streamReader = new StreamReader(memoryStream);
+            var actualText = streamReader.ReadToEnd();
+            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+        }
     }
 }
