@@ -161,11 +161,11 @@ PLYONE
        C    *R5,@REPTVL        * Was that the last bar or bracket?
        JNE  PLY2
        INCT R5                 * Yes, reached end of song.
-       C    *R5,@STOPVL        * Shall we stop?
+       C    *R5,@STOPVL        * Stop music or repeat from some point?
        JNE  PLY1
-       CLR  *R1                * Yes, stop.
+       CLR  *R1                * Stop music.
        JMP  STOPMS
-PLY1   MOV  *R5,R5             * Start over.
+PLY1   MOV  *R5,R5             * Repeat from some specified point.
 PLY2   MOV  R5,@SNDRPT(R1)
 *
 * Play tone
