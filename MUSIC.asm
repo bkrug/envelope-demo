@@ -126,7 +126,7 @@ STRTPL
        MOV  R5,R1
        MOV  *R5,R2
 *
-       JMP  PLY1
+       JMP  PLY3
 
 SNDSTR DATA SND1AD,SND2AD,SND3AD
 
@@ -154,31 +154,28 @@ PLYONE
 * Have we reached a repeat bar or volta bracket?
        MOV  @SNDRPT(R1),R5
        C    R2,*R5
-       JNE  PLY1
+       JNE  PLY3
 * Yes, jump to another part of the music
        INCT R5
        MOV  *R5+,R2
        C    *R5,@REPTVL        * Was that the last bar or bracket?
-       JNE  PLY0
+       JNE  PLY2
        INCT R5                 * Yes, reached end of song.
        C    *R5,@STOPVL        * Shall we stop?
-       JNE  PLY0A
+       JNE  PLY1
        CLR  *R1                * Yes, stop.
        JMP  STOPMS
-PLY0A  MOV  *R5,R5             * Start over.
-PLY0   MOV  R5,@SNDRPT(R1)
-       JMP  PLY2
-* Reached end of non-repeating music?
-PLY1
+PLY1   MOV  *R5,R5             * Start over.
+PLY2   MOV  R5,@SNDRPT(R1)
 *
 * Play tone
 *
 * Look up tone-code based on note-code.
 * Note-codes (see NOTEVAL.asm) are one byte values.
 * Tone-codes (see TONETABLE.asm) are 10-bit values understood by the SN76489.
-PLY2   MOVB *R2,R5
+PLY3   MOVB *R2,R5
        CB   R5,@RESTVL
-       JEQ  PLY3
+       JEQ  PLY4
        SRL  R5,8
        SLA  R5,1
        AI   R5,TTBL
@@ -192,7 +189,7 @@ PLY2   MOVB *R2,R5
 * Set note duration
 *
 * Let R5 = address of note-duration ratio
-PLY3   MOV  @NOTERT,R5
+PLY4   MOV  @NOTERT,R5
 * Let R7 = note duration in base speed
        MOVB @1(R2),R7
        SRL  R7,8
@@ -253,7 +250,7 @@ STOPMS CLR  *R1
 *
 REPTMS MOV  @2(R2),*R1
        MOV  *R1,R2
-       JMP  PLY1
+       JMP  PLY3
 
 ENVLST DATA ENV0,ENV1,ENV2,ENV3
        DATA ENV4,ENV5,ENV6,ENV7
