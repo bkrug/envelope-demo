@@ -116,6 +116,7 @@ STRTPL
        MOV  *R5,R5
 * Move specified music to sound structure
        MOV  R1,*R5
+       JEQ  STOPMS
 * Populate address within Repeat Structure
        MOV  R2,@SNDRPT(R5)
 * Clear note-duration ratio remainder
@@ -160,12 +161,15 @@ PLYONE
        C    *R5,@REPTVL        * Was that the last bar or bracket?
        JNE  PLY0
        INCT R5                 * Yes, reached end of song.
-       MOV  *R5,R5             * Start over.
+       C    *R5,@STOPVL        * Shall we stop?
+       JNE  PLY0A
+       CLR  *R1                * Yes, stop.
+       JMP  STOPMS
+PLY0A  MOV  *R5,R5             * Start over.
 PLY0   MOV  R5,@SNDRPT(R1)
        JMP  PLY2
 * Reached end of non-repeating music?
-PLY1   C    *R2,@STOPVL
-       JEQ  STOPMS
+PLY1
 *
 * Play tone
 *

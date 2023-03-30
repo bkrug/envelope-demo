@@ -38,7 +38,7 @@ ForEach($file in $fileList) {
     --asmLabel "FOSTER" `
     --ratio60Hz "5:4" `
     --ratio50Hz "1:1" `
-    --repetitionType "RepeatFromBeginning" `
+    --repetitionType "StopAtEnd" `
     --displayRepoWarning 'true'
 
 #Assembling files
