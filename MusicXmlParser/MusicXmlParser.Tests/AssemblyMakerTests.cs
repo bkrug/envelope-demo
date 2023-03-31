@@ -13,10 +13,7 @@ namespace MusicXmlParser.Tests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
 
-        //TODO: Why to we expect three REPT when only one tone generator is required?
-        //     ORCHES DATA ORCH1,ORCH2,ORCH3
-        //     * Data structures dealing with repeated music
-        //            DATA REPT1,REPT2,REPT3
+        //TODO: Write a test case for ties
         private AssemblyMaker GetAssemblyMaker()
         {
             return new AssemblyMaker(new NoteParser(_logger.Object), new SN76489NoteGenerator(_logger.Object), new AssemblyWriter());
