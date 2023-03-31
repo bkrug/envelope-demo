@@ -108,9 +108,9 @@ namespace MusicXmlParser.Tests
 *
 * Song Header
 *
-MELDY  DATA MELD1,MELD2,MELD3
+MELDY  DATA MELD1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -209,9 +209,9 @@ MELD1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -309,9 +309,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -465,9 +465,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -572,9 +572,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -677,9 +677,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -784,9 +784,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -879,9 +879,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,0,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,0,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -987,9 +987,9 @@ ORCH1A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,ORCH2,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,REPT2,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -1109,9 +1109,9 @@ ORCH2A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,ORCH2,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,REPT2,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment
@@ -1251,9 +1251,9 @@ ORCH2A
 *
 * Song Header
 *
-ORCHES DATA ORCH1,ORCH2,ORCH3
+ORCHES DATA ORCH1,ORCH2,0
 * Data structures dealing with repeated music
-       DATA REPT1,REPT2,REPT3
+       DATA REPT1,REPT2,0
 * Duration ratio in 60hz environment
        DATA 2,1
 * Duration ratio in 50hz environment

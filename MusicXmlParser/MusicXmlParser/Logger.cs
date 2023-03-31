@@ -11,7 +11,6 @@ namespace MusicXmlParser
     {
         public void WriteError(string message)
         {
-            Console.Beep();
             var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Error.WriteLine(message);

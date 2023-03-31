@@ -11,12 +11,12 @@ namespace MusicXmlParser
     {
         internal void WriteAssemblyToSteam(ICollection<ToneGenerator> toneGenerators, Credits credits, Options options, ref StreamWriter writer)
         {
-            WriteFileHeader(credits, options, writer);
+            WriteFileHeader(toneGenerators.Count, credits, options, writer);
             WriteRepeats(toneGenerators, writer);
             WriteNotes(toneGenerators, options, writer);
         }
 
-        private static void WriteFileHeader(Credits credits, Options options, StreamWriter writer)
+        private static void WriteFileHeader(int generatorCount, Credits credits, Options options, StreamWriter writer)
         {
             writer.WriteLine($"       DEF  {options.AsmLabel}");
             writer.WriteLine();
@@ -46,14 +46,26 @@ namespace MusicXmlParser
             writer.WriteLine("*");
             writer.WriteLine("* Song Header");
             writer.WriteLine("*");
-            writer.WriteLine($"{options.Label6Char} DATA {options.ShortLabel}1,{options.ShortLabel}2,{options.ShortLabel}3");
-            writer.WriteLine("* Data structures dealing with repeated music");
-            writer.WriteLine($"       DATA REPT1,REPT2,REPT3");
+            WriteToneStartAndReptStart(generatorCount, options, writer);
             writer.WriteLine("* Duration ratio in 60hz environment");
             writer.WriteLine($"       DATA {options.Ratio60Hz.Replace(":", ",")}");
             writer.WriteLine("* Duration ratio in 50hz environment");
             writer.WriteLine($"       DATA {options.Ratio50Hz.Replace(":", ",")}");
             writer.WriteLine();
+        }
+
+        private static void WriteToneStartAndReptStart(int generatorCount, Options options, StreamWriter writer)
+        {
+            var generatorLabels = new List<string>();
+            var reptLabels = new List<string>();
+            for (var i = 1; i <= 3; ++i)
+            {
+                generatorLabels.Add(i <= generatorCount ? options.ShortLabel + i : "0");
+                reptLabels.Add(i <= generatorCount ? "REPT" + i : "0");
+            }
+            writer.WriteLine($"{options.Label6Char} DATA {string.Join(',', generatorLabels)}");
+            writer.WriteLine("* Data structures dealing with repeated music");
+            writer.WriteLine($"       DATA {string.Join(',', reptLabels)}");
         }
 
         private static void WriteRepeats(ICollection<ToneGenerator> toneGenerators, StreamWriter writer)
