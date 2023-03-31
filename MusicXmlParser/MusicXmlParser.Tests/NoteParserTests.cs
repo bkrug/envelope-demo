@@ -1217,6 +1217,78 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
+        public void Parse_XmlContainsGraceWithoutSlash_OutputsTheNotesWithDurationOfZero()
+        {
+            const string SOURCE_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise version=""3.1"">
+    <part>
+        <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
+            <note>
+                <grace/>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>6</duration>
+                <type>16th</type>
+                <voice>1</voice>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <type>eighth</type>
+                <voice>1</voice>
+                <duration>12</duration>
+            </note>
+        </measure>
+    </part>
+</score-partwise>";
+            var expectedObject = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = new Dictionary<string, Voice>
+                                {
+                                    {
+                                        "1",
+                                        new Voice
+                                        {
+                                            Chords = new List<Chord>
+                                            {
+                                                GenerateSingleNoteChord("E", "", "5", Duration.N16, "16th", true),
+                                                GenerateSingleNoteChord("D", "1", "5", Duration.N8, "eighth")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Act
+            var actualObject = GetNoteParser().Parse(SOURCE_XML);
+
+            //Assert
+            actualObject.Should().BeEquivalentTo(expectedObject);
+        }
+
+        [Test]
         public void Parse_StepIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
