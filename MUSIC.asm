@@ -42,7 +42,8 @@ PLYINT
        MOV  R11,*R10
 * Let R3 = address of song header
        MOV  @SONGHD,R3
-* Default note-duration ratio to 60hz
+* Set NOTERT to address of note ratio
+* Address depends on 50hz or 60hz electricity
        MOV  R3,R2
        AI   R2,HDR60
        MOVB @HERTZ,R0

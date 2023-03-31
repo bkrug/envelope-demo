@@ -9,6 +9,7 @@
        REF  DSPINT,DSPENV                   Ref from DISPLAY
        REF  GROMCR                          Ref from GROM
        REF  MWRLD                           Ref from TUNEMARIOW
+       REF  SETHRZ                          Ref from HERTZ
 
 ********@*****@*********************@**************************
 *--------------------------------------------------------------
@@ -41,6 +42,8 @@ BEGIN
        LI   R10,STACK
 *
 * Variable initialization routines
+*
+       BL   @SETHRZ              Set HERTZ
 *
        BL   @GROMCR              Copy pattern definitions from GROM to VRAM
 *
