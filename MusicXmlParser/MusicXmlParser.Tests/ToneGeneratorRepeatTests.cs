@@ -141,7 +141,7 @@ namespace MusicXmlParser.Tests
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
                         ( "LBL1A", "LBL1" ),
-                        ( "REPEAT", "STOP" )
+                        ( "REPEAT", Symbols.STOP )
                     }
                 }
             };
@@ -196,8 +196,8 @@ namespace MusicXmlParser.Tests
                     },
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
-                        ( "LBL1A", "STOP" ),
-                        ( "REPEAT", "STOP" )
+                        ( "LBL1A", Symbols.STOP ),
+                        ( "REPEAT", Symbols.STOP )
                     }
                 }
             };
@@ -347,7 +347,7 @@ namespace MusicXmlParser.Tests
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
                         ( "MUSC1B", "MUSC1A" ),
-                        ( "REPEAT", "STOP" )
+                        ( "REPEAT", Symbols.STOP )
                     }
                 }
             };
@@ -746,8 +746,8 @@ namespace MusicXmlParser.Tests
                         ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
                         ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
                         ( "SOUN1A", "SOUN1C" ),   //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
-                        ( "SOUN1D", "STOP" ),
-                        ( "REPEAT", "STOP" )
+                        ( "SOUN1D", Symbols.STOP ),
+                        ( "REPEAT", Symbols.STOP )
                     }
                 }
             };
@@ -831,8 +831,8 @@ namespace MusicXmlParser.Tests
                         ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
                         ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
                         ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
-                        ( "TUNE1E", "STOP" ),
-                        ( "REPEAT", "STOP" )
+                        ( "TUNE1E", Symbols.STOP ),
+                        ( "REPEAT", Symbols.STOP )
                     }
                 }
             };

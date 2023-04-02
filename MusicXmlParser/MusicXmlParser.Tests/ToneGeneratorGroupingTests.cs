@@ -676,8 +676,8 @@ namespace MusicXmlParser.Tests
                 expectedToneGenerators[i - 1].GeneratorNotes.Last().LabelAtEnd = "LBL" + i + "A";
                 expectedToneGenerators[i - 1].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                 {
-                    ( "LBL" + i + "A", "STOP" ),
-                    ( "REPEAT", "STOP" )
+                    ( "LBL" + i + "A", Symbols.STOP ),
+                    ( "REPEAT", Symbols.STOP )
                 };
             }
         }

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace MusicXmlParser.SN76489Generation
 {
+
     internal static class RepeatPopulator
     {
         internal static void PopulateRepeatLabels(List<Part> parsedParts, string labelPrefix, Options options, ref List<ToneGenerator> toneGenerators)
@@ -79,7 +80,7 @@ namespace MusicXmlParser.SN76489Generation
                     {
                         if (!measuresWithLabel.ContainsKey(nextMeasure))
                             measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
-                        labelPairs.Add((measuresWithLabel[nextMeasure], "STOP"));
+                        labelPairs.Add((measuresWithLabel[nextMeasure], Symbols.STOP));
                     }
                     else if (options.RepetitionType == RepetitionType.RepeatFromBeginning && !jumpToBeginningExists)
                     {
@@ -122,13 +123,13 @@ namespace MusicXmlParser.SN76489Generation
             foreach (var (from, to) in labelPairs)
             {
                 var fromLabel = labelPrefix + generatorNumber + from;
-                var toLabel = to == "STOP" ? to : labelPrefix + generatorNumber + to;
+                var toLabel = to == Symbols.STOP ? to : labelPrefix + generatorNumber + to;
                 repeatLabels.Add((FromThisLabel: fromLabel, JumpToThisLabel: toLabel));
             }
             switch (options.RepetitionType)
             {
                 case RepetitionType.StopAtEnd:
-                    repeatLabels.Add(("REPEAT", "STOP"));
+                    repeatLabels.Add(("REPEAT", Symbols.STOP));
                     break;
                 case RepetitionType.RepeatFromBeginning:
                 case RepetitionType.RepeatFromFirstJump:
