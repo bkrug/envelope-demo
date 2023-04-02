@@ -49,32 +49,23 @@ The MusicXml parser is included as source code because it is assumed that my nee
 The MusicXml parser has high unit test coverage, so another programmer should be able to add features with little fear of breaking anything.
 
 Here is an example of calling the music parser.
+(The accent (`) is used in powershell to specify that different lines are part of the same command.)
+> .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
+>     --input ".\Fr_Elise_SN76489.musicxml" `
+>     --output ".\TUNEFURELISE.asm" `
+>     --asmLabel "BEETHV" `
+>     --ratio60Hz "2:1" `
+>     --ratio50Hz "10:6" `
+>     --repetitionType "RepeatFromBeginning" `
+>     --displayRepoWarning 'true'
 
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
-    --input ".\Fr_Elise_SN76489.musicxml" `
-    --output ".\TUNEFURELISE.asm" `
-    --asmLabel "BEETHV" `
-    --ratio60Hz "2:1" `
-    --ratio50Hz "10:6" `
-    --repetitionType "RepeatFromBeginning" `
-    --displayRepoWarning 'true'
-
---input -- the source file
-
---output -- the ouput file to be used by your own program
-
---asmLabel -- the label that will correspond to the Song Header. This is the only address exposed to the rest of your assembly language program through a REF statement.
-
---ratio60hz -- the ratio to shorten or lengthen note durations in a 60hz environment
-
---ratio50hz -- the ratio to shorten or lengthen note durations in a 50hz environment
-
---repetitionType --
-
-use "StopAtEnd" to specify that a song should be played only once
-
-use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly
-
-use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly
-
+--input -- the source file<br>
+--output -- the ouput file to be used by your own program<br>
+--asmLabel -- the label that will correspond to the Song Header. This is the only address exposed to the rest of your assembly language program through a REF statement.<br>
+--ratio60hz -- the ratio to shorten or lengthen note durations in a 60hz environment<br>
+--ratio50hz -- the ratio to shorten or lengthen note durations in a 50hz environment<br>
+--repetitionType --<br>
+use "StopAtEnd" to specify that a song should be played only once<br>
+use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly<br>
+use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly<br>
 --displayRepoWarning -- should probably be "false" for most users. When true it adds a message to the output specifying that this is auto-generated code.
