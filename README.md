@@ -52,21 +52,21 @@ Here is an example of calling the music parser.
 (The accent (`) is used in powershell to specify that different lines are part of the same command.)
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `<br>
-`    --input ".\Fr_Elise_SN76489.musicxml" `<br>
-`    --output ".\TUNEFURELISE.asm" ``<br>
+    --input ".\Fr_Elise_SN76489.musicxml" `<br>
+    --output ".\TUNEFURELISE.asm" `<br>
     --asmLabel "BEETHV" `<br>
     --ratio60Hz "2:1" `<br>
     --ratio50Hz "10:6" `<br>
     --repetitionType "RepeatFromBeginning" `<br>
     --displayRepoWarning 'true'
 
---input -- the source file<br>
---output -- the ouput file to be used by your own program<br>
---asmLabel -- the label that will correspond to the Song Header. This is the only address exposed to the rest of your assembly language program through a REF statement.<br>
---ratio60hz -- the ratio to shorten or lengthen note durations in a 60hz environment<br>
---ratio50hz -- the ratio to shorten or lengthen note durations in a 50hz environment<br>
---repetitionType --<br>
+`--input` -- the source file<br>
+`--output` -- the ouput file to be used by your own program<br>
+`--asmLabel` -- the label that will correspond to the Song Header. This is the only address exposed to the rest of your assembly language program through a REF statement.<br>
+`--ratio60hz` -- the ratio to shorten or lengthen note durations in a 60hz environment<br>
+`--ratio50hz` -- the ratio to shorten or lengthen note durations in a 50hz environment<br>
+`--repetitionType` --<br>
 use "StopAtEnd" to specify that a song should be played only once<br>
 use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly<br>
 use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly<br>
---displayRepoWarning -- should probably be "false" for most users. When true it adds a message to the output specifying that this is auto-generated code.
+`--displayRepoWarning` -- should probably be "false" for most users. When true it adds a message to the output specifying that this is auto-generated code.
