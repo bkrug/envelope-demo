@@ -363,6 +363,7 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
+        //This is the scenario that 'RepeatFromFirstJump' is designed for.
         [Test]
         public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
         {
@@ -546,6 +547,112 @@ namespace MusicXmlParser.Tests
             var options = new Options
             {
                 RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "OPRA", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        //This isn't really what 'RepeatFromFirstJump' is designed for either.
+        //But if someone decides to use it here, this is the best result.
+        //See also ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
+        [Test]
+        public void ToneGenerator_RepeatBarsInMiddleOfSong_EverythingExceptIntroForever()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    },
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "OPRA1"),
+                        GetGeneratorNote(2, "OPRA1A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, "OPRA1B", "OPRA1C")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "OPRA1B", "OPRA1A" ),
+                        ( "OPRA1C", "OPRA1A" ),
+                        ( "REPEAT", "REPT1" )
+                    }
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "OPRA2"),
+                        GetGeneratorNote(2, "OPRA2A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, "OPRA2B", "OPRA2C")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "OPRA2B", "OPRA2A" ),
+                        ( "OPRA2C", "OPRA2A" ),
+                        ( "REPEAT", "REPT2" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.RepeatFromFirstJump
             };
 
             //Act

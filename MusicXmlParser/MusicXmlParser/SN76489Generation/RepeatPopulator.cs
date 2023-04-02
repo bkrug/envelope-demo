@@ -91,7 +91,8 @@ namespace MusicXmlParser.SN76489Generation
                     {
                         if (!measuresWithLabel.ContainsKey(nextMeasure))
                             measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
-                        labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
+                        var destination = labelPairs.Any() ? labelPairs.First().To : measuresWithLabel[1];
+                        labelPairs.Add((measuresWithLabel[nextMeasure], destination));
                     }
                 }
             }
