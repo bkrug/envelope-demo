@@ -8,7 +8,7 @@
        REF  PRCKEY                          Ref from SELECT
        REF  DSPINT,DSPENV                   Ref from DISPLAY
        REF  GROMCR                          Ref from GROM
-       REF  MWRLD                           Ref from TUNEMARIOW
+       REF  MONTEV                          Ref from TUNEMARIOW
        REF  SETHRZ                          Ref from HERTZ
 
 ********@*****@*********************@**************************
@@ -52,7 +52,7 @@ BEGIN
        SB   @CURMNU,@CURMNU      Set current menu to "main"
        BL   @DSPINT              Write instructions to screen
 *
-       LI   R0,MWRLD
+       LI   R0,MONTEV
        MOV  R0,@SONGHD
        BL   @PLYINT              Music variables
 *

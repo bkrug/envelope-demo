@@ -27,6 +27,7 @@ The parser does _not_ support:
 * outputing data for the noise generator (which could otherwise be used to represent percussion)
 * crescendo and other volume changes within the song
 * staccato and legato
+* tempo changes mid-song
 
 ## Song Header and Ratios
 At the begging of each "TUNE*.asm" file, see a "Song Header".
@@ -109,3 +110,11 @@ You can set it for the current cmd session:
 To set it permanently (under Windows):
 
 `setx PATHEXT %PATHEXT%;.PY`
+
+## The Samples
+
+All three sample songs where taken from the MuseScore website.
+In order to produce _Für Elise_ and _Old Foks At Home_ in the cartridge program, the MuseScore application was used to take certain notes outside the SN76489 range and upscale them by a perfect 5th.
+The music was then exported from MuseScore as a MusicXml file.
+In order to produce _Lasciate i monti_ in the cartridge program, the MuseScore file was exported unchanged to MusicXml, but then some of the Parts were deleted from an XML editor.
+Only the recorder, violin 1, and cello parts were retained.

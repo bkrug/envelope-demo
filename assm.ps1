@@ -11,7 +11,7 @@ if ($mode -ne 'release') {
     $mode = 'debug'
 }
 
-$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMARIOW', 'TUNEFURELISE', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
+$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMONTEVERDI', 'TUNEFURELISE', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
 
 #Deleting old work files
 write-host 'Deleting old work files'
@@ -43,6 +43,15 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --repetitionType "StopAtEnd" `
     --displayRepoWarning 'true'
 
+.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
+    --input ".\Lasciate_i_monti.musicxml" `
+    --output ".\TUNEMONTEVERDI.asm" `
+    --asmLabel "MONTEV" `
+    --ratio60Hz "15:11" `
+    --ratio50Hz "75:66" `
+    --repetitionType "RepeatFromBeginning" `
+    --displayRepoWarning 'true'    
+
 #Assembling files
 write-host 'Assembling source code'
 ForEach($file in $fileList) {
@@ -68,12 +77,12 @@ xas99.py -b -a ">6000" -o musiceffectsC.bin -l `
     MUSIC.obj `
     HERTZ.obj `
     TONETABLE.obj `
-    TUNEMARIOW.obj `
     KSCAN.obj `
     SELECT.obj `
     VDP.obj `
     DISPLAY.obj `
     CHARPAT.obj `
+    TUNEMONTEVERDI.obj `
     TUNEOLDFOLKS.obj `
     TUNEFURELISE.obj
 

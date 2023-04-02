@@ -1,6 +1,6 @@
        DEF  PRCKEY
 *
-       REF  MWRLD,BEETHV,FOSTER         Ref from TUNEx
+       REF  MONTEV,BEETHV,FOSTER        Ref from TUNEx
        REF  CURKEY,PRVKEY               Ref from VAR
        REF  CURENV                      "
        REF  SONGHD,HERTZ,CURMNU         "
@@ -98,7 +98,7 @@ MSONG
 *
        JMP  PRCRT
 
-SNGLST DATA MWRLD,BEETHV,FOSTER
+SNGLST DATA MONTEV,BEETHV,FOSTER
 
 *
 * Envelope Sub-menu
