@@ -49,16 +49,15 @@ The MusicXml parser is included as source code because it is assumed that my nee
 The MusicXml parser has high unit test coverage, so another programmer should be able to add features with little fear of breaking anything.
 
 Here is an example of calling the music parser.
-(The accent (`) is used in powershell to specify that different lines are part of the same command.)
 
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `<br>
-    --input ".\Fr_Elise_SN76489.musicxml" `<br>
-    --output ".\TUNEFURELISE.asm" `<br>
-    --asmLabel "BEETHV" `<br>
-    --ratio60Hz "2:1" `<br>
-    --ratio50Hz "10:6" `<br>
-    --repetitionType "RepeatFromBeginning" `<br>
-    --displayRepoWarning 'true'
+`.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe <br>
+    --input ".\Fr_Elise_SN76489.musicxml" <br>
+    --output ".\TUNEFURELISE.asm" <br>
+    --asmLabel "BEETHV" <br>
+    --ratio60Hz "2:1" <br>
+    --ratio50Hz "10:6" <br>
+    --repetitionType "RepeatFromBeginning" <br>
+    --displayRepoWarning 'true'`
 
 `--input` -- the source file<br>
 `--output` -- the ouput file to be used by your own program<br>
