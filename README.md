@@ -50,13 +50,13 @@ The MusicXml parser has high unit test coverage, so another programmer should be
 
 Here is an example of calling the music parser.
 
-`.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe <br>
-    --input ".\Fr_Elise_SN76489.musicxml" <br>
-    --output ".\TUNEFURELISE.asm" <br>
-    --asmLabel "BEETHV" <br>
-    --ratio60Hz "2:1" <br>
-    --ratio50Hz "10:6" <br>
-    --repetitionType "RepeatFromBeginning" <br>
+`.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe
+    --input ".\Fr_Elise_SN76489.musicxml"
+    --output ".\TUNEFURELISE.asm"
+    --asmLabel "BEETHV"
+    --ratio60Hz "2:1"
+    --ratio50Hz "10:6"
+    --repetitionType "RepeatFromBeginning"
     --displayRepoWarning 'true'`
 
 `--input` -- the source file<br>
