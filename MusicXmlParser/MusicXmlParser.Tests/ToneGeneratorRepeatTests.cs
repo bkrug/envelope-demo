@@ -22,7 +22,11 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever()
+        [TestCase(RepetitionType.RepeatFromBeginning)]
+        //It is strange to use 'RepeatFromFirstJump' in this second scenario,
+        //but if it is used, I guess we have to repeat the whole song.
+        [TestCase(RepetitionType.RepeatFromFirstJump)]
+        public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
             var parsedMusic = new ParsedMusic {
                 Divisions = "24",
@@ -87,7 +91,7 @@ namespace MusicXmlParser.Tests
             };
             var options = new Options
             {
-                RepetitionType = RepetitionType.RepeatFromBeginning
+                RepetitionType = repetitionType
             };
 
             //Act

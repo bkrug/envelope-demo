@@ -73,17 +73,25 @@ namespace MusicXmlParser.SN76489Generation
                 if (measureNumber == measureCount)
                 {
                     var nextMeasure = measureNumber + 1;
-                    if (options.RepetitionType == RepetitionType.RepeatFromBeginning && labelPairs.LastOrDefault().To != measuresWithLabel[1])
+                    var jumpToBeginningExists = labelPairs.LastOrDefault().To == measuresWithLabel[1];
+                    var jumpFromFinishExists = measuresWithLabel.ContainsKey(nextMeasure) && labelPairs.LastOrDefault().From == measuresWithLabel[nextMeasure];
+                    if (options.RepetitionType == RepetitionType.StopAtEnd && !jumpFromFinishExists)
+                    {
+                        if (!measuresWithLabel.ContainsKey(nextMeasure))
+                            measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
+                        labelPairs.Add((measuresWithLabel[nextMeasure], "STOP"));
+                    }
+                    else if (options.RepetitionType == RepetitionType.RepeatFromBeginning && !jumpToBeginningExists)
                     {
                         if (!measuresWithLabel.ContainsKey(nextMeasure))
                             measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
                         labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
                     }
-                    else if (options.RepetitionType == RepetitionType.StopAtEnd && (!measuresWithLabel.ContainsKey(nextMeasure) || labelPairs.LastOrDefault().From != measuresWithLabel[nextMeasure]))
+                    else if (options.RepetitionType == RepetitionType.RepeatFromFirstJump && !jumpFromFinishExists)
                     {
                         if (!measuresWithLabel.ContainsKey(nextMeasure))
                             measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
-                        labelPairs.Add((measuresWithLabel[nextMeasure], "STOP"));
+                        labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
                     }
                 }
             }
