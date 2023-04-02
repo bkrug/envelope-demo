@@ -116,7 +116,12 @@ STRTPL
        MOV  *R5,R5
 * Move specified music to sound structure
        MOV  R1,*R5
-       JEQ  STOPMS
+       JNE  STRT1
+* There is no data for this sonund generator
+* Let R1 = Addres of sound structure
+       MOV  R5,R1
+       JMP  STOPMS
+STRT1
 * Populate address within Repeat Structure
        MOV  R2,@SNDRPT(R5)
 * Clear note-duration ratio remainder
@@ -162,10 +167,8 @@ PLYONE
        JNE  PLY2
        INCT R5                 * Yes, reached end of song.
        C    *R5,@STOPVL        * Stop music or repeat from some point?
-       JNE  PLY1
-       CLR  *R1                * Stop music.
-       JMP  STOPMS
-PLY1   MOV  *R5,R5             * Repeat from some specified point.
+       JEQ  STOPMS             * Stop music.
+       MOV  *R5,R5             * Repeat from some specified point.
 PLY2   MOV  R5,@SNDRPT(R1)
 *
 * Play tone
