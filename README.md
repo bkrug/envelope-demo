@@ -25,6 +25,8 @@ This parsing program supports:
 The parser does _not_ support:
 * other repeats such as codas (but the necessary plumbing is already there.)
 * outputing data for the noise generator (which could otherwise be used to represent percussion)
+* crescendo and other volume changes within the song
+* staccato and legato
 
 ## Song Header and Ratios
 At the begging of each "TUNE*.asm" file, see a "Song Header".
