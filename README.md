@@ -49,6 +49,11 @@ In a 50hz environment, a ratio of 1:1 results in a tempo of 125 quarter notes pe
 Each quarter note has a duration of 24/50ths of a second.
 All of the other rules that apply to 60hz environments apply to 50hz environments.
 
+The formula for determining the duration of any note is as follows: <br>
+> duration = (default_duration * ratio_numerator + remainder_from_previous_note) / ratio_denominator
+The note is played for the integer portion of that result.
+The new remainder is stored for use when playing the next note in the same generator.
+
 ## Parser
 The MusicXml parser is included as source code because it is assumed that my needs are different from yours.
 The MusicXml parser has high unit test coverage, so another programmer should be able to add features with little fear of breaking anything.
