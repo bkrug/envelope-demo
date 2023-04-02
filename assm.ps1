@@ -22,7 +22,9 @@ ForEach($file in $fileList) {
     if (Test-Path $lstFile) { Remove-Item $lstFile }
 }
 
-#Auto-generate tune
+#Auto-generate tunes
+dotnet build .\MusicXmlParser\MusicXmlParser.sln
+
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Fr_Elise_SN76489.musicxml" `
     --output ".\TUNEFURELISE.asm" `

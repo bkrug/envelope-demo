@@ -68,4 +68,4 @@ Here is an example of calling the music parser.
 use "StopAtEnd" to specify that a song should be played only once<br>
 use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly<br>
 use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly<br>
-`--displayRepoWarning` -- should probably be "false" for most users. When true it adds a message to the output specifying that this is auto-generated code.
+`--displayRepoWarning` -- should probably be "false" or omitted for most users. When true it adds a message to the output specifying that this is auto-generated code.
