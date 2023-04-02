@@ -3,7 +3,6 @@
        REF  SND1AD,SND2AD,SND3AD              Ref from VAR
        REF  SONGHD,NOTERT,CURENV,LBR5         "
        REF  HERTZ                             "
-       REF  MWRLD                             Ref from TUNEWINTER
        REF  TTBL                              Ref from TONETABLE
 
 *
