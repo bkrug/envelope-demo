@@ -49,7 +49,7 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --asmLabel "MONTEV" `
     --ratio60Hz "15:11" `
     --ratio50Hz "75:66" `
-    --repetitionType "RepeatFromBeginning" `
+    --repetitionType "StopAtEnd" `
     --displayRepoWarning 'true'    
 
 #Assembling files

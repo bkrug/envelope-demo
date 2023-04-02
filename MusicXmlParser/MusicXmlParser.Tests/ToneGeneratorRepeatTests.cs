@@ -154,6 +154,62 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
+        public void ToneGenerator_NoRepeats_PlayTheSongStraightThrough()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, null, "LBL1A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL1A", "STOP" ),
+                        ( "REPEAT", "STOP" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.StopAtEnd
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
         public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
         {
             var parsedMusic = new ParsedMusic {
@@ -571,7 +627,7 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(6),
                         GetGeneratorNote(7),
                         GetGeneratorNote(8, "SOUN1C"),
-                        GetGeneratorNote(9)
+                        GetGeneratorNote(9, null, "SOUN1D")
                     },
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
@@ -579,6 +635,7 @@ namespace MusicXmlParser.Tests
                         ( "SOUN1A", "SOUN1B" ),   //When reaching the first volta bracket again, skip it and go to second volta bracket
                         ( "SOUN1C", "SOUN1" ),    //Finish second volta bracket and return to beginning
                         ( "SOUN1A", "SOUN1C" ),   //When reaching the first volta bracket again, skip it and go to third (final) volta bracket
+                        ( "SOUN1D", "STOP" ),
                         ( "REPEAT", "STOP" )
                     }
                 }
@@ -656,13 +713,14 @@ namespace MusicXmlParser.Tests
                         GetGeneratorNote(3, "TUNE1B"),
                         GetGeneratorNote(4, "TUNE1C"),
                         GetGeneratorNote(5),
-                        GetGeneratorNote(6, "TUNE1D")
+                        GetGeneratorNote(6, "TUNE1D", "TUNE1E")
                     },
                     RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                     {
                         ( "TUNE1B", "TUNE1" ),  //Play through first volta bracket and return to beginning
                         ( "TUNE1A", "TUNE1B" ), //When reaching the frist volta bracket again, skip it and go to second (final) volta bracket
                         ( "TUNE1D", "TUNE1C" ), //When reaching backward repeat, jump to forward repeat, and play that section a second time
+                        ( "TUNE1E", "STOP" ),
                         ( "REPEAT", "STOP" )
                     }
                 }

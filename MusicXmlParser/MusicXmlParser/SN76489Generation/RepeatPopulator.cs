@@ -70,12 +70,21 @@ namespace MusicXmlParser.SN76489Generation
                     labelPairs.Add((repeatSuffix.ToString(), mostRecentForwardRepeat));
                     ++repeatSuffix;
                 }
-                if (options.RepetitionType == RepetitionType.RepeatFromBeginning && measureNumber == measureCount && labelPairs.LastOrDefault().To != measuresWithLabel[1])
+                if (measureNumber == measureCount)
                 {
                     var nextMeasure = measureNumber + 1;
-                    if (!measuresWithLabel.ContainsKey(nextMeasure))
-                        measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
-                    labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
+                    if (options.RepetitionType == RepetitionType.RepeatFromBeginning && labelPairs.LastOrDefault().To != measuresWithLabel[1])
+                    {
+                        if (!measuresWithLabel.ContainsKey(nextMeasure))
+                            measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
+                        labelPairs.Add((measuresWithLabel[nextMeasure], measuresWithLabel[1]));
+                    }
+                    else if (options.RepetitionType == RepetitionType.StopAtEnd && (!measuresWithLabel.ContainsKey(nextMeasure) || labelPairs.LastOrDefault().From != measuresWithLabel[nextMeasure]))
+                    {
+                        if (!measuresWithLabel.ContainsKey(nextMeasure))
+                            measuresWithLabel[nextMeasure] = repeatSuffix.ToString();
+                        labelPairs.Add((measuresWithLabel[nextMeasure], "STOP"));
+                    }
                 }
             }
         }
@@ -104,7 +113,7 @@ namespace MusicXmlParser.SN76489Generation
             foreach (var (from, to) in labelPairs)
             {
                 var fromLabel = labelPrefix + generatorNumber + from;
-                var toLabel = labelPrefix + generatorNumber + to;
+                var toLabel = to == "STOP" ? to : labelPrefix + generatorNumber + to;
                 repeatLabels.Add((FromThisLabel: fromLabel, JumpToThisLabel: toLabel));
             }
             switch (options.RepetitionType)

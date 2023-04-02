@@ -558,7 +558,8 @@ namespace MusicXmlParser.Tests
                     Pitch = "C2",
                     Duration = Duration.N16,
                     StartMeasure = 1,
-                    EndMeasure = 1
+                    EndMeasure = 1,
+                    LabelAtEnd = "LBL1A"
                 }
             };
 
@@ -672,8 +673,10 @@ namespace MusicXmlParser.Tests
             for (var i = 1; i <= expectedToneGenerators.Count; ++i)
             {
                 expectedToneGenerators[i - 1].GeneratorNotes.First().Label = "LBL" + i;
+                expectedToneGenerators[i - 1].GeneratorNotes.Last().LabelAtEnd = "LBL" + i + "A";
                 expectedToneGenerators[i - 1].RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
                 {
+                    ( "LBL" + i + "A", "STOP" ),
                     ( "REPEAT", "STOP" )
                 };
             }
