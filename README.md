@@ -1,5 +1,7 @@
 # envelope-demo
-Demo of Envelopes on SN76489 and TI-99/4a and of MUSICXML parsing into TMS9900 assembly language.
+A program that plays music on the SN76489 sound chip and TI-99/4a home computer.
+Notes have envelops applied to them.
+A C# program for parsing MUSICXML files into TMS9900 assembly language is also included.
 
 The Assembly language program supports
 * Allowing the user to select different songs and different envelopes to play
@@ -69,3 +71,39 @@ use "StopAtEnd" to specify that a song should be played only once<br>
 use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly<br>
 use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly<br>
 `--displayRepoWarning` -- should probably be "false" or omitted for most users. When true it adds a message to the output specifying that this is auto-generated code.
+
+## To assemble the cartridge program
+Have XDT99 (https://endlos99.github.io/xdt99/) available on your computer.
+This, in turn, requires python.
+
+### Finding the path to Python
+
+In your Python interpreter, type the following commands:
+
+`import os`
+`import sys`
+`os.path.dirname(sys.executable)`
+
+'C:\\Python25'
+
+### Running Python Scripts from Powershell
+
+First, add the xas99 folder to your System PATH variables.
+
+Then, associate *.py files with python.
+Run the following commands at a shell prompt:
+
+`assoc .py=PythonScript`
+`ftype PythonScript=C:\bin\python.exe "%1" %*`
+
+Replace C:\bin\python.exe with the path to your Python installation. This enables you to run myscript.py instead of python myscript.py
+
+Add .py to your PATHEXT environment variable.
+This makes Windows consider *.py files to be executable when searching your PATH. It enables you to run myscript instead of myscript.py
+You can set it for the current cmd session:
+
+`set PATHEXT=%PATHEXT%;.PY`
+
+To set it permanently (under Windows):
+
+`setx PATHEXT %PATHEXT%;.PY`
