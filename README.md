@@ -51,8 +51,9 @@ All of the other rules that apply to 60hz environments apply to 50hz environment
 
 The formula for determining the duration of any note is as follows: <br>
 > duration = (default_duration * ratio_numerator + remainder_from_previous_note) / ratio_denominator
+
 The note is played for the integer portion of that result.
-The new remainder is stored for use when playing the next note in the same generator.
+The remainder from that result is stored for use when playing the next note in the same generator.
 
 ## Parser
 The MusicXml parser is included as source code because it is assumed that my needs are different from yours.
