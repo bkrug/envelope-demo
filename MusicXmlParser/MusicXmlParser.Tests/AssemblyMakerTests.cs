@@ -4,7 +4,6 @@ using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
-using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -1305,7 +1304,7 @@ ORCH2A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -1591,22 +1590,6 @@ MELD2A
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
-        }
-    }
-
-    public static class TextAsserts
-    {
-        public static void EquivalentLines(string expectedStr, string actualStr)
-        {
-            var expectedLines = expectedStr.Split(Environment.NewLine);
-            var actualLines = actualStr.Split(Environment.NewLine);
-            for(var lineNum = 0; lineNum < Math.Min(expectedLines.Length, actualLines.Length); ++lineNum)
-            {
-                if (!actualLines[lineNum].Equals(expectedLines[lineNum]))
-                    Assert.Fail($"Expected line {lineNum + 1} to contain \"{expectedLines[lineNum]}\" {Environment.NewLine}but actually contained \"{actualLines[lineNum]}\"");
-            }
-            if (expectedLines.Length != actualLines.Length)
-                Assert.Fail($"Expected string to have {expectedLines.Length}, but actually had {actualLines.Length}");
         }
     }
 }
