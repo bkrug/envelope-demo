@@ -11,5 +11,11 @@
         public bool IsGraceNote { get; set; }
         public string Duration { get; set; }
         public string Type { get; set; }
+        public Ties Tie { get; set; }
+    }
+
+    internal enum Ties
+    {
+        None, Start, End
     }
 }

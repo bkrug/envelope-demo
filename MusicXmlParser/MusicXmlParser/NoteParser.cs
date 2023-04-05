@@ -210,7 +210,8 @@ namespace MusicXmlParser
                 IsDotted = noteElem.Elements("dot").Any(),
                 IsTripplet = IsTripplet(noteElem),
                 IsRest = noteElem?.Element("rest") != null,
-                IsGraceNote = noteElem?.Element("grace") != null
+                IsGraceNote = noteElem?.Element("grace") != null,
+                Tie = GetTieType(noteElem)
             };
             if (!note.IsRest && string.IsNullOrEmpty(note.Step))
                 _logger.WriteError($"Note in measure {measureNumber} missing a 'step' tag.");
@@ -219,6 +220,17 @@ namespace MusicXmlParser
             if (!note.IsGraceNote && string.IsNullOrEmpty(note.Duration))
                 _logger.WriteError($"Note in measure {measureNumber} missing a 'duration' tag.");
             return note;
+        }
+
+        private static Ties GetTieType(XElement noteElem)
+        {
+            var typeAttr = noteElem.Element("tie")?.Attribute("type").Value.ToLower();
+            return typeAttr switch
+            {
+                "start" => Ties.Start,
+                "end" => Ties.End,
+                _ => Ties.None,
+            };
         }
 
         private static bool IsTripplet(XElement noteElem)
