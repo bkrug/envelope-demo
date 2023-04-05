@@ -613,7 +613,7 @@ ORCH1A
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
             actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
-            actualMessage.Should().BeEquivalentTo("Could not parse pitch in measure 1: {\"Step\":\"chalkboards\",\"Alter\":\"are\",\"Octave\":\"instruments\",\"IsRest\":false,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"6\",\"Type\":\"16th\"}");
+            actualMessage.Should().BeEquivalentTo("Could not parse pitch in measure 1: {\"Step\":\"chalkboards\",\"Alter\":\"are\",\"Octave\":\"instruments\",\"IsRest\":false,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"6\",\"Type\":\"16th\",\"Tie\":0}");
         }
 
         [Test]

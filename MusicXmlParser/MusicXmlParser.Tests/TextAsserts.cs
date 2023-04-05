@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using System.IO;
+using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
@@ -13,7 +13,15 @@ namespace MusicXmlParser.Tests
             for(var lineNum = 0; lineNum < Math.Min(expectedLines.Length, actualLines.Length); ++lineNum)
             {
                 if (!actualLines[lineNum].Equals(expectedLines[lineNum]))
-                    Assert.Fail($"Expected line {lineNum + 1} to contain \"{expectedLines[lineNum]}\" {Environment.NewLine}but actually contained \"{actualLines[lineNum]}\"");
+                {
+                    var failureMsgs = new List<string>()
+                    {
+                        $"Expected line {lineNum + 1} to contain \"{expectedLines[lineNum]}\"",
+                        $"but actually contained \"{actualLines[lineNum]}\"",
+                        $"The whole text is: {actualStr}"
+                    };
+                    Assert.Fail(string.Join(Environment.NewLine, failureMsgs));
+                }
             }
             if (expectedLines.Length != actualLines.Length)
                 Assert.Fail($"Expected string to have {expectedLines.Length}, but actually had {actualLines.Length}");
