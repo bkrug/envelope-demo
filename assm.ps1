@@ -71,7 +71,8 @@ ForEach($file in $fileList) {
 
 #Link object files into cartridge
 write-host 'Creating cartridge'
-xas99.py -b -a ">6000" -o musiceffectsC.bin -l `
+$outputCartridgeFile = 'musiceffectsC.bin'
+xas99.py -b -a ">6000" -o $outputCartridgeFile -l `
     MAIN.obj `
     VAR.obj `
     MUSIC.obj `
@@ -85,6 +86,13 @@ xas99.py -b -a ">6000" -o musiceffectsC.bin -l `
     TUNEMONTEVERDI.obj `
     TUNEOLDFOLKS.obj `
     TUNEFURELISE.obj
+
+#Create .rpk file for MAME
+$zipFileName = ".\MusicEffects.zip"
+$rpkFileName = ".\MusicEffects.rpk"
+compress-archive -Path ".\layout.xml",$outputCartridgeFile $zipFileName -compressionlevel optimal
+if (Test-Path $rpkFileName) { Remove-Item $rpkFileName }
+Rename-Item $zipFileName $rpkFileName    
 
 #Delete work files
 write-host 'Deleting work files'
