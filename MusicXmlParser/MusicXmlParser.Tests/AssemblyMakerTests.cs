@@ -5,7 +5,6 @@ using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
@@ -14,7 +13,6 @@ namespace MusicXmlParser.Tests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
 
-        //TODO: Write a test case for ties
         private AssemblyMaker GetAssemblyMaker()
         {
             return new AssemblyMaker(new NoteParser(_logger.Object), new SN76489NoteGenerator(_logger.Object), new AssemblyWriter());
@@ -45,7 +43,7 @@ namespace MusicXmlParser.Tests
             //Assert
             var expectedText = File.ReadAllText("Files//TUNEFURELISE.asm");
             var actualText = File.ReadAllText(options.OutputFile);
-            actualText.Should().BeEquivalentTo(expectedText);
+            TextAsserts.EquivalentLines(expectedText, actualText);
         }
 
         [Test]
@@ -146,7 +144,7 @@ MELD1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -247,7 +245,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -347,7 +345,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -508,7 +506,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -612,7 +610,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
             actualMessage.Should().BeEquivalentTo("Could not parse pitch in measure 1: {\"Step\":\"chalkboards\",\"Alter\":\"are\",\"Octave\":\"instruments\",\"IsRest\":false,\"IsDotted\":false,\"IsTripplet\":false,\"IsGraceNote\":false,\"Duration\":\"6\",\"Type\":\"16th\",\"Tie\":0}");
         }
 
@@ -717,7 +715,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
             actualMessage.Should().BeEquivalentTo("Could not parse duration in measure 1: \"not-parsable\"");
         }
 
@@ -821,7 +819,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -917,7 +915,7 @@ ORCH1A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -1039,7 +1037,7 @@ ORCH2A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
@@ -1161,7 +1159,7 @@ ORCH2A
             memoryStream.Position = 0;
             using var streamReader = new StreamReader(memoryStream);
             var actualText = streamReader.ReadToEnd();
-            actualText.Should().BeEquivalentTo(EXPECTED_TEXT);
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
         [Test]
