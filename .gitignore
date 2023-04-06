@@ -1,4 +1,5 @@
 *.bin
+*.rpk
 *.mscbackup
 *.obj
 *.lst
