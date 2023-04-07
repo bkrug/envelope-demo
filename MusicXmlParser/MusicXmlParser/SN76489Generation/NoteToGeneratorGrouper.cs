@@ -13,6 +13,7 @@ namespace MusicXmlParser.SN76489Generation
         internal static List<ToneGenerator> AssignNotesToToneGenerators(ParsedMusic parsedMusic, ILogger logger)
         {
             var toneGenerators = GroupNotesByToneGenerators(parsedMusic, logger);
+            MergeTies(ref toneGenerators);
             toneGenerators = SelectMeasuresOfNonRests(toneGenerators);
             return toneGenerators;
         }
@@ -68,11 +69,33 @@ namespace MusicXmlParser.SN76489Generation
                         EndMeasure = currentMeasure,
                         Pitch = pitch,
                         Duration = (Duration)((double)Duration.N4 / lengthOfQuarter * duration),
-                        IsGraceNote = n.IsGraceNote
+                        IsGraceNote = n.IsGraceNote,
+                        Tie = n.Tie
                     };
                 })
                 .ToList();
             return notesInMeasure;
+        }
+
+        private static void MergeTies(ref List<ToneGenerator> toneGenerators)
+        {
+            foreach (var toneGenerator in toneGenerators)
+            {
+                for (var i = toneGenerator.GeneratorNotes.Count - 2; i >= 0; --i)
+                {
+                    var currentNote = toneGenerator.GeneratorNotes[i];
+                    var nextNote = toneGenerator.GeneratorNotes[i + 1];
+                    if (currentNote.Tie != Ties.Start && currentNote.Tie != Ties.End)
+                        continue;
+                    if ((int)currentNote.Duration + (int)nextNote.Duration > byte.MaxValue)
+                        continue;
+                    currentNote.Duration += (int)nextNote.Duration;
+                    currentNote.EndMeasure = nextNote.EndMeasure;
+                    currentNote.LabelAtEnd = nextNote.LabelAtEnd;
+                    toneGenerator.GeneratorNotes[i] = currentNote;
+                    toneGenerator.GeneratorNotes.RemoveAt(i + 1);
+                }
+            }
         }
 
         private static List<ToneGenerator> SelectMeasuresOfNonRests(List<ToneGenerator> oldToneGenerators)

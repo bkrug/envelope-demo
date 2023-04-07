@@ -1551,20 +1551,20 @@ REPT2
        DATA REPEAT,REPT2
 
 * Generator 1
-* Measures 1-2
+* Measure 1 - 2
 MELD1
        BYTE E2,N4
        BYTE A3,30
-       BYTE D2,N8DOT
+       BYTE D2,N4DOT
 MELD1A
 *
 
 * Generator 2
-* Measures 1-2
+* Measure 1 - 2
 MELD2
        BYTE C2,N4
        BYTE REST,30
-       BYTE A2,N8DOT
+       BYTE A2,N4DOT
 MELD2A
 *
 

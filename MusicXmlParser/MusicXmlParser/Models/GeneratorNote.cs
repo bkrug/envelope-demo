@@ -20,5 +20,6 @@ namespace MusicXmlParser.Models
         public string LabelAtEnd { get; set; }
 
         public bool IsPitchValid => Enum.GetNames(typeof(PitchEnum)).Contains(Pitch);
+        public Ties Tie { get; set; }
     }
 }
