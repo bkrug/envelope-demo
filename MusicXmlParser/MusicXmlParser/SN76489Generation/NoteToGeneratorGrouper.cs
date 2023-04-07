@@ -12,47 +12,38 @@ namespace MusicXmlParser.SN76489Generation
 
         internal static List<ToneGenerator> AssignNotesToToneGenerators(ParsedMusic parsedMusic, ILogger logger)
         {
-            var parsedParts = parsedMusic.Parts;
-            var toneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator(),
-                new ToneGenerator(),
-                new ToneGenerator()
-            };
-            for (var currentMeasure = 1; currentMeasure <= parsedParts.First().Measures.Count; currentMeasure++)
-            {
-                var generatorsInMeasure = GroupNotesByToneGenerators(parsedMusic, currentMeasure, logger);
-                RemoveExtraGenerators(generatorsInMeasure);
-                for (var g = 0; g < generatorsInMeasure.Count; ++g)
-                {
-                    toneGenerators[g].GeneratorNotes.AddRange(generatorsInMeasure[g]);
-                }
-
-            }
-            toneGenerators = toneGenerators
-                .Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != nameof(Pitch.REST)))
-                .ToList();
+            var toneGenerators = GroupNotesByToneGenerators(parsedMusic, logger);
+            toneGenerators = SelectMeasuresOfNonRests(toneGenerators);
             return toneGenerators;
         }
 
-        private static List<List<GeneratorNote>> GroupNotesByToneGenerators(ParsedMusic parsedMusic, int currentMeasure, ILogger logger)
+        private static List<ToneGenerator> GroupNotesByToneGenerators(ParsedMusic parsedMusic, ILogger logger)
         {
             var divisions = int.TryParse(parsedMusic.Divisions, out var parseResult) ? parseResult : 0;
-            var generatorsInMeasure = new List<List<GeneratorNote>>();
+            var generatorsInMeasure = new Dictionary<(int, int, string), ToneGenerator>();
             for (var chordIndex = 0; chordIndex < TOTAL_GENERATORS_IN_SN76489; ++chordIndex)
             {
-                foreach (var parsedPart in parsedMusic.Parts)
+                for (var partIndex = 0; partIndex < parsedMusic.Parts.Count; ++partIndex)
                 {
-                    var voiceKeys = parsedPart.Measures[currentMeasure - 1].Voices.Keys;
-                    foreach (var voiceKey in voiceKeys)
+                    var parsedPart = parsedMusic.Parts[partIndex];
+                    for (var currentMeasure = 1; currentMeasure <= parsedPart.Measures.Count; currentMeasure++)
                     {
-                        var voice = parsedPart.Measures[currentMeasure - 1].Voices[voiceKey];
-                        var notesInMeasure = GetNotesForOneToneGenerator(voice, divisions, currentMeasure, chordIndex, logger);
-                        generatorsInMeasure.Add(notesInMeasure);
+                        foreach (var keyAndVoice in parsedPart.Measures[currentMeasure - 1].Voices)
+                        {
+                            var notesInMeasure = GetNotesForOneToneGenerator(keyAndVoice.Value, divisions, currentMeasure, chordIndex, logger);
+                            var dictionaryKey = (chordIndex, partIndex, keyAndVoice.Key);
+                            if (!generatorsInMeasure.ContainsKey(dictionaryKey))
+                                generatorsInMeasure[dictionaryKey] = new ToneGenerator();
+                            generatorsInMeasure[dictionaryKey].GeneratorNotes.AddRange(notesInMeasure);
+                        }
                     }
                 }
             }
-            return generatorsInMeasure;
+            return generatorsInMeasure
+                .OrderBy(kvp => kvp.Key.Item1)
+                .ThenBy(kvp => kvp.Key.Item2)
+                .ThenBy(kvp => kvp.Key.Item3)
+                .Select(kvp => kvp.Value).ToList();
         }
 
         private static List<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)
@@ -84,16 +75,50 @@ namespace MusicXmlParser.SN76489Generation
             return notesInMeasure;
         }
 
-        //If we found more tone generators than exist in the SN76489, then remove the extras.
-        private static void RemoveExtraGenerators(List<List<GeneratorNote>> generatorsInMeasure)
+        private static List<ToneGenerator> SelectMeasuresOfNonRests(List<ToneGenerator> oldToneGenerators)
         {
-            while (generatorsInMeasure.Count > TOTAL_GENERATORS_IN_SN76489)
+            var maxMeasure = oldToneGenerators.First().GeneratorNotes.Max(gn => gn.EndMeasure);
+            var startingMeasure = 1;
+            var endingMeasure = 1;
+            var newToneGenerators = new List<ToneGenerator>
             {
-                var restsOnly = generatorsInMeasure.FirstOrDefault(g => g.All(n => n.Pitch == nameof(Pitch.REST)));
-                var generatorToRemove = restsOnly ?? generatorsInMeasure.Last();
-                generatorsInMeasure.Remove(generatorToRemove);
-            }
-        }
+                new ToneGenerator(),
+                new ToneGenerator(),
+                new ToneGenerator()
+            };
+            while (startingMeasure <= maxMeasure)
+            {
+                foreach (var toneGenerator in oldToneGenerators)
+                {
+                    var testAgain = true;
+                    while (testAgain)
+                    {
+                        var multiMeasureNote = toneGenerator.GeneratorNotes.FirstOrDefault(gn => gn.StartMeasure == endingMeasure && gn.EndMeasure != endingMeasure);
+                        if (multiMeasureNote != null)
+                            endingMeasure = multiMeasureNote.EndMeasure;
+                        testAgain = multiMeasureNote != null;
+                    }
+                }
 
+                var newToneGeneratorIndex = 0;
+                for (var oldToneGeneratorIndex = 0; oldToneGeneratorIndex < oldToneGenerators.Count; ++oldToneGeneratorIndex)
+                {
+                    var toneGenerator = oldToneGenerators[oldToneGeneratorIndex];
+                    var notesInMeasureGroup = toneGenerator.GeneratorNotes.Where(gn => gn.StartMeasure >= startingMeasure && gn.EndMeasure <= endingMeasure).ToList();
+                    var containsNonRest = notesInMeasureGroup.Any(gn => gn.Pitch != nameof(Pitch.REST));
+                    var thisIsOneOfLastThreeGenerators = oldToneGenerators.Count - oldToneGeneratorIndex < TOTAL_GENERATORS_IN_SN76489;
+                    if (containsNonRest || thisIsOneOfLastThreeGenerators)
+                    {
+                        newToneGenerators[newToneGeneratorIndex].GeneratorNotes.AddRange(notesInMeasureGroup);
+                        ++newToneGeneratorIndex;
+                        if (newToneGeneratorIndex >= newToneGenerators.Count)
+                            break;
+                    }
+                }
+                ++endingMeasure;
+                startingMeasure = endingMeasure;
+            }
+            return newToneGenerators.Where(tg => tg.GeneratorNotes.Any() && tg.GeneratorNotes.Any(n => n.Pitch != nameof(Pitch.REST))).ToList();
+        }
     }
 }
