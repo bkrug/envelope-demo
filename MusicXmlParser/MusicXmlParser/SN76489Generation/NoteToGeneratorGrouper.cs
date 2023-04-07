@@ -31,7 +31,7 @@ namespace MusicXmlParser.SN76489Generation
                     {
                         foreach (var keyAndVoice in parsedPart.Measures[currentMeasure - 1].Voices)
                         {
-                            var notesInMeasure = GetNotesForOneToneGenerator(keyAndVoice.Value, divisions, currentMeasure, chordIndex, logger);
+                            var notesInMeasure = GetNotesForOneToneGenerator(keyAndVoice.Value, divisions, currentMeasure, chordIndex, logger).ToList();
                             var dictionaryKey = (chordIndex, partIndex, keyAndVoice.Key);
                             if (!generatorsInMeasure.ContainsKey(dictionaryKey))
                                 generatorsInMeasure[dictionaryKey] = new ToneGenerator();
@@ -47,34 +47,32 @@ namespace MusicXmlParser.SN76489Generation
                 .Select(kvp => kvp.Value).ToList();
         }
 
-        private static List<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)
+        private static IEnumerable<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)
         {
-            var notesInMeasure = measure.Chords
-                .Select(c => c.Notes.Count > chordIndex
-                    ? c.Notes.ElementAt(chordIndex)
+            foreach(var chord in measure.Chords)
+            {
+                var noteFromChord = chordIndex < chord.Notes.Count
+                    ? chord.Notes.ElementAt(chordIndex)
                     : new Note
                     {
                         IsRest = true,
-                        Type = c.Notes.First().Type,
-                        Duration = c.Notes.First().Duration
-                    })
-                .Select(n => {
-                    if (!PitchParser.TryParse(n, out var pitch) && !n.IsRest && !n.IsGraceNote)
-                        logger.WriteError($"Could not parse pitch in measure {currentMeasure}: " + JsonConvert.SerializeObject(n));
-                    if (!int.TryParse(n.Duration, out var duration) && !n.IsRest && !n.IsGraceNote)
-                        logger.WriteError($"Could not parse duration in measure {currentMeasure}: \"{n.Duration}\"");
-                    return new GeneratorNote
-                    {
-                        StartMeasure = currentMeasure,
-                        EndMeasure = currentMeasure,
-                        Pitch = pitch,
-                        Duration = (Duration)((double)Duration.N4 / lengthOfQuarter * duration),
-                        IsGraceNote = n.IsGraceNote,
-                        Tie = n.Tie
+                        Type = chord.Notes.First().Type,
+                        Duration = chord.Notes.First().Duration
                     };
-                })
-                .ToList();
-            return notesInMeasure;
+                if (!PitchParser.TryParse(noteFromChord, out var pitch) && !noteFromChord.IsRest && !noteFromChord.IsGraceNote)
+                    logger.WriteError($"Could not parse pitch in measure {currentMeasure}: " + JsonConvert.SerializeObject(noteFromChord));
+                if (!int.TryParse(noteFromChord.Duration, out var duration) && !noteFromChord.IsRest && !noteFromChord.IsGraceNote)
+                    logger.WriteError($"Could not parse duration in measure {currentMeasure}: \"{noteFromChord.Duration}\"");
+                yield return new GeneratorNote
+                {
+                    StartMeasure = currentMeasure,
+                    EndMeasure = currentMeasure,
+                    Pitch = pitch,
+                    Duration = (Duration)((double)Duration.N4 / lengthOfQuarter * duration),
+                    IsGraceNote = noteFromChord.IsGraceNote,
+                    Tie = noteFromChord.Tie
+                };
+            }
         }
 
         private static void MergeTies(ref List<ToneGenerator> toneGenerators)
