@@ -298,8 +298,7 @@ FOST1B
        BYTE C3,N8
        BYTE D3,N8
 * Measure 48
-       BYTE C3,N4DOT
-       BYTE C3,N4
+       BYTE C3,60
        BYTE C4,N8
 * Measure 49
        BYTE B3,N8
@@ -362,8 +361,7 @@ FOST1B
        BYTE D4,N4
        BYTE Ds4,N8
 * Measure 60
-       BYTE E4,N4DOT
-       BYTE E4,N4
+       BYTE E4,60
        BYTE REST,N8
 * Measure 61
        BYTE D4,N4DOT
