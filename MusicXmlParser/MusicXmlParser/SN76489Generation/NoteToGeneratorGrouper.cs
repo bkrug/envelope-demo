@@ -49,7 +49,7 @@ namespace MusicXmlParser.SN76489Generation
 
         private static IEnumerable<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)
         {
-            foreach(var chord in measure.Chords)
+            foreach (var chord in measure.Chords)
             {
                 var noteFromChord = chordIndex < chord.Notes.Count
                     ? chord.Notes.ElementAt(chordIndex)

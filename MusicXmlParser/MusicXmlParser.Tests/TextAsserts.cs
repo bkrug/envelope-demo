@@ -10,7 +10,7 @@ namespace MusicXmlParser.Tests
         {
             var expectedLines = expectedStr.Split(Environment.NewLine);
             var actualLines = actualStr.Split(Environment.NewLine);
-            for(var lineNum = 0; lineNum < Math.Min(expectedLines.Length, actualLines.Length); ++lineNum)
+            for (var lineNum = 0; lineNum < Math.Min(expectedLines.Length, actualLines.Length); ++lineNum)
             {
                 if (!actualLines[lineNum].Equals(expectedLines[lineNum]))
                 {

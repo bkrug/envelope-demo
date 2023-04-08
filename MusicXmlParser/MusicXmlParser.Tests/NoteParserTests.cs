@@ -3,7 +3,6 @@ using Moq;
 using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
@@ -11,7 +10,7 @@ namespace MusicXmlParser.Tests
     public class NoteParserTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
-        
+
         private static Chord GenerateSingleNoteChord(string step, string alter, string octave, Duration duration, string type, bool isGraceSlash = false)
         {
             return new Chord
@@ -90,7 +89,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -168,7 +168,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "48",
                 Parts = new List<Part>
                 {
@@ -273,7 +274,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "48",
                 Parts = new List<Part>
                 {
@@ -396,7 +398,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "12",
                 Parts = new List<Part>
                 {
@@ -517,7 +520,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -622,7 +626,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -718,7 +723,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -792,7 +798,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -870,9 +877,10 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
-                Divisions = "24", 
-                Parts =  new List<Part>
+            var expectedObject = new ParsedMusic
+            {
+                Divisions = "24",
+                Parts = new List<Part>
                 {
                     new Part
                     {
@@ -984,7 +992,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -1178,7 +1187,8 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
-            var expectedObject = new ParsedMusic {
+            var expectedObject = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {

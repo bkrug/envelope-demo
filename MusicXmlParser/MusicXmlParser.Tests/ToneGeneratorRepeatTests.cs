@@ -15,7 +15,7 @@ namespace MusicXmlParser.Tests
     public class ToneGeneratorRepeatTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
-        
+
         private SN76489NoteGenerator GetGenerator()
         {
             return new SN76489NoteGenerator(_logger.Object);
@@ -28,7 +28,8 @@ namespace MusicXmlParser.Tests
         [TestCase(RepetitionType.RepeatFromFirstJump)]
         public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -104,7 +105,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -216,7 +218,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -304,8 +307,9 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureOnce()
         {
-            var parsedMusic = new ParsedMusic {
-                Divisions = "24", 
+            var parsedMusic = new ParsedMusic
+            {
+                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
@@ -367,7 +371,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -457,7 +462,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_RepeatBarsInMiddleOfSong_WholeSongForever()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -665,7 +671,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {
@@ -766,7 +773,8 @@ namespace MusicXmlParser.Tests
         [Test]
         public void ToneGenerator_VoltaBracketFollowedByForwardRepeat_PlayEachVoltaBracketThenPlayRepeatTwice()
         {
-            var parsedMusic = new ParsedMusic {
+            var parsedMusic = new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = new List<Part>
                 {

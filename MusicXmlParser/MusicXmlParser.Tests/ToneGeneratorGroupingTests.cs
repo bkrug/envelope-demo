@@ -4,7 +4,6 @@ using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

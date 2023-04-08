@@ -1,7 +1,5 @@
-﻿using Moq;
-using MusicXmlParser.Enums;
+﻿using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
-using MusicXmlParser.SN76489Generation;
 using NUnit.Framework;
 using System.IO;
 using System.Xml.Linq;

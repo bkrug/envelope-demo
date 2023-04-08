@@ -254,7 +254,8 @@ namespace MusicXmlParser.Tests
                 }
                 parts.Add(part);
             }
-            return new ParsedMusic {
+            return new ParsedMusic
+            {
                 Divisions = "24",
                 Parts = parts
             };

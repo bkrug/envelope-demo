@@ -12,17 +12,17 @@ namespace MusicXmlParser
             var inputOption = new Option<string>(
                 name: "--input",
                 description: "An uncompressed MusicXml file to read")
-                { IsRequired = true };
+            { IsRequired = true };
 
             var outputOption = new Option<string>(
                 name: "--output",
                 description: "Assembly language file")
-                { IsRequired = true };
+            { IsRequired = true };
 
             var asmLabelOption = new Option<string>(
                 name: "--asmLabel",
                 description: "The prefix to several labels in the assemly language output")
-                { IsRequired = true };
+            { IsRequired = true };
 
             var ratio60HzOption = new Option<string>(
                 name: "--ratio60Hz",
@@ -62,7 +62,7 @@ namespace MusicXmlParser
                         AsmLabel = asmLabel,
                         Ratio60Hz = ratio60Hz.Replace(":", ","),
                         Ratio50Hz = ratio50Hz.Replace(":", ","),
-                        RepetitionType = repetitionType, 
+                        RepetitionType = repetitionType,
                         DisplayRepoWarning = displayRepoWarning
                     };
                     ConvertXmlToAssembly(options);
