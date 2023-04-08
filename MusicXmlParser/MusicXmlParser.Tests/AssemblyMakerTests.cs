@@ -13,18 +13,13 @@ namespace MusicXmlParser.Tests
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P13"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P13"">
-    <measure number=""0"" implicit=""yes"" width=""147.40"">
+    <measure number=""0"">
       <attributes>
         <divisions>24</divisions>
       </attributes>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <pitch>
           <step>B</step>
           <octave>2</octave>
@@ -34,7 +29,7 @@ namespace MusicXmlParser.Tests
         <type>quarter</type>
         <stem>down</stem>
       </note>
-      <note default-x=""60.39"" default-y=""-35.00"">
+      <note>
         <pitch>
           <step>C</step>
           <alter>1</alter>
@@ -47,7 +42,7 @@ namespace MusicXmlParser.Tests
       </note>
     </measure>
     <measure>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <pitch>
           <step>A</step>
           <octave>2</octave>
@@ -57,7 +52,7 @@ namespace MusicXmlParser.Tests
         <type>quarter</type>
         <stem>down</stem>
       </note>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <rest />
         <duration>24</duration>
         <voice>1</voice>
@@ -66,14 +61,14 @@ namespace MusicXmlParser.Tests
       </note>
     </measure>
     <measure>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <rest />
         <duration>12</duration>
         <voice>1</voice>
         <type>eighth</type>
         <stem>down</stem>
       </note>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <pitch>
           <step>A</step>
           <octave>2</octave>
@@ -83,7 +78,7 @@ namespace MusicXmlParser.Tests
         <type>quarter</type>
         <stem>down</stem>
       </note>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <rest />
         <duration>12</duration>
         <voice>1</voice>
@@ -92,14 +87,14 @@ namespace MusicXmlParser.Tests
       </note>
     </measure>
     <measure>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <rest />
         <duration>24</duration>
         <voice>1</voice>
         <type>quarter</type>
         <stem>down</stem>
       </note>
-      <note default-x=""81.48"" default-y=""-5.00"">
+      <note>
         <pitch>
           <step>A</step>
           <octave>2</octave>
@@ -174,12 +169,7 @@ ORCH1A
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P1"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P1"">
     <measure number=""0"">
       <attributes>
@@ -296,12 +286,7 @@ ORCH2A
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P1"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P1"">
     <measure number=""0"">
       <attributes>
@@ -418,12 +403,7 @@ ORCH2A
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P1"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P1"">
     <measure number=""0"">
       <attributes>

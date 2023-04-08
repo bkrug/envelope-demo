@@ -40,7 +40,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -149,7 +149,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -224,7 +224,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -360,7 +360,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -469,7 +469,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -574,7 +574,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -692,7 +692,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -767,7 +767,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -842,7 +842,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -929,7 +929,7 @@ namespace MusicXmlParser.Tests
             };
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <work>
         <work-title>Joe's Discount Symphony in B minor</work-title>
     </work>
@@ -960,7 +960,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1077,7 +1077,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1148,7 +1148,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1231,7 +1231,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1303,7 +1303,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1346,7 +1346,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1391,7 +1391,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>
@@ -1434,7 +1434,7 @@ namespace MusicXmlParser.Tests
         {
             const string SOURCE_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise version=""3.1"">
+<score-partwise>
     <part>
         <measure>
             <attributes>

@@ -13,12 +13,7 @@ namespace MusicXmlParser.Tests
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P13"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P13"">
     <measure number=""0"">
       <attributes>
@@ -127,12 +122,7 @@ MELD1A
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<!DOCTYPE score-partwise PUBLIC ""-//Recordare//DTD MusicXML 3.1 Partwise//EN"" ""http://www.musicxml.org/dtds/partwise.dtd"">
-<score-partwise version=""3.1"">
-  <part-list>
-    <score-part id=""P13"">
-    </score-part>
-  </part-list>
+<score-partwise>
   <part id=""P13"">
     <measure number=""0"">
       <attributes>
