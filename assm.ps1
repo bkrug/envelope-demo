@@ -11,7 +11,7 @@ if ($mode -ne 'release') {
     $mode = 'debug'
 }
 
-$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMONTEVERDI', 'TUNEFURELISE', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
+$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMONTEVERDI', 'TUNETURKEY', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
 
 #Deleting old work files
 write-host 'Deleting old work files'
@@ -26,11 +26,11 @@ ForEach($file in $fileList) {
 dotnet build .\MusicXmlParser\MusicXmlParser.sln
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
-    --input ".\Fr_Elise_SN76489.musicxml" `
-    --output ".\TUNEFURELISE.asm" `
-    --asmLabel "BEETHV" `
-    --ratio60Hz "2:1" `
-    --ratio50Hz "10:6" `
+    --input ".\Turkey_In_The_Straw_-_A_Ragtime_Fantasie.musicxml" `
+    --output ".\TUNETURKEY.asm" `
+    --asmLabel "OTTO" `
+    --ratio60Hz "4:5" `
+    --ratio50Hz "2:3" `
     --repetitionType "RepeatFromBeginning" `
     --displayRepoWarning 'true'
 
@@ -85,7 +85,7 @@ xas99.py -b -a ">6000" -o $outputCartridgeFile -l `
     CHARPAT.obj `
     TUNEMONTEVERDI.obj `
     TUNEOLDFOLKS.obj `
-    TUNEFURELISE.obj
+    TUNETURKEY.obj
 
 #Create .rpk file for MAME
 $zipFileName = ".\MusicEffects.zip"

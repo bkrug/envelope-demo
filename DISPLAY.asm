@@ -13,7 +13,7 @@ MAIN2  TEXT '2) Change Envelope'
 MAIN3  TEXT '3) Swap 60hz vs. 50hz'
 MAIN0
 
-SONG1  TEXT 'A) Fu:r Elise'
+SONG1  TEXT 'A) Turkey in the Straw'
 SONG2  TEXT 'B) Old Folks At Home'
 SONG3  TEXT 'C) Lasciate i monti'
 SONG4  TEXT 'FCTN-9) Previous Menu'
