@@ -11,7 +11,7 @@ if ($mode -ne 'release') {
     $mode = 'debug'
 }
 
-$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMONTEVERDI', 'TUNETURKEY', 'TUNEOLDFOLKS', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
+$fileList = 'VAR', 'MAIN', 'KSCAN', 'SELECT', 'MUSIC', 'HERTZ', 'TUNEMONTEVERDI', 'TUNETURKEY', 'TUNEOLDFOLKS', 'TUNEFARMER', 'VDP', 'DISPLAY', 'CHARPAT', 'TONETABLE'
 
 #Deleting old work files
 write-host 'Deleting old work files'
@@ -26,12 +26,21 @@ ForEach($file in $fileList) {
 dotnet build .\MusicXmlParser\MusicXmlParser.sln
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
+    --input ".\Schumann_The_Merry_Farmer_Op._68_No._10.musicxml" `
+    --output ".\TUNEFARMER.asm" `
+    --asmLabel "SCHUMN" `
+    --ratio60Hz "5:4" `
+    --ratio50Hz "1:1" `
+    --repetitionType "RepeatFromBeginning" `
+    --displayRepoWarning 'true'
+   
+.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Turkey_In_The_Straw_-_A_Ragtime_Fantasie.musicxml" `
     --output ".\TUNETURKEY.asm" `
     --asmLabel "OTTO" `
     --ratio60Hz "4:5" `
     --ratio50Hz "2:3" `
-    --repetitionType "RepeatFromBeginning" `
+    --repetitionType "StopAtEnd" `
     --displayRepoWarning 'true'
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
@@ -40,7 +49,7 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --asmLabel "FOSTER" `
     --ratio60Hz "5:4" `
     --ratio50Hz "1:1" `
-    --repetitionType "StopAtEnd" `
+    --repetitionType "RepeatFromBeginning" `
     --displayRepoWarning 'true'
 
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
@@ -85,7 +94,8 @@ xas99.py -b -a ">6000" -o $outputCartridgeFile -l `
     CHARPAT.obj `
     TUNEMONTEVERDI.obj `
     TUNEOLDFOLKS.obj `
-    TUNETURKEY.obj
+    TUNETURKEY.obj `
+    TUNEFARMER.obj
 
 #Create .rpk file for MAME
 $zipFileName = ".\MusicEffects.zip"
