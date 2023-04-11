@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
+    //TODO: Delete the first middle C in "The Merry Farmer" and see the error that happens.
+    //      Write a test to reproduce this.
+    //TODO: Delete the Fuer Elise .mscz and .musicxml files from the source code.
     public class AssemblyMakerTests
     {
         [Test]

@@ -120,7 +120,7 @@ To set it permanently (under Windows):
 ## The Samples
 
 All three sample songs where taken from the MuseScore website.
-In order to produce _Für Elise_ and _Old Foks At Home_ in the cartridge program, the MuseScore application was used to take certain notes, outside the SN76489 range, and upscale them by either a perfect 5th or an octave.
+In order to produce _Turkey in the Straw_ and _Old Foks At Home_ in the cartridge program, the MuseScore application was used to take certain notes, outside the SN76489 range, and upscale them by either a perfect 5th or an octave.
 The music was then exported from MuseScore as a MusicXml file.
 
 In order to produce _Lasciate i monti_ in the cartridge program, the MuseScore file was exported unchanged to MusicXml, but then some of the Parts were deleted from an XML editor.

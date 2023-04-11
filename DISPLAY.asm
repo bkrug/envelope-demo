@@ -13,10 +13,11 @@ MAIN2  TEXT '2) Change Envelope'
 MAIN3  TEXT '3) Swap 60hz vs. 50hz'
 MAIN0
 
-SONG1  TEXT 'A) Fu:r Elise'
-SONG2  TEXT 'B) Old Folks At Home'
-SONG3  TEXT 'C) Lasciate i monti'
-SONG4  TEXT 'FCTN-9) Previous Menu'
+SONG1  TEXT 'A) The Merry Farmer'
+SONG2  TEXT 'B) Turkey in the Straw'
+SONG3  TEXT 'C) Old Folks At Home'
+SONG4  TEXT 'D) Lasciate i monti'
+SONG5  TEXT 'FCTN-9) Previous Menu'
 SONG0
 
 ENV1   TEXT 'A) Constant volume (no pause)'
@@ -42,7 +43,7 @@ MMAIN  DATA MAIN1,MAIN2,MAIN3
 MMAIN0 DATA MAIN0
 
 * Sub menu for selecting song
-MSONG  DATA SONG1,SONG2,SONG3,SONG4
+MSONG  DATA SONG1,SONG2,SONG3,SONG4,SONG5
 MSONG0 DATA SONG0
 
 * Sub menu for selecting envelope
