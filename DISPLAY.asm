@@ -21,7 +21,7 @@ SONG5  TEXT 'FCTN-9) Previous Menu'
 SONG0
 
 ENV1   TEXT 'A) Constant volume (no pause)'
-ENV2   TEXT 'B) Constant volume'
+ENV2   TEXT 'B) Constant volume (w/ pause)'
 ENV3   TEXT 'C) Sustain, release'
 ENV4   TEXT 'D) Attack, release'
 ENV5   TEXT 'E) Attack, sustain, release'

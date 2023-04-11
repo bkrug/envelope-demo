@@ -29,6 +29,7 @@ TGN3   EQU  >C000
 *
 NOVOL  BYTE >0F
 SETVOL BYTE >10
+MIDVOL   BYTE >04
 ONE    BYTE >01
        EVEN
 
@@ -281,7 +282,7 @@ ENV0
        MOVB @NOVOL,*R4
        RT
 * No, turn volume to top
-ENV0A  SB   *R4,*R4
+ENV0A  MOVB @MIDVOL,*R4
        RT
 
 *
@@ -299,7 +300,7 @@ ENV1
 ENV1A  MOVB @NOVOL,*R4
        RT
 * No, turn volume to top
-ENV1B  SB   *R4,*R4
+ENV1B  MOVB @MIDVOL,*R4
        RT
 
 *
@@ -412,15 +413,15 @@ D      EQU  15      * Mode Disabled
 * byte 2 = sustain level
 * byte 3 = start release when this much time remains
 * byte 4 = release rate
-RATES1 BYTE D,D,0,16,1
+RATES1 BYTE D,D,4,16,1
 RATES2 BYTE 4,1,D,16,D
-RATES3 BYTE 4,D,0,16,1
-RATES4 BYTE 4,1,8,8,1
+RATES3 BYTE 4,D,4,16,1
+RATES4 BYTE 4,1,4,8,1
        EVEN
   
 *
 * Envelope 6
-* Attacks for awhile, instantly return to mid-level, repeat
+* Attacks for awhile, instantly return to original-level, repeat
 *
 ENV6
 * Is this a rest?
@@ -433,9 +434,11 @@ ENV6
 ENV6A  MOVB @NOVOL,*R4
        RT
 * No, set volume acording to remaining time
+* Let R5 = one of 8 levels with MIDVOL being loudest
 ENV6B  MOV  *R3,R5
        ANDI R5,7
        SLA  R5,8
+       AB   @MIDVOL,R5
        MOVB R5,*R4
        RT
 
@@ -454,17 +457,23 @@ ENV7
 ENV7A  MOVB @NOVOL,*R4
        RT
 * No, set volume acording to remaining time
-ENV7B  MOV  *R3,R5
+ENV7B
+* Let R5 = one of 16 levels from -8 to 7
+       MOV  *R3,R5
        ANDI R5,15
        AI   R5,-8
+* Let R5 cycle from 0 to 8 and from 8 to 0
        ABS  R5
        SLA  R5,8
+* Let R5 cycle from 4 to 12 and from 12 to 4
+       AB   @MIDVOL,R5
        MOVB R5,*R4
        RT
 
 *
 * Envelope 8
-* High volume, mid-level volume, repeat
+* More square shaped
+* High volume, low volume, repeat
 *
 ENV8
 * Is this a rest?
@@ -478,8 +487,10 @@ ENV8A  MOVB @NOVOL,*R4
        RT
 * No, set volume acording to remaining time
 ENV8B  MOV  *R3,R5
+* Let R5 = either 0 or 8.
        ANDI R5,8
-* R5 now contains either 0 or 8.
-* (top of mid-level volume)
-       MOVB @LBR5,*R4
+* Let R5 = either MIDVOL or MIDVOL+8
+       SLA  R5,8
+       AB   @MIDVOL,R5
+       MOVB R5,*R4
        RT
