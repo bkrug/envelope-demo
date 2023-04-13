@@ -243,7 +243,6 @@ ORCH2A
         }
 
         //TODO: Write a similar test in which the Last Measure has Fewer Voices Than the First Measure
-        //TODO: Write a similar test, but we have to deal with greater than 255 duration
         [Test]
         public void GroupByGenerator_FirstMeasureHasFewerVoicesThanNextMeasure_NoNullReferenceErrors()
         {
