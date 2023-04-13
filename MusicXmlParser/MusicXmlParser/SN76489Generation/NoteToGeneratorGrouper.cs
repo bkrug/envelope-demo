@@ -1,6 +1,7 @@
 ﻿using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace MusicXmlParser.SN76489Generation
         {
             var toneGenerators = GroupNotesByToneGenerators(parsedMusic, logger);
             MergeTies(ref toneGenerators);
-            toneGenerators = SelectMeasuresOfNonRests(toneGenerators);
+            toneGenerators = PrioritizeMeasuresOfNonRests(toneGenerators);
             return toneGenerators;
         }
 
@@ -34,7 +35,9 @@ namespace MusicXmlParser.SN76489Generation
                             var notesInMeasure = GetNotesForOneToneGenerator(keyAndVoice.Value, divisions, currentMeasure, chordIndex, logger).ToList();
                             var dictionaryKey = (chordIndex, partIndex, keyAndVoice.Key);
                             if (!generatorsInMeasure.ContainsKey(dictionaryKey))
-                                generatorsInMeasure[dictionaryKey] = new ToneGenerator();
+                            {
+                                generatorsInMeasure[dictionaryKey] = GetGenerator(generatorsInMeasure, currentMeasure);
+                            }
                             generatorsInMeasure[dictionaryKey].GeneratorNotes.AddRange(notesInMeasure);
                         }
                     }
@@ -45,6 +48,28 @@ namespace MusicXmlParser.SN76489Generation
                 .ThenBy(kvp => kvp.Key.Item2)
                 .ThenBy(kvp => kvp.Key.Item3)
                 .Select(kvp => kvp.Value).ToList();
+        }
+
+        private static ToneGenerator GetGenerator(Dictionary<(int, int, string), ToneGenerator> generatorsInMeasure, int currentMeasure)
+        {
+            var measuresToFill = currentMeasure - 1;
+            var durationToFill = measuresToFill == 0
+                ? 0
+                : generatorsInMeasure.Max(kvp => kvp.Value.GeneratorNotes.Where(n => n.StartMeasure < currentMeasure).Sum(n => (int)n.Duration));
+            var newGenerator = new ToneGenerator();
+            while (durationToFill > 0)
+            {
+                var duration = durationToFill > byte.MaxValue ? byte.MaxValue : durationToFill;
+                durationToFill -= byte.MaxValue;
+                newGenerator.GeneratorNotes.Add(new GeneratorNote
+                {
+                    Pitch = nameof(Pitch.REST),
+                    Duration = (Duration)duration,
+                    StartMeasure = 1,
+                    EndMeasure = measuresToFill
+                });
+            }
+            return newGenerator;
         }
 
         private static IEnumerable<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)
@@ -96,7 +121,7 @@ namespace MusicXmlParser.SN76489Generation
             }
         }
 
-        private static List<ToneGenerator> SelectMeasuresOfNonRests(List<ToneGenerator> oldToneGenerators)
+        private static List<ToneGenerator> PrioritizeMeasuresOfNonRests(List<ToneGenerator> oldToneGenerators)
         {
             var maxMeasure = oldToneGenerators.First().GeneratorNotes.Max(gn => gn.EndMeasure);
             var startingMeasure = 1;

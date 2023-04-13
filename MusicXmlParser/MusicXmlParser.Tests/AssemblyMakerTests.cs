@@ -245,8 +245,10 @@ ORCH2A
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
+        //TODO: Write a similar test in which the Last Measure has Fewer Voices Than the First Measure
+        //TODO: Write a similar test, but we have to deal with greater than 255 duration
         [Test]
-        public void GroupByGenerator_FirstMeasureHasFewerNotesThanNextMeasure_NoNullReferenceErrors()
+        public void GroupByGenerator_FirstMeasureHasFewerVoicesThanNextMeasure_NoNullReferenceErrors()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -345,18 +347,19 @@ REPT3
 * Generator 1
 * Measure 1
 ORCH1
-       BYTE REST,N8
+       BYTE C1,N8
 * Measure 2
        BYTE C2,N1
 ORCH1A
 *
 
 * Generator 2
-* Measure 1 - 2
+* Measure 1
 ORCH2
-       BYTE C1,N8
+       BYTE REST,N8
 * Measure 2
-       BYTE C1,N2
+       BYTE D2,N2
+       BYTE REST,N2
 ORCH2A
 *
 
@@ -365,7 +368,7 @@ ORCH2A
 ORCH3
        BYTE REST,N8
 * Measure 2
-       BYTE D2,N2
+       BYTE F1,N1
 ORCH3A
 *
 

@@ -2,7 +2,7 @@
   "profiles": {
     "MusicXmlParser": {
       "commandName": "Project",
-      "commandLineArgs": "--input \"..\\..\\..\\..\\..\\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml\" --output \"..\\..\\..\\..\\..\\TUNEOLDFOLKS.asm\" --asmLabel \"FOSTER\" --ratio60Hz \"1:1\" --ratio50Hz \"5:6\" --repetitionType \"RepeatFromBeginning\""
+      "commandLineArgs": "--input \"..\\..\\..\\..\\..\\Schumann_The_Merry_Farmer_Op._68_No._10.musicxml\" --output \"..\\..\\..\\..\\..\\TUNEFARMER.asm\" --asmLabel \"SCHUMN\" --ratio60Hz \"5:4\" --ratio50Hz \"1:1\" --repetitionType \"RepeatFromBeginning\""
     }
   }
 }
