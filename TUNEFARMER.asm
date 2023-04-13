@@ -32,7 +32,7 @@ REPT3
 * Generator 1
 * Measure 1
 SCHU1
-       BYTE C2,N8
+       BYTE C1,N8
 * Measure 2 - 4
        BYTE REST,N8
        BYTE C2,N8
@@ -172,7 +172,7 @@ SCHU1A
 * Generator 2
 * Measure 1
 SCHU2
-       BYTE C1,N8
+       BYTE REST,N8
 * Measure 2
        BYTE F1,N4DOT
        BYTE A1,N8

@@ -25,6 +25,7 @@ ForEach($file in $fileList) {
 #Auto-generate tunes
 dotnet build .\MusicXmlParser\MusicXmlParser.sln
 
+write-host 'Generating TUNEFARMER.asm'
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Schumann_The_Merry_Farmer_Op._68_No._10.musicxml" `
     --output ".\TUNEFARMER.asm" `
@@ -34,6 +35,7 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --repetitionType "RepeatFromBeginning" `
     --displayRepoWarning 'true'
    
+write-host 'Generating TUNETURKEY.asm'
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Turkey_In_The_Straw_-_A_Ragtime_Fantasie.musicxml" `
     --output ".\TUNETURKEY.asm" `
@@ -43,6 +45,7 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --repetitionType "StopAtEnd" `
     --displayRepoWarning 'true'
 
+write-host 'Generating TUNEOLDFOLKS.asm'
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml" `
     --output ".\TUNEOLDFOLKS.asm" `
@@ -52,6 +55,7 @@ dotnet build .\MusicXmlParser\MusicXmlParser.sln
     --repetitionType "RepeatFromBeginning" `
     --displayRepoWarning 'true'
 
+write-host 'Generating TUNEMONTEVERDI.asm'
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\MusicXmlParser.exe `
     --input ".\Lasciate_i_monti.musicxml" `
     --output ".\TUNEMONTEVERDI.asm" `
