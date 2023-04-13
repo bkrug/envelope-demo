@@ -14,15 +14,11 @@ BIT1   DATA >4000
 * Output:
 * R0
 VDPREG
-* VDP Reg 1, needs to be set to >F0
-*       LI   R0,>01F0
 * Specify that we are changing a register
        SOC  @BIT0,R0
        SZC  @BIT1,R0
 * Write new value to copy byte
        SWPB R0
-* TODO: Should we still copy Reg 1 to this address?
-*       MOVB R0,@REG1CP
 * Write new value to VDP register
        MOVB R0,@VDPWA
 * Specify VDP register to change
