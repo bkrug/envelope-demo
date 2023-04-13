@@ -343,15 +343,11 @@ REPT3
        DATA REPEAT,REPT3
 
 * Generator 1
-* Measure 1 - 2
+* Measure 1
 ORCH1
-       BYTE REST,N4
-       BYTE C2,N8
-       BYTE C2,N8
-       BYTE REST,N4
-       BYTE F2,N8
-       BYTE F2,N8
        BYTE REST,N8
+* Measure 2
+       BYTE C2,N1
 ORCH1A
 *
 
@@ -359,23 +355,17 @@ ORCH1A
 * Measure 1 - 2
 ORCH2
        BYTE C1,N8
-       BYTE F1,N4DOT
-       BYTE A1,N8
-       BYTE C2,N4DOT
-       BYTE F1,N8
+* Measure 2
+       BYTE C1,N2
 ORCH2A
 *
 
 * Generator 3
-* Measure 1 - 2
+* Measure 1
 ORCH3
-       BYTE REST,N4
-       BYTE F2,N8
-       BYTE F2,N8
-       BYTE REST,N4
-       BYTE A2,N8
-       BYTE A2,N8
        BYTE REST,N8
+* Measure 2
+       BYTE D2,N2
 ORCH3A
 *
 
