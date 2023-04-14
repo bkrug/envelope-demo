@@ -256,27 +256,96 @@ ORCH2A
       </attributes>
       <note>
         <rest/>
-        <duration>1</duration>
+        <duration>8</duration>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>whole</type>
         <staff>1</staff>
         </note>
       <backup>
-        <duration>1</duration>
+        <duration>8</duration>
         </backup>
       <note>
         <pitch>
           <step>C</step>
           <octave>3</octave>
           </pitch>
-        <duration>1</duration>
+        <duration>8</duration>
         <voice>5</voice>
-        <type>eighth</type>
+        <type>whole</type>
         <stem>up</stem>
         <staff>2</staff>
       </note>
     </measure>
     <measure number=""1"">
+      <note>
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+        <staff>1</staff>
+        </note>
+      <backup>
+        <duration>8</duration>
+        </backup>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+          </pitch>
+        <duration>8</duration>
+        <voice>5</voice>
+        <type>whole</type>
+        <stem>up</stem>
+        <staff>2</staff>
+      </note>
+    </measure>
+    <measure number=""2"">
+      <note>
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+        <staff>1</staff>
+        </note>
+      <backup>
+        <duration>8</duration>
+        </backup>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+          </pitch>
+        <duration>8</duration>
+        <voice>5</voice>
+        <type>whole</type>
+        <stem>up</stem>
+        <staff>2</staff>
+      </note>
+    </measure>
+    <measure number=""3"">
+      <note>
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>whole</type>
+        <staff>1</staff>
+        </note>
+      <backup>
+        <duration>8</duration>
+        </backup>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+          </pitch>
+        <duration>8</duration>
+        <voice>5</voice>
+        <type>whole</type>
+        <stem>up</stem>
+        <staff>2</staff>
+      </note>
+    </measure>
+    <measure number=""4"">
       <note>
         <pitch>
           <step>C</step>
@@ -343,27 +412,37 @@ REPT3
 * Generator 1
 * Measure 1
 ORCH1
-       BYTE C1,N8
+       BYTE C1,N1
 * Measure 2
+       BYTE C1,N1
+* Measure 3
+       BYTE C1,N1
+* Measure 4
+       BYTE C1,N1
+* Measure 5
        BYTE C2,N1
 ORCH1A
 *
 
 * Generator 2
-* Measure 1
+* Measure 1 - 2
 ORCH2
-       BYTE REST,N8
-* Measure 2
+       BYTE REST,NDBL
+* Measure 3 - 4
+       BYTE REST,NDBL
+* Measure 5
        BYTE D2,N2
        BYTE REST,N2
 ORCH2A
 *
 
 * Generator 3
-* Measure 1
+* Measure 1 - 2
 ORCH3
-       BYTE REST,N8
-* Measure 2
+       BYTE REST,NDBL
+* Measure 3 - 4
+       BYTE REST,NDBL
+* Measure 5
        BYTE F1,N1
 ORCH3A
 *

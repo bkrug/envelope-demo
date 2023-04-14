@@ -52,26 +52,6 @@ namespace MusicXmlParser.SN76489Generation
 
         private static ToneGenerator GetGenerator(Dictionary<(int, int, string), ToneGenerator> generatorsInMeasure, int currentMeasure)
         {
-            //TODO: This code causes a bug, but doesn't fail any unit tests
-            //var measuresToFill = currentMeasure - 1;
-            //var durationToFill = measuresToFill == 0
-            //    ? 0
-            //    : generatorsInMeasure.Max(kvp => kvp.Value.GeneratorNotes.Where(n => n.StartMeasure < currentMeasure).Sum(n => (int)n.Duration));
-            //var newGenerator = new ToneGenerator();
-            //while (durationToFill > 0)
-            //{
-            //    var duration = durationToFill > byte.MaxValue ? byte.MaxValue : durationToFill;
-            //    durationToFill -= byte.MaxValue;
-            //    newGenerator.GeneratorNotes.Add(new GeneratorNote
-            //    {
-            //        Pitch = nameof(Pitch.REST),
-            //        Duration = (Duration)duration,
-            //        StartMeasure = 1,
-            //        EndMeasure = measuresToFill
-            //    });
-            //}
-            //return newGenerator;
-
             //This code fixes the bug
             var newGenerator = new ToneGenerator();
             for(var measureToFill = 1; measureToFill < currentMeasure; ++measureToFill)
