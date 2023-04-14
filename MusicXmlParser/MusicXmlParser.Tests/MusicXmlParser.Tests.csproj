@@ -24,7 +24,19 @@
     <None Update="Files\Fr_Elise_SN76489.musicxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Files\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Schumann_The_Merry_Farmer_Op._68_No._10.musicxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\TUNEFARMER.asm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\TUNEFURELISE.asm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\TUNEOLDFOLKS.asm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
