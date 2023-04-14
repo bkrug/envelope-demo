@@ -92,18 +92,15 @@ MELD1A
                 Ratio50Hz = "10:6",
                 RepetitionType = RepetitionType.RepeatFromBeginning
             };
-            var memoryStream = new MemoryStream();
             var instantiator = new AssemblyMakerInstantiator();
 
             //Act
-            var streamWriter = new StreamWriter(memoryStream);
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
             instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
             streamWriter.Flush();
 
             //Assert
-            memoryStream.Position = 0;
-            using var streamReader = new StreamReader(memoryStream);
-            var actualText = streamReader.ReadToEnd();
+            var actualText = instantiator.GetContentsOfMemoryStream();
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
@@ -189,18 +186,15 @@ ORCH1A
                 Ratio50Hz = "10:6",
                 RepetitionType = RepetitionType.RepeatFromBeginning
             };
-            var memoryStream = new MemoryStream();
             var instantiator = new AssemblyMakerInstantiator();
 
             //Act
-            var streamWriter = new StreamWriter(memoryStream);
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
             instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
             streamWriter.Flush();
 
             //Assert
-            memoryStream.Position = 0;
-            using var streamReader = new StreamReader(memoryStream);
-            var actualText = streamReader.ReadToEnd();
+            var actualText = instantiator.GetContentsOfMemoryStream();
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
@@ -285,18 +279,15 @@ ORCH1A
                 Ratio50Hz = "10:6",
                 RepetitionType = RepetitionType.RepeatFromBeginning
             };
-            var memoryStream = new MemoryStream();
             var instantiator = new AssemblyMakerInstantiator();
 
             //Act
-            var streamWriter = new StreamWriter(memoryStream);
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
             instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
             streamWriter.Flush();
 
             //Assert
-            memoryStream.Position = 0;
-            using var streamReader = new StreamReader(memoryStream);
-            var actualText = streamReader.ReadToEnd();
+            var actualText = instantiator.GetContentsOfMemoryStream();
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
 
@@ -485,20 +476,18 @@ ORCH1A
                 Ratio50Hz = "10:6",
                 RepetitionType = RepetitionType.RepeatFromBeginning
             };
-            var memoryStream = new MemoryStream();
-            string actualMessage = string.Empty;
             var instantiator = new AssemblyMakerInstantiator();
+            string actualMessage = string.Empty;
             instantiator.Logger.Setup(l => l.WriteError(It.IsAny<string>()))
                 .Callback((string m) => actualMessage = m);
+
             //Act
-            var streamWriter = new StreamWriter(memoryStream);
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
             instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
             streamWriter.Flush();
 
             //Assert
-            memoryStream.Position = 0;
-            using var streamReader = new StreamReader(memoryStream);
-            var actualText = streamReader.ReadToEnd();
+            var actualText = instantiator.GetContentsOfMemoryStream();
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
             actualMessage.Should().BeEquivalentTo("Could not parse duration in measure 1: \"not-parsable\"");
         }
