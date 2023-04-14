@@ -22,7 +22,7 @@ namespace MusicXmlParser.SN76489Generation
         private static List<ToneGenerator> GroupNotesByToneGenerators(ParsedMusic parsedMusic, ILogger logger)
         {
             var divisions = int.TryParse(parsedMusic.Divisions, out var parseResult) ? parseResult : 0;
-            var generatorsInMeasure = new Dictionary<(int, int, string), ToneGenerator>();
+            var notesByPartAndVoice = new Dictionary<(int, int, string), ToneGenerator>();
             for (var chordIndex = 0; chordIndex < TOTAL_GENERATORS_IN_SN76489; ++chordIndex)
             {
                 for (var partIndex = 0; partIndex < parsedMusic.Parts.Count; ++partIndex)
@@ -34,16 +34,17 @@ namespace MusicXmlParser.SN76489Generation
                         {
                             var notesInMeasure = GetNotesForOneToneGenerator(keyAndVoice.Value, divisions, currentMeasure, chordIndex, logger).ToList();
                             var dictionaryKey = (chordIndex, partIndex, keyAndVoice.Key);
-                            if (!generatorsInMeasure.ContainsKey(dictionaryKey))
+                            if (!notesByPartAndVoice.ContainsKey(dictionaryKey))
                             {
-                                generatorsInMeasure[dictionaryKey] = GetGenerator(generatorsInMeasure, currentMeasure);
+                                notesByPartAndVoice[dictionaryKey] = GetGenerator(notesByPartAndVoice, currentMeasure);
                             }
-                            generatorsInMeasure[dictionaryKey].GeneratorNotes.AddRange(notesInMeasure);
+                            notesByPartAndVoice[dictionaryKey].GeneratorNotes.AddRange(notesInMeasure);
                         }
+                        FillInEmptyVoices(currentMeasure, ref notesByPartAndVoice);
                     }
                 }
             }
-            return generatorsInMeasure
+            return notesByPartAndVoice
                 .OrderBy(kvp => kvp.Key.Item1)
                 .ThenBy(kvp => kvp.Key.Item2)
                 .ThenBy(kvp => kvp.Key.Item3)
@@ -52,10 +53,10 @@ namespace MusicXmlParser.SN76489Generation
 
         private static ToneGenerator GetGenerator(Dictionary<(int, int, string), ToneGenerator> generatorsInMeasure, int currentMeasure)
         {
-            //This code fixes the bug
             var newGenerator = new ToneGenerator();
-            for(var measureToFill = 1; measureToFill < currentMeasure; ++measureToFill)
+            for (var measureToFill = 1; measureToFill < currentMeasure; ++measureToFill)
             {
+                //If this voice was not present in earlier measures, fill it with implied rests
                 var durationToFill = generatorsInMeasure.Max(kvp => kvp.Value.GeneratorNotes.Where(n => n.StartMeasure == measureToFill).Sum(n => (int)n.Duration));
                 newGenerator.GeneratorNotes.Add(new GeneratorNote
                 {
@@ -66,6 +67,24 @@ namespace MusicXmlParser.SN76489Generation
                 });
             }
             return newGenerator;
+        }
+
+        //If this voice was not present in this measure, fill it with implied rests
+        private static void FillInEmptyVoices(int currentMeasure, ref Dictionary<(int, int, string), ToneGenerator> notesByPartAndVoice)
+        {
+            var durationToFill = notesByPartAndVoice.Max(kvp => kvp.Value.GeneratorNotes.Where(n => n.StartMeasure == currentMeasure).Sum(n => (int)n.Duration));
+            foreach (var noteGroup in notesByPartAndVoice)
+            {
+                if (noteGroup.Value.GeneratorNotes.Any(n => n.StartMeasure == currentMeasure))
+                    continue;
+                noteGroup.Value.GeneratorNotes.Add(new GeneratorNote
+                {
+                    Pitch = nameof(Pitch.REST),
+                    Duration = (Duration)durationToFill,
+                    StartMeasure = currentMeasure,
+                    EndMeasure = currentMeasure
+                });
+            }
         }
 
         private static IEnumerable<GeneratorNote> GetNotesForOneToneGenerator(Voice measure, int lengthOfQuarter, int currentMeasure, int chordIndex, ILogger logger)

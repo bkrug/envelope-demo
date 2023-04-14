@@ -632,12 +632,12 @@ ORCH3A
           <step>D</step>
           <octave>4</octave>
         </pitch>
-        <duration>4</duration>
+        <duration>8</duration>
         <voice>3</voice>
-        <type>half</type>
+        <type>whole</type>
       </note>
       <backup>
-        <duration>4</duration>
+        <duration>8</duration>
       </backup>
       <note>
         <pitch>
@@ -788,8 +788,7 @@ ORCH1A
 * Generator 2
 * Measure 1
 ORCH2
-       BYTE D2,N2
-       BYTE REST,N2
+       BYTE D2,N1
 * Measure 2 - 3
        BYTE REST,NDBL
 * Measure 4 - 5
