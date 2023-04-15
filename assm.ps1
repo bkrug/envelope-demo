@@ -23,7 +23,7 @@ ForEach($file in $fileList) {
 }
 
 #Auto-generate tunes
-dotnet build .\MusicXmlParser\MusicXmlParser.sln debug
+dotnet build .\MusicXmlParser\MusicXmlParser.sln
 
 write-host 'Generating TUNEFARMER.asm'
 .\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
