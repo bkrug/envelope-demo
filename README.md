@@ -36,7 +36,7 @@ The first three words of memory contain the addresses of the music data for each
 The next three words of memory contain the addresses of data telling the program which portions of a song are to be repeated.
 (Again, a zero (0) will be placed here if a sound generator is unused.)
 Two more words of memory specify a ratio which controls the length of notes in a 60hz environment.
-The final two words of memory specify a ratio which controls the lenght of notes in a 50hz environment.
+The final two words of memory specify a ratio which controls the length of notes in a 50hz environment.
 
 In a 60hz environment, a ratio of 1:1 results in a tempo of 150 quarter notes per minute.
 Each quarter note has a duration of 24/60ths of a second.
@@ -70,8 +70,8 @@ Here is an example of calling the music parser.
     --repetitionType "RepeatFromBeginning"
     --displayRepoWarning 'true'`
 
-`--input` -- the source file<br>
-`--output` -- the ouput file to be used by your own program<br>
+`--input` -- the source file. Should be a MusicXml file<br>
+`--output` -- the ouput assembly language file to be used by your own program<br>
 `--asmLabel` -- the label that will correspond to the Song Header. This is the only address exposed to the rest of your assembly language program through a REF statement.<br>
 `--ratio60hz` -- the ratio to shorten or lengthen note durations in a 60hz environment<br>
 `--ratio50hz` -- the ratio to shorten or lengthen note durations in a 50hz environment<br>
@@ -79,7 +79,7 @@ Here is an example of calling the music parser.
 use "StopAtEnd" to specify that a song should be played only once<br>
 use "RepeatFromBeggining" to specify that a song should be played in its entirety repeatedly<br>
 use "RepeatFromFirstJump" to skip any introduction at the beginning of the song, but play the rest repeatedly<br>
-`--displayRepoWarning` -- should probably be "false" or omitted for most users. When true it adds a message to the output specifying that this is auto-generated code.
+`--displayRepoWarning` -- should probably be "false" or omitted for most users. When true it adds a message to the output specifying that this is auto-generated code and that it doesn't need to be included in the repo.
 
 ## To assemble the cartridge program
 Have XDT99 (https://endlos99.github.io/xdt99/) available on your computer.
@@ -95,7 +95,7 @@ In your Python interpreter, type the following commands:
 
 'C:\\Python25'
 
-### Running Python Scripts from Powershell
+### Running Python Scripts from Powershell (In a Windows Environment)
 
 First, add the xas99 folder to your System PATH variables.
 
@@ -105,15 +105,15 @@ Run the following commands at a shell prompt:
 `assoc .py=PythonScript`
 `ftype PythonScript=C:\bin\python.exe "%1" %*`
 
-Replace C:\bin\python.exe with the path to your Python installation. This enables you to run myscript.py instead of python myscript.py
+Replace C:\bin\python.exe with the path to your Python installation. This enables you to run `myscript.py` instead of `python myscript.py`
 
 Add .py to your PATHEXT environment variable.
-This makes Windows consider *.py files to be executable when searching your PATH. It enables you to run myscript instead of myscript.py
+This makes Windows consider *.py files to be executable when searching your PATH. It enables you to run `myscript` instead of `myscript.py`
 You can set it for the current cmd session:
 
 `set PATHEXT=%PATHEXT%;.PY`
 
-To set it permanently (under Windows):
+To set it permanently:
 
 `setx PATHEXT %PATHEXT%;.PY`
 
