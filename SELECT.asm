@@ -15,13 +15,14 @@ HGHMNU BYTE '2'
 *
 CHGHTZ BYTE '3'
 ESCKEY BYTE >0F
-* Range of keys that can select a song
-LOWSNG BYTE 'A'
-HGHSNG BYTE 'C'
 * Range of keys that can select an envelope
 LOWENV BYTE 'A'
 HGHENV BYTE 'I'
+* Range of keys that can select a song
+LOWSNG BYTE 'A'
+HGHSNG BYTE 'D'
        EVEN
+SNGLST DATA SCHUMN,OTTO,FOSTER,MONTEV
 
 MNULST DATA MMAIN,MSONG,MENV
 
@@ -97,8 +98,6 @@ MSONG
        BL   @PLYINT
 *
        JMP  PRCRT
-
-SNGLST DATA SCHUMN,OTTO,FOSTER,MONTEV
 
 *
 * Envelope Sub-menu
