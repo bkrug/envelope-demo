@@ -150,7 +150,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_FirstMeasureHasOneVoice_SecondMeasureHasTwoVoices_TwoToneGeneratorsWithEqualMeasuresResult()
+        public void GroupByGenerator_OneVoiceIsOnlyRestsInFirstMeasure_TwoToneGeneratorsWithEqualMeasuresResult()
         {
             var singlePartTwoVoices = new PartBuilder()
                 .AddPartAndVoice("p1", "v1")
@@ -190,7 +190,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_OneVoicesWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
+        public void GroupByGenerator_OneVoiceWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
         {
             var singlePartSingleVoice = new PartBuilder()
                 .AddPartAndVoice("p1", "v1")
