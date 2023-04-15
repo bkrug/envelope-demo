@@ -4,6 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Version>1.0.0-prerelease</Version>
+    <RepositoryUrl>https://github.com/bkrug/envelope-demo</RepositoryUrl>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
