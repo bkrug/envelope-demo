@@ -89,10 +89,11 @@ This, in turn, requires python.
 
 In your Python interpreter, type the following commands:
 
-`import os`
-`import sys`
+`import os`<br>
+`import sys`<br>
 `os.path.dirname(sys.executable)`
 
+_Example Output:_<br>
 'C:\\Python25'
 
 ### Running Python Scripts from Powershell (In a Windows Environment)
@@ -102,7 +103,7 @@ First, add the xas99 folder to your System PATH variables.
 Then, associate *.py files with python.
 Run the following commands at a shell prompt:
 
-`assoc .py=PythonScript`
+`assoc .py=PythonScript`<br>
 `ftype PythonScript=C:\bin\python.exe "%1" %*`
 
 Replace C:\bin\python.exe with the path to your Python installation. This enables you to run `myscript.py` instead of `python myscript.py`
