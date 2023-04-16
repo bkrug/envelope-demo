@@ -11,9 +11,12 @@ namespace MusicXmlParser.Tests
     public class NonSupportedFeatureAndErrorTests
     {
         [Test]
-        public void NonSupportedFeature_GraceNoteInSource_CommentedOutNoteInOutput()
+        [TestCase("slash=\"yes\"")]
+        [TestCase("slash=\"no\"")]
+        [TestCase("")]
+        public void NonSupportedFeature_GraceNoteInSource_CommentedOutNoteInOutput(string slash)
         {
-            const string MUSIC_XML =
+            string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
 <score-partwise>
   <part id=""P13"">
@@ -32,7 +35,7 @@ namespace MusicXmlParser.Tests
         <stem>down</stem>
       </note>
       <note>
-        <grace slash=""yes""/>
+        <grace " + slash + @"/>
         <pitch>
           <step>F</step>
           <octave>4</octave>
