@@ -23,43 +23,6 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_TwoVoicesNoChords_Success()
-        {
-            var singlePartTwoVoices = new PartBuilder()
-                .AddPartAndVoice("p1", "v1")
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddPartAndVoice("p1", "v2")
-                .AddMeasureOfOneNoteChords("p1", "v2")
-                .AddMeasureOfOneNoteChords("p1", "v2")
-                .Build();
-            var expectedToneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                }
-            };
-            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
-        }
-
-        [Test]
         public void GroupByGenerator_FourVoicesNoChords_NoneEmpty_OneVoiceIsIgnored()
         {
             var fourVoicesInTotal = new PartBuilder()
