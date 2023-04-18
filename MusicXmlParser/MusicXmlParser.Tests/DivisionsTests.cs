@@ -393,7 +393,7 @@ MELD1A
           <step>D</step>
           <octave>4</octave>
         </pitch>
-        <duration>12</duration>
+        <duration>24</duration>
         <voice>1</voice>
       </note>
       <note>
@@ -401,7 +401,7 @@ MELD1A
           <step>E</step>
           <octave>4</octave>
         </pitch>
-        <duration>12</duration>
+        <duration>24</duration>
         <voice>1</voice>
       </note>
     </measure>

@@ -30,11 +30,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -49,6 +49,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -107,11 +108,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -164,11 +165,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -220,11 +221,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -244,6 +245,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -309,11 +311,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -373,11 +375,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -398,6 +400,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -464,11 +467,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -493,6 +496,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -570,11 +574,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -599,6 +603,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -673,11 +678,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             //Measure 1
@@ -775,11 +780,11 @@ namespace MusicXmlParser.Tests
         {
             var parsedMusic = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             //Measure 1

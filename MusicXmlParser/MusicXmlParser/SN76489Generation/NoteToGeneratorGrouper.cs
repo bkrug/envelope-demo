@@ -21,13 +21,13 @@ namespace MusicXmlParser.SN76489Generation
 
         private static List<ToneGenerator> GroupNotesByToneGenerators(ParsedMusic parsedMusic, ILogger logger)
         {
-            var divisions = int.TryParse(parsedMusic.Divisions, out var parseResult) ? parseResult : 0;
             var notesByPartAndVoice = new Dictionary<(int, int, string), ToneGenerator>();
             for (var chordIndex = 0; chordIndex < TOTAL_GENERATORS_IN_SN76489; ++chordIndex)
             {
                 for (var partIndex = 0; partIndex < parsedMusic.Parts.Count; ++partIndex)
                 {
                     var parsedPart = parsedMusic.Parts[partIndex];
+                    var divisions = int.TryParse(parsedPart.Divisions, out var parseResult) ? parseResult : 0;
                     for (var currentMeasure = 1; currentMeasure <= parsedPart.Measures.Count; currentMeasure++)
                     {
                         foreach (var keyAndVoice in parsedPart.Measures[currentMeasure - 1].Voices)

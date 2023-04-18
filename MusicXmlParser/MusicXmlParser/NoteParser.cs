@@ -27,15 +27,14 @@ namespace MusicXmlParser
         {
             return new ParsedMusic
             {
-                Divisions = GetDivision(document),
                 Parts = GetMusicalParts(document),
                 Credits = GetCredits(document)
             };
         }
 
-        private static string GetDivision(XDocument document)
+        private static string GetDivision(XElement partElem)
         {
-            var division = document.Root.Descendants("divisions");
+            var division = partElem.Descendants("divisions");
             return division.FirstOrDefault()?.Value;
         }
 
@@ -59,7 +58,10 @@ namespace MusicXmlParser
             foreach (var partElem in parts)
             {
                 var measures = partElem.Descendants("measure");
-                var newPart = new Part();
+                var newPart = new Part()
+                {
+                    Divisions = GetDivision(partElem)
+                };
                 var measureNumber = 0;
                 foreach (var measureElem in measures)
                 {

@@ -91,11 +91,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -170,11 +170,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "48",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "48",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -276,11 +276,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "48",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "48",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -400,11 +400,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "12",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "12",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -522,11 +522,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -604,6 +604,9 @@ namespace MusicXmlParser.Tests
     </part>
     <part>
         <measure>
+            <attributes>
+                <divisions>24</divisions>
+            </attributes>
             <note>
                 <pitch>
                     <step>F</step>
@@ -628,11 +631,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -656,6 +659,7 @@ namespace MusicXmlParser.Tests
                     },
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -725,11 +729,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -800,11 +804,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -879,11 +883,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -994,11 +998,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure
@@ -1094,11 +1098,11 @@ namespace MusicXmlParser.Tests
 </score-partwise>";
             var expectedObject = new ParsedMusic
             {
-                Divisions = "24",
                 Parts = new List<Part>
                 {
                     new Part
                     {
+                        Divisions = "24",
                         Measures = new List<Measure>
                         {
                             new Measure

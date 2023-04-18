@@ -239,7 +239,10 @@ namespace MusicXmlParser.Tests
             Assert.That(_voices.All(v => v.Value.Count == measureCount), "All voices must have the same number of measures");
             foreach (var partAndVoices in _voices.Keys.GroupBy(k => k.part))
             {
-                var part = new Part();
+                var part = new Part()
+                {
+                    Divisions = "24"
+                };
                 for (var m = 0; m < measureCount; ++m)
                 {
                     part.Measures.Add(new Measure
@@ -256,7 +259,6 @@ namespace MusicXmlParser.Tests
             }
             return new ParsedMusic
             {
-                Divisions = "24",
                 Parts = parts
             };
         }
