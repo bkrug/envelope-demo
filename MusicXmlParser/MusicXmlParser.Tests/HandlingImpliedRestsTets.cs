@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
-    public class HanlingImpliedRestsTets
+    public class HandlingImpliedRestsTets
     {
         [Test]
         public void HandlingImpliedRests_FirstMeasuresHaveFewerVoicesThanLastMeasure_NoNullReferenceErrors()
