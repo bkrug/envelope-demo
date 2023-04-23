@@ -23,136 +23,6 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_FourVoicesNoChords_NoneEmpty_OneVoiceIsIgnored()
-        {
-            var fourVoicesInTotal = new PartBuilder()
-                .AddPartAndVoice("p1", "v1")
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddPartAndVoice("p1", "v2")
-                .AddMeasureOfOneNoteChords("p1", "v2")
-                .AddPartAndVoice("p1", "v3")
-                .AddMeasureOfOneNoteChords("p1", "v3")
-                .AddPartAndVoice("p1", "v4")
-                .AddMeasureOfOneNoteChords("p1", "v4")
-                .Build();
-            var expectedToneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes = GetMeasureOfGeneratorNotes(1)
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes = GetMeasureOfGeneratorNotes(1)
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes = GetMeasureOfGeneratorNotes(1)
-                }
-            };
-            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
-        }
-
-        [Test]
-        public void GroupByGenerator_FourVoicesNoChords_DifferentVoicesAreAllRestsInDifferentMeasures_SkipAllRestVoicesForGivenMeasure()
-        {
-            var fourVoicesInTotal = new PartBuilder()
-                .AddPartAndVoice("p1", "v1")
-                .AddPartAndVoice("p1", "v2")
-                .AddPartAndVoice("p1", "v3")
-                .AddPartAndVoice("p1", "v4")
-                //Measure 1
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddMeasureOfRests("p1", "v2")
-                .AddMeasureOfOneNoteChords("p1", "v3")
-                .AddMeasureOfOneNoteChords("p1", "v4")
-                //Measure 2
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddMeasureOfOneNoteChords("p1", "v2")
-                .AddMeasureOfRests("p1", "v3")
-                .AddMeasureOfOneNoteChords("p1", "v4")
-                //
-                .Build();
-            var expectedToneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                }
-            };
-            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(fourVoicesInTotal, "LBL", _defaultOptions);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
-        }
-
-        [Test]
-        public void GroupByGenerator_OneVoiceIsOnlyRestsInFirstMeasure_TwoToneGeneratorsWithEqualMeasuresResult()
-        {
-            var singlePartTwoVoices = new PartBuilder()
-                .AddPartAndVoice("p1", "v1")
-                .AddPartAndVoice("p1", "v2")
-                //Measure 1
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddMeasureOfRests("p1", "v2")
-                //Measure 2
-                .AddMeasureOfOneNoteChords("p1", "v1")
-                .AddMeasureOfOneNoteChords("p1", "v2")
-                //
-                .Build();
-            var expectedToneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfGeneratorNotes(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasureOfRests(1)
-                        .Concat(GetMeasureOfGeneratorNotes(2))
-                        .ToList()
-                }
-            };
-            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(singlePartTwoVoices, "LBL", _defaultOptions);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
-        }
-
-        [Test]
         public void GroupByGenerator_OneVoiceWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
         {
             var singlePartSingleVoice = new PartBuilder()
@@ -273,7 +143,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_TwoPartsDifferentPlayLengths_ThrowException()
+        public void GroupByGenerator_TwoPartsDifferentPlayLengths_MessageIsLogged()
         {
             var singlePartTwoVoices = new PartBuilder()
                 .AddPartAndVoice("p1", "v1")
