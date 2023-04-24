@@ -6,6 +6,8 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
+    //TODO: Handle error situation in which first note of a measure has <chord/> tag.
+    //This will cause a Sequence-contains-no-elements exception to be thrown
     public class GroupByGeneratorTests
     {
         [Test]
@@ -280,145 +282,6 @@ ORCH3A
         }
 
         [Test]
-        public void GroupByGenerator_TwoPartsOneVoiceEachNoChords_TwoGeneratorsOutput()
-        {
-            const string MUSIC_XML =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise>
-  <part id=""P1"">
-    <measure>
-      <attributes>
-        <divisions>24</divisions>
-      </attributes>
-      <note>
-        <pitch>
-          <step>B</step>
-          <alter>-1</alter>
-          <octave>3</octave>
-        </pitch>
-        <duration>24</duration>
-        <voice>1</voice>
-      </note>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>24</duration>
-        <voice>1</voice>
-      </note>
-    </measure>
-    <measure>
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>48</duration>
-        <voice>1</voice>
-      </note>
-    </measure>
-  </part>
-  <part id=""P2"">
-    <measure>
-      <attributes>
-        <divisions>24</divisions>
-      </attributes>
-      <note>
-        <pitch>
-          <step>B</step>
-          <alter>-1</alter>
-          <octave>4</octave>
-        </pitch>
-        <duration>24</duration>
-        <voice>1</voice>
-      </note>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>24</duration>
-        <voice>1</voice>
-      </note>
-    </measure>
-    <measure>
-      <note>
-        <pitch>
-          <step>D</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>48</duration>
-        <voice>1</voice>
-      </note>
-    </measure>
-  </part>
-</score-partwise>";
-            const string EXPECTED_TEXT =
-@"       DEF  ORCHES
-
-       COPY 'NOTEVAL.asm'
-       COPY 'CONST.asm'
-
-*
-* Song Header
-*
-ORCHES DATA ORCH1,ORCH2,0
-* Data structures dealing with repeated music
-       DATA REPT1,REPT2,0
-* Duration ratio in 60hz environment
-       DATA 2,1
-* Duration ratio in 50hz environment
-       DATA 10,6
-
-REPT1
-       DATA ORCH1A,ORCH1
-       DATA REPEAT,REPT1
-REPT2
-       DATA ORCH2A,ORCH2
-       DATA REPEAT,REPT2
-
-* Generator 1
-* Measure 1
-ORCH1
-       BYTE Bb1,N4
-       BYTE C2,N4
-* Measure 2
-       BYTE D2,N2
-ORCH1A
-*
-
-* Generator 2
-* Measure 1
-ORCH2
-       BYTE Bb2,N4
-       BYTE C3,N4
-* Measure 2
-       BYTE D3,N2
-ORCH2A
-*
-
-";
-            var options = new Options
-            {
-                AsmLabel = "ORCHES",
-                Ratio60Hz = "2:1",
-                Ratio50Hz = "10:6",
-                RepetitionType = RepetitionType.RepeatFromBeginning
-            };
-            var instantiator = new AssemblyMakerInstantiator();
-
-            //Act
-            var streamWriter = new StreamWriter(instantiator.MemoryStream);
-            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
-            streamWriter.Flush();
-
-            //Assert
-            var actualText = instantiator.GetContentsOfMemoryStream();
-            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
-        }
-
-        [Test]
         public void GroupByGenerator_OnePartTwoVoicesNoChords_TwoGeneratorsOutput()
         {
             const string MUSIC_XML =
@@ -630,6 +493,367 @@ ORCH2
 * Measure 2
        BYTE Eb2,N2
 ORCH2A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
+        }
+
+        [Test]
+        public void GroupByGenerator_OnePartTwoVoiceHasChords_ThirdGeneratorContainsSecondNoteOfSomeChord()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P1"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <backup>
+        <duration>48</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+    </measure>
+    <measure>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <backup>
+        <duration>48</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            const string EXPECTED_TEXT =
+@"       DEF  ORCHES
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+ORCHES DATA ORCH1,ORCH2,ORCH3
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,REPT3
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
+REPT2
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
+REPT3
+       DATA ORCH3A,ORCH3
+       DATA REPEAT,REPT3
+
+* Generator 1
+* Measure 1
+ORCH1
+       BYTE A2,N4
+       BYTE B2,N4
+* Measure 2
+       BYTE C3,N4
+       BYTE D3,N4
+ORCH1A
+*
+
+* Generator 2
+* Measure 1
+ORCH2
+       BYTE A0,N4
+       BYTE B0,N4
+* Measure 2
+       BYTE C1,N4
+       BYTE D1,N4
+ORCH2A
+*
+
+* Generator 3
+* Measure 1
+ORCH3
+       BYTE C3,N4
+       BYTE D3,N4
+* Measure 2
+       BYTE E1,N4
+       BYTE F1,N4
+ORCH3A
+*
+
+";
+            //Note that in Measure 1, voice 1 contains chords. In Measure 2, only voice 2 contains chords.
+            //So in Generator 3, Measure 1 contains notes from voice 1, but Measure 2 contains notes from voice 2.
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
+        }
+
+        [Test]
+        public void GroupByGenerator_OnePartThreeVoiceHasChords_OnlyFirstNoteOfChordSentToOutput()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P1"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>1</voice>
+      </note>
+      <backup>
+        <duration>96</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>2</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>2</voice>
+      </note>
+      <backup>
+        <duration>96</duration>
+      </backup>
+      <note>
+        <pitch>
+          <step>E</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>3</voice>
+      </note>
+      <note>
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            const string EXPECTED_TEXT =
+@"       DEF  ORCHES
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+ORCHES DATA ORCH1,ORCH2,ORCH3
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,REPT3
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
+REPT2
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
+REPT3
+       DATA ORCH3A,ORCH3
+       DATA REPEAT,REPT3
+
+* Generator 1
+* Measure 1
+ORCH1
+       BYTE C3,N1
+ORCH1A
+*
+
+* Generator 2
+* Measure 1
+ORCH2
+       BYTE D2,N1
+ORCH2A
+*
+
+* Generator 3
+* Measure 1
+ORCH3
+       BYTE E1,N1
+ORCH3A
 *
 
 ";
@@ -971,6 +1195,145 @@ ORCH3
 * Measure 2
        BYTE B0,N2
 ORCH3A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
+        }
+
+        [Test]
+        public void GroupByGenerator_TwoPartsOneVoiceEachNoChords_TwoGeneratorsOutput()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P1"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <measure>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>48</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+  <part id=""P2"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <measure>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>48</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            const string EXPECTED_TEXT =
+@"       DEF  ORCHES
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+ORCHES DATA ORCH1,ORCH2,0
+* Data structures dealing with repeated music
+       DATA REPT1,REPT2,0
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
+REPT2
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
+
+* Generator 1
+* Measure 1
+ORCH1
+       BYTE Bb1,N4
+       BYTE C2,N4
+* Measure 2
+       BYTE D2,N2
+ORCH1A
+*
+
+* Generator 2
+* Measure 1
+ORCH2
+       BYTE Bb2,N4
+       BYTE C3,N4
+* Measure 2
+       BYTE D3,N2
+ORCH2A
 *
 
 ";
