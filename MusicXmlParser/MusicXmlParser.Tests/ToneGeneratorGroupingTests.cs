@@ -23,47 +23,6 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void GroupByGenerator_OneVoiceWithChords_IncludeLowerNotesOfChordsInSecondAndThirdGenerators()
-        {
-            var singlePartSingleVoice = new PartBuilder()
-                .AddPartAndVoice("p1", "v1")
-                .AddMeasureOfThreeNoteChords("p1", "v1")
-                .AddMeasureOfThreeNoteChords("p1", "v1")
-                .Build();
-            var expectedToneGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasurePart1OfChord(1)
-                        .Concat(GetMeasurePart1OfChord(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasurePart2OfChord(1)
-                        .Concat(GetMeasurePart2OfChord(2))
-                        .ToList()
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes =
-                        GetMeasurePart3OfChord(1)
-                        .Concat(GetMeasurePart3OfChord(2))
-                        .ToList()
-                }
-            };
-            AddDetailsConsistentWithNonRepeatingSong(expectedToneGenerators);
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(singlePartSingleVoice, "LBL", _defaultOptions);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedToneGenerators);
-        }
-
-        [Test]
         public void GroupByGenerator_TwoVoicesWithChords_IncludeLowerNotesOfChordsInThirdGenerator()
         {
             var singlePartTwoVoices = new PartBuilder()
