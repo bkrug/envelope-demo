@@ -494,5 +494,87 @@ ORCH1A
             TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
             actualMessage.Should().BeEquivalentTo("Could not parse duration in measure 1: \"not-parsable\"");
         }
+
+        [Test]
+        public void NonSupportedFeature_TwoPartsInSameMeasureHaveDifferentDurations_LogError()
+        {
+            const string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P1"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+  <part id=""P3"">
+    <measure>
+      <attributes>
+        <divisions>24</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            var options = new Options
+            {
+                AsmLabel = "ORCHES",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+            string actualMessage = string.Empty;
+            instantiator.Logger.Setup(l => l.WriteError(It.IsAny<string>()))
+                .Callback((string m) => actualMessage = m);
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            actualMessage.Should().BeEquivalentTo("All voices must have the same duration");
+        }
     }
 }
