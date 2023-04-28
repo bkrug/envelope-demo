@@ -118,6 +118,9 @@ To set it permanently:
 
 `setx PATHEXT %PATHEXT%;.PY`
 
+Now you should be able to run "assm.ps1" from command line when your location is the root folder of this repo.
+That script will reparse the MusicXml files, assemble the source code, and link it all into a cartridge image.
+
 ## The Samples
 
 All three sample songs where taken from the MuseScore website.
