@@ -8,9 +8,6 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
-    //A repetition type of "StopAtEnd" means that the song will not repeat endlessly.
-    //Most songs will stop when they reach the end.
-    //Some songs end in a backward-repeat bar, end thus get repeated one time.
     public class ToneGeneratorRepeatTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
@@ -203,7 +200,7 @@ namespace MusicXmlParser.Tests
         [Test]
         [TestCase(RepetitionType.RepeatFromBeginning)]
         //It is strange to use 'RepeatFromFirstJump' in this second scenario,
-        //but if it is used, repeating the whole song is the most logic result I can come up with.
+        //but I'd like to confirm that such use won't throw an exception.
         [TestCase(RepetitionType.RepeatFromFirstJump)]
         public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
@@ -571,7 +568,6 @@ namespace MusicXmlParser.Tests
 
         //This isn't really what 'RepeatFromFirstJump' is designed for.
         //But if someone decides to use it in this situation, I would rather be sure it won't throw an exception.
-        //See also ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
         [Test]
         public void ToneGenerator_RepeatBarsInMiddleOfSong_EverythingExceptIntroForever()
         {
