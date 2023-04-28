@@ -8,10 +8,9 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
-    //A repetition type of "Default" means that the song will not repeat endlessly.
+    //A repetition type of "StopAtEnd" means that the song will not repeat endlessly.
     //Most songs will stop when they reach the end.
     //Some songs end in a backward-repeat bar, end thus get repeated one time.
-    //Other repetition types are more self exclamatory.
     public class ToneGeneratorRepeatTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
@@ -21,10 +20,190 @@ namespace MusicXmlParser.Tests
             return new SN76489NoteGenerator(_logger.Object);
         }
 
+        //SongPlayedOnceContainsRepeatBarTests
+
+        [Test]
+        public void ToneGenerator_NoRepeats_PlayTheSongStraightThrough()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Divisions = "24",
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, null, "LBL1A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL1A", Symbols.STOP ),
+                        ( "REPEAT", Symbols.STOP )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.StopAtEnd
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
+        public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Divisions = "24",
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "LBL1"),
+                        GetGeneratorNote(2),
+                        GetGeneratorNote(3, null, "LBL1A")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "LBL1A", "LBL1" ),
+                        ( "REPEAT", Symbols.STOP )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.StopAtEnd
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        [Test]
+        public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureOnce()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Divisions = "24",
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "MUSC1"),
+                        GetGeneratorNote(2, "MUSC1A"),
+                        GetGeneratorNote(3),
+                        GetGeneratorNote(4, null, "MUSC1B")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "MUSC1B", "MUSC1A" ),
+                        ( "REPEAT", Symbols.STOP )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.StopAtEnd
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        //SongPlayedManyTimesContainsRepeatBarTests
+
         [Test]
         [TestCase(RepetitionType.RepeatFromBeginning)]
         //It is strange to use 'RepeatFromFirstJump' in this second scenario,
-        //but if it is used, I guess we have to repeat the whole song.
+        //but if it is used, repeating the whole song is the most logic result I can come up with.
         [TestCase(RepetitionType.RepeatFromFirstJump)]
         public void ToneGenerator_NoRepeatsInSource_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
@@ -98,119 +277,6 @@ namespace MusicXmlParser.Tests
 
             //Act
             var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "SYM", options);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
-        }
-
-        [Test]
-        public void ToneGenerator_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
-        {
-            var parsedMusic = new ParsedMusic
-            {
-                Parts = new List<Part>
-                {
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasBackwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            }
-                        }
-                    }
-                }
-            };
-            var expectedGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "LBL1"),
-                        GetGeneratorNote(2),
-                        GetGeneratorNote(3, null, "LBL1A")
-                    },
-                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-                    {
-                        ( "LBL1A", "LBL1" ),
-                        ( "REPEAT", Symbols.STOP )
-                    }
-                }
-            };
-            var options = new Options
-            {
-                RepetitionType = RepetitionType.StopAtEnd
-            };
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
-        }
-
-        [Test]
-        public void ToneGenerator_NoRepeats_PlayTheSongStraightThrough()
-        {
-            var parsedMusic = new ParsedMusic
-            {
-                Parts = new List<Part>
-                {
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            }
-                        }
-                    }
-                }
-            };
-            var expectedGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "LBL1"),
-                        GetGeneratorNote(2),
-                        GetGeneratorNote(3, null, "LBL1A")
-                    },
-                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-                    {
-                        ( "LBL1A", Symbols.STOP ),
-                        ( "REPEAT", Symbols.STOP )
-                    }
-                }
-            };
-            var options = new Options
-            {
-                RepetitionType = RepetitionType.StopAtEnd
-            };
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -301,162 +367,6 @@ namespace MusicXmlParser.Tests
 
             //Act
             var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "LBL", options);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
-        }
-
-        [Test]
-        public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureOnce()
-        {
-            var parsedMusic = new ParsedMusic
-            {
-                Parts = new List<Part>
-                {
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasForwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasBackwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            }
-                        }
-                    }
-                }
-            };
-            var expectedGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "MUSC1"),
-                        GetGeneratorNote(2, "MUSC1A"),
-                        GetGeneratorNote(3),
-                        GetGeneratorNote(4, null, "MUSC1B")
-                    },
-                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-                    {
-                        ( "MUSC1B", "MUSC1A" ),
-                        ( "REPEAT", Symbols.STOP )
-                    }
-                }
-            };
-            var options = new Options
-            {
-                RepetitionType = RepetitionType.StopAtEnd
-            };
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
-
-            //Assert
-            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
-        }
-
-        //This is the scenario that 'RepeatFromFirstJump' is designed for.
-        [Test]
-        public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
-        {
-            var parsedMusic = new ParsedMusic
-            {
-                Parts = new List<Part>
-                {
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasForwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasBackwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            }
-                        }
-                    },
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasForwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            },
-                            new Measure
-                            {
-                                HasBackwardRepeat = true,
-                                Voices = GetParsedVoice()
-                            }
-                        }
-                    }
-                }
-            };
-            var expectedGenerators = new List<ToneGenerator>()
-            {
-                new ToneGenerator
-                {
-                    GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "MUSC1"),
-                        GetGeneratorNote(2, "MUSC1A"),
-                        GetGeneratorNote(3, null, "MUSC1B")
-                    },
-                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-                    {
-                        ( "MUSC1B", "MUSC1A" ),
-                        ( "REPEAT", "REPT1" )
-                    }
-                },
-                new ToneGenerator
-                {
-                    GeneratorNotes = new List<GeneratorNote> {
-                        GetGeneratorNote(1, "MUSC2"),
-                        GetGeneratorNote(2, "MUSC2A"),
-                        GetGeneratorNote(3, null, "MUSC2B")
-                    },
-                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
-                    {
-                        ( "MUSC2B", "MUSC2A" ),
-                        ( "REPEAT", "REPT2" )
-                    }
-                }
-            };
-            var options = new Options
-            {
-                RepetitionType = RepetitionType.RepeatFromFirstJump
-            };
-
-            //Act
-            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
@@ -566,8 +476,101 @@ namespace MusicXmlParser.Tests
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
 
-        //This isn't really what 'RepeatFromFirstJump' is designed for either.
-        //But if someone decides to use it here, this is the best result.
+        //This is the scenario that 'RepeatFromFirstJump' is designed for.
+        [Test]
+        public void ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
+        {
+            var parsedMusic = new ParsedMusic
+            {
+                Parts = new List<Part>
+                {
+                    new Part
+                    {
+                        Divisions = "24",
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    },
+                    new Part
+                    {
+                        Divisions = "24",
+                        Measures = new List<Measure>
+                        {
+                            new Measure
+                            {
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasForwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            },
+                            new Measure
+                            {
+                                HasBackwardRepeat = true,
+                                Voices = GetParsedVoice()
+                            }
+                        }
+                    }
+                }
+            };
+            var expectedGenerators = new List<ToneGenerator>()
+            {
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "MUSC1"),
+                        GetGeneratorNote(2, "MUSC1A"),
+                        GetGeneratorNote(3, null, "MUSC1B")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "MUSC1B", "MUSC1A" ),
+                        ( "REPEAT", "REPT1" )
+                    }
+                },
+                new ToneGenerator
+                {
+                    GeneratorNotes = new List<GeneratorNote> {
+                        GetGeneratorNote(1, "MUSC2"),
+                        GetGeneratorNote(2, "MUSC2A"),
+                        GetGeneratorNote(3, null, "MUSC2B")
+                    },
+                    RepeatLabels = new List<(string FromThisLabel, string JumpToThisLabel)>
+                    {
+                        ( "MUSC2B", "MUSC2A" ),
+                        ( "REPEAT", "REPT2" )
+                    }
+                }
+            };
+            var options = new Options
+            {
+                RepetitionType = RepetitionType.RepeatFromFirstJump
+            };
+
+            //Act
+            var actualToneGenerators = GetGenerator().GetToneGenerators(parsedMusic, "MUSC", options);
+
+            //Assert
+            actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
+        }
+
+        //This isn't really what 'RepeatFromFirstJump' is designed for.
+        //But if someone decides to use it in this situation, I would rather be sure it won't throw an exception.
         //See also ToneGenerator_BackwardAndForwardRepeat_RepeatEverythingExceptEarliestMeasureForever()
         [Test]
         public void ToneGenerator_RepeatBarsInMiddleOfSong_EverythingExceptIntroForever()
@@ -672,6 +675,8 @@ namespace MusicXmlParser.Tests
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
         }
+
+        //VoltaBracketTests
 
         [Test]
         public void ToneGenerator_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
@@ -881,88 +886,6 @@ namespace MusicXmlParser.Tests
                                         Octave = "4",
                                         Type = "whole",
                                         Duration = "96"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private static Dictionary<string, Voice> GetParsedMeasureEndingInRest()
-        {
-            return new Dictionary<string, Voice>
-            {
-                {
-                    "v1p1",
-                    new Voice
-                    {
-                        Chords = new List<Chord>
-                        {
-                            new Chord
-                            {
-                                Notes = new List<Note>
-                                {
-                                    new Note
-                                    {
-                                        Step = "C",
-                                        Octave = "4",
-                                        Type = "quarter",
-                                        Duration = "24"
-                                    }
-                                }
-                            },
-                            new Chord
-                            {
-                                Notes = new List<Note>
-                                {
-                                    new Note
-                                    {
-                                        IsRest = true,
-                                        Type = "quarter",
-                                        IsDotted = true,
-                                        Duration = "24"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private static Dictionary<string, Voice> GetParsedMeasureOfRests()
-        {
-            return new Dictionary<string, Voice>
-            {
-                {
-                    "v1p1",
-                    new Voice
-                    {
-                        Chords = new List<Chord>
-                        {
-                            new Chord
-                            {
-                                Notes = new List<Note>
-                                {
-                                    new Note
-                                    {
-                                        IsRest = true,
-                                        Type = "quarter",
-                                        Duration = "24"
-                                    }
-                                }
-                            },
-                            new Chord
-                            {
-                                Notes = new List<Note>
-                                {
-                                    new Note
-                                    {
-                                        IsRest = true,
-                                        Type = "quarter",
-                                        Duration = "24"
                                     }
                                 }
                             }
