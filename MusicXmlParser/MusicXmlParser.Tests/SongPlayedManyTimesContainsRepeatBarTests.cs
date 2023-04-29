@@ -6,10 +6,14 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
-    public class SongPlayedOnceContainsRepeatBarTests
+    public class SongPlayedManyTimesContainsRepeatBarTests
     {
         [Test]
-        public void SongPlayedOnceContainsRepeats_NoRepeats_PlayTheSongStraightThrough()
+        [TestCase(RepetitionType.RepeatFromBeginning)]
+        //It is strange to use 'RepeatFromFirstJump' in this second scenario,
+        //but I'd like to confirm that such use won't throw an exception.
+        [TestCase(RepetitionType.RepeatFromFirstJump)]
+        public void SongPlayedManyTimesContainsRepeats_NoRepeats_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -151,11 +155,11 @@ ORCHES DATA ORCH1,ORCH2,0
        DATA 10,6
 
 REPT1
-       DATA ORCH1A,STOP
-       DATA REPEAT,STOP
+       DATA ORCH1A,ORCH1
+       DATA REPEAT,REPT1
 REPT2
-       DATA ORCH2A,STOP
-       DATA REPEAT,STOP
+       DATA ORCH2A,ORCH2
+       DATA REPEAT,REPT2
 
 * Generator 1
 * Measure 1
@@ -191,7 +195,7 @@ ORCH2A
                 AsmLabel = "ORCHES",
                 Ratio60Hz = "2:1",
                 Ratio50Hz = "10:6",
-                RepetitionType = RepetitionType.StopAtEnd
+                RepetitionType = repetitionType
             };
             var instantiator = new AssemblyMakerInstantiator();
 
@@ -206,7 +210,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedOnceContainsRepeats_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
+        public void SongPlayedManyTimesContainsRepeats_OnlyOneBackwardRepeat_RepeateFromBeginningForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -328,7 +332,7 @@ ORCH2A
         <voice>2</voice>
       </note>
       <barline location=""right"">
-        <repeat direction=""backWard""/>
+        <repeat direction=""backward""/>
       </barline>
     </measure>
   </part>
@@ -352,10 +356,10 @@ ORCHES DATA ORCH1,ORCH2,0
 
 REPT1
        DATA ORCH1A,ORCH1
-       DATA REPEAT,STOP
+       DATA REPEAT,REPT1
 REPT2
        DATA ORCH2A,ORCH2
-       DATA REPEAT,STOP
+       DATA REPEAT,REPT2
 
 * Generator 1
 * Measure 1
@@ -391,7 +395,7 @@ ORCH2A
                 AsmLabel = "ORCHES",
                 Ratio60Hz = "2:1",
                 Ratio50Hz = "10:6",
-                RepetitionType = RepetitionType.StopAtEnd
+                RepetitionType = RepetitionType.RepeatFromBeginning
             };
             var instantiator = new AssemblyMakerInstantiator();
 
@@ -406,7 +410,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedOnceContainsRepeats_BackwardAndForwardRepeat_RepeatOneSectionOnce()
+        public void SongPlayedManyTimesContainsRepeats_RepeatBarsInMiddleOfSong_RepeateFromBeginningForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -530,6 +534,9 @@ ORCH2A
         <duration>12</duration>
         <voice>2</voice>
       </note>
+      <barline location=""right"">
+        <repeat direction=""backward""/>
+      </barline>
     </measure>
 
     <measure>
@@ -568,9 +575,6 @@ ORCH2A
         <duration>12</duration>
         <voice>2</voice>
       </note>
-      <barline location=""riGht"">
-        <repeat direction=""backward""/>
-      </barline>
     </measure>
   </part>
 </score-partwise>";
@@ -593,10 +597,12 @@ ORCHES DATA ORCH1,ORCH2,0
 
 REPT1
        DATA ORCH1B,ORCH1A
-       DATA REPEAT,STOP
+       DATA ORCH1C,ORCH1
+       DATA REPEAT,REPT1
 REPT2
        DATA ORCH2B,ORCH2A
-       DATA REPEAT,STOP
+       DATA ORCH2C,ORCH2
+       DATA REPEAT,REPT2
 
 * Generator 1
 * Measure 1
@@ -611,9 +617,10 @@ ORCH1A
        BYTE G3,N8
        BYTE A3,N8
 * Measure 4
+ORCH1B
        BYTE B3,N8
        BYTE C4,N8
-ORCH1B
+ORCH1C
 *
 
 * Generator 2
@@ -629,9 +636,10 @@ ORCH2A
        BYTE G1,N8
        BYTE A1,N8
 * Measure 4
+ORCH2B
        BYTE B1,N8
        BYTE C2,N8
-ORCH2B
+ORCH2C
 *
 
 ";
@@ -640,7 +648,7 @@ ORCH2B
                 AsmLabel = "ORCHES",
                 Ratio60Hz = "2:1",
                 Ratio50Hz = "10:6",
-                RepetitionType = RepetitionType.StopAtEnd
+                RepetitionType = RepetitionType.RepeatFromBeginning
             };
             var instantiator = new AssemblyMakerInstantiator();
 
