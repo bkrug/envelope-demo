@@ -40,6 +40,8 @@ namespace MusicXmlParser.Tests
         //* Parse rests correctly
         //* Parse a couple of tripplets, a couple of dotted notes, and a couple of recular duration notes correctly
 
+        //TODO: Is that <dotted/> tag still required?
+        //Find out in a bigger unit test
         [Test]
         public void Parse_XmlContainsDottedNote_Success()
         {
