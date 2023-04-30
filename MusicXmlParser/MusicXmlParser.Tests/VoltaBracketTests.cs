@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
-
-    public class ToneGeneratorRepeatTests
+    public class VoltaBracketTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
 
@@ -18,10 +17,8 @@ namespace MusicXmlParser.Tests
             return new SN76489NoteGenerator(_logger.Object);
         }
 
-        //VoltaBracketTests
-
         [Test]
-        public void ToneGenerator_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
+        public void VoltaBracket_TwoVoltaBrackets_OnSecondPlayThroughSkipFirstVoltaBracket()
         {
             var parsedMusic = new ParsedMusic
             {
@@ -123,7 +120,7 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void ToneGenerator_VoltaBracketFollowedByForwardRepeat_PlayEachVoltaBracketThenPlayRepeatTwice()
+        public void VoltaBracket_VoltaBracketFollowedByForwardRepeat_PlayEachVoltaBracketThenPlayRepeatTwice()
         {
             var parsedMusic = new ParsedMusic
             {

@@ -6,10 +6,10 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
-    public class SongPlayedOnceContainsRepeatBarTests
+    public class RepeatBarSongPlayedOnce
     {
         [Test]
-        public void SongPlayedOnceContainsRepeats_NoRepeats_PlayTheSongStraightThrough()
+        public void RepeatBarSongPlayedOnce_NoRepeats_PlayTheSongStraightThrough()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -206,7 +206,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedOnceContainsRepeats_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
+        public void RepeatBarSongPlayedOnce_OnlyOneBackwardRepeat_RepeatFromBeginningOnce()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -406,7 +406,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedOnceContainsRepeats_BackwardAndForwardRepeat_RepeatOneSectionOnce()
+        public void RepeatBarSongPlayedOnce_BackwardAndForwardRepeat_RepeatOneSectionOnce()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>

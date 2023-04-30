@@ -6,14 +6,14 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
-    public class SongPlayedManyTimesContainsRepeatBarTests
+    public class RepeatBarSongPlayedManyTimesTests
     {
         [Test]
         [TestCase(RepetitionType.RepeatFromBeginning)]
         //It is strange to use 'RepeatFromFirstJump' in this second scenario,
         //but I'd like to confirm that such use won't throw an exception.
         [TestCase(RepetitionType.RepeatFromFirstJump)]
-        public void SongPlayedManyTimesContainsRepeats_NoRepeats_RepeatFromBeginningForever(RepetitionType repetitionType)
+        public void RepeatBarSongPlayedManyTimes_NoRepeats_RepeatFromBeginningForever(RepetitionType repetitionType)
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -210,7 +210,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedManyTimesContainsRepeats_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
+        public void RepeatBarSongPlayedManyTimes_OnlyOneBackwardRepeat_RepeatFromBeginningForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -410,7 +410,7 @@ ORCH2A
         }
 
         [Test]
-        public void SongPlayedManyTimesContainsRepeats_RepeatBarsInMiddleOfSong_RepeatFromBeginningForever()
+        public void RepeatBarSongPlayedManyTimes_RepeatBarsInMiddleOfSong_RepeatFromBeginningForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -664,7 +664,7 @@ ORCH2C
 
         //This is the scenario that 'RepeatFromFirstJump' is designed for.
         [Test]
-        public void SongPlayedManyTimesContainsRepeats_BackwardAndForwardRepeat_RepeatEverythingExceptIntroForever()
+        public void RepeatBarSongPlayedManyTimes_BackwardAndForwardRepeat_RepeatEverythingExceptIntroForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -871,7 +871,7 @@ ORCH2B
         //This isn't really what 'RepeatFromFirstJump' is designed for.
         //But if someone decides to use it in this situation, I would rather be sure it won't throw an exception.
         [Test]
-        public void SongPlayedManyTimesContainsRepeats_RepeatBarsInMiddleOfSong_EverythingExceptIntroForever()
+        public void RepeatBarSongPlayedManyTimes_RepeatBarsInMiddleOfSong_EverythingExceptIntroForever()
         {
             const string MUSIC_XML =
 @"<?xml version=""1.0"" encoding=""UTF-8""?>
