@@ -4,6 +4,8 @@ using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
@@ -36,7 +38,6 @@ namespace MusicXmlParser.Tests
         }
 
         //TODO: Create the following big unit tests:
-        //* Parsed 12-pitches in an octive and several notes in another octive
         //* Parse rests correctly
         //* Parse a couple of tripplets, a couple of dotted notes, and a couple of recular duration notes correctly
 
@@ -629,6 +630,98 @@ namespace MusicXmlParser.Tests
 
             //Assert
             actualMessage.Should().Be("Note in measure 2 missing a 'voice' tag.");
+        }
+
+        [Test]
+        [TestCase("A", "<alter>-1</alter>", "4", nameof(Pitch.Ab2))]
+        [TestCase("A", "", "4", nameof(Pitch.A2))]
+        [TestCase("A", "<alter>1</alter>", "4", nameof(Pitch.As2))]
+        [TestCase("B", "<alter>-1</alter>", "4", nameof(Pitch.Bb2))]
+        [TestCase("B", "", "4", nameof(Pitch.B2))]
+        [TestCase("C", "", "4", nameof(Pitch.C2))]
+        [TestCase("C", "<alter>1</alter>", "4", nameof(Pitch.Cs2))]
+        [TestCase("D", "<alter>-1</alter>", "4", nameof(Pitch.Db2))]
+        [TestCase("D", "", "4", nameof(Pitch.D2))]
+        [TestCase("D", "<alter>1</alter>", "4", nameof(Pitch.Ds2))]
+        [TestCase("E", "<alter>-1</alter>", "4", nameof(Pitch.Eb2))]
+        [TestCase("E", "", "4", nameof(Pitch.E2))]
+        [TestCase("F", "", "4", nameof(Pitch.F2))]
+        [TestCase("F", "<alter>1</alter>", "4", nameof(Pitch.Fs2))]
+        [TestCase("G", "<alter>-1</alter>", "4", nameof(Pitch.Gb2))]
+        [TestCase("G", "", "4", nameof(Pitch.G2))]
+        [TestCase("G", "<alter>1</alter>", "4", nameof(Pitch.Gs2))]
+        [TestCase("a", "", "4", nameof(Pitch.A2))]
+        [TestCase("e", "<alter>-1</alter>", "4", nameof(Pitch.Eb2))]
+        [TestCase("D", "", "6", nameof(Pitch.D4))]
+        [TestCase("E", "<alter>-1</alter>", "5", nameof(Pitch.Eb3))]
+        public void Parse_XmlHasOnePitch_OutputContainsMatchingSn76489Pitch(string step, string alter, string octave, string expectedPitch)
+        {
+            string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P13"">
+    <measure>
+      <attributes>
+        <divisions>12</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>" + step + @"</step>
+          " + alter + @"
+          <octave>" + octave + @"</octave>
+          </pitch>
+        <duration>48</duration>
+        <voice>5</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            string EXPECTED_TEXT =
+@"       DEF  MELDY
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+MELDY  DATA MELD1,0,0
+* Data structures dealing with repeated music
+       DATA REPT1,0,0
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA MELD1A,MELD1
+       DATA REPEAT,REPT1
+
+* Generator 1
+* Measure 1
+MELD1
+       BYTE " + expectedPitch + @",N1
+MELD1A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "MELDY",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
         }
     }
 }
