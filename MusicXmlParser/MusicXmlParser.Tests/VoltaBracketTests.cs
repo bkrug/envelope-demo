@@ -38,7 +38,6 @@ namespace MusicXmlParser.Tests
                                     {
                                         Step = "C",
                                         Octave = "4",
-                                        Type = "whole",
                                         Duration = "96"
                                     }
                                 }

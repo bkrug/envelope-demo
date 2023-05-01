@@ -26,7 +26,6 @@ namespace MusicXmlParser.Tests
                         Alter = alter,
                         Octave = octave,
                         Duration = ((int)duration).ToString(),
-                        Type = type,
                         IsGraceNote = isGraceSlash
                     }
                 }

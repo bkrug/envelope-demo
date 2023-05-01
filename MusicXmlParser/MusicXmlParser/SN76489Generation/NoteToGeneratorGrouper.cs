@@ -96,7 +96,6 @@ namespace MusicXmlParser.SN76489Generation
                     : new Note
                     {
                         IsRest = true,
-                        Type = chord.Notes.First().Type,
                         Duration = chord.Notes.First().Duration
                     };
                 if (!PitchParser.TryParse(noteFromChord, out var pitch) && !noteFromChord.IsRest && !noteFromChord.IsGraceNote)

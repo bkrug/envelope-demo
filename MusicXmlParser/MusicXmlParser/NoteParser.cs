@@ -130,7 +130,7 @@ namespace MusicXmlParser
                         lengthOfRestToInsert = 0;
                     }
 
-                    var note = CreateNote(noteElem, measureNumber);
+                    var note = CreateNote(noteElem);
                     if (!isChord)
                     {
                         voices[voiceLabel].Chords.Add(GetNewChord(note));
@@ -199,7 +199,7 @@ namespace MusicXmlParser
             }
         }
 
-        private Note CreateNote(XElement noteElem, int measureNumber)
+        private Note CreateNote(XElement noteElem)
         {
             var pitchElem = noteElem.Element("pitch");
             var note = new Note
@@ -207,7 +207,6 @@ namespace MusicXmlParser
                 Octave = pitchElem?.Element("octave")?.Value ?? string.Empty,
                 Alter = pitchElem?.Element("alter")?.Value ?? string.Empty,
                 Step = pitchElem?.Element("step")?.Value ?? string.Empty,
-                Type = noteElem.Element("type")?.Value ?? string.Empty,
                 Duration = noteElem.Element("duration")?.Value ?? string.Empty,
                 IsRest = noteElem?.Element("rest") != null,
                 IsGraceNote = noteElem?.Element("grace") != null,
