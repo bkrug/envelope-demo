@@ -24,7 +24,7 @@ namespace MusicXmlParser.Tests
                 }
             }
             if (expectedLines.Length != actualLines.Length)
-                Assert.Fail($"Expected string to have {expectedLines.Length}, but actually had {actualLines.Length}");
+                Assert.Fail($"Expected string to have {expectedLines.Length} lines, but actually had {actualLines.Length} lines of text.");
         }
     }
 }
