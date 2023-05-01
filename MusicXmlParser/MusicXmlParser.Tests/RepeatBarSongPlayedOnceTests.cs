@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace MusicXmlParser.Tests
 {
-    public class RepeatBarSongPlayedOnce
+    public class RepeatBarSongPlayedOnceTests
     {
         [Test]
         public void RepeatBarSongPlayedOnce_NoRepeats_PlayTheSongStraightThrough()
