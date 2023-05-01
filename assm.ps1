@@ -26,7 +26,7 @@ ForEach($file in $fileList) {
 dotnet build .\MusicXmlParser\MusicXmlParser.sln
 
 write-host 'Generating TUNEFARMER.asm'
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
+.\MusicXmlParser\MusicXmlParser\bin\x64\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
     --input ".\Schumann_The_Merry_Farmer_Op._68_No._10.musicxml" `
     --output ".\TUNEFARMER.asm" `
     --asmLabel "SCHUMN" `
@@ -36,7 +36,7 @@ write-host 'Generating TUNEFARMER.asm'
     --displayRepoWarning 'true'
    
 write-host 'Generating TUNETURKEY.asm'
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
+.\MusicXmlParser\MusicXmlParser\bin\x64\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
     --input ".\Turkey_In_The_Straw_-_A_Ragtime_Fantasie.musicxml" `
     --output ".\TUNETURKEY.asm" `
     --asmLabel "OTTO" `
@@ -46,7 +46,7 @@ write-host 'Generating TUNETURKEY.asm'
     --displayRepoWarning 'true'
 
 write-host 'Generating TUNEOLDFOLKS.asm'
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
+.\MusicXmlParser\MusicXmlParser\bin\x64\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
     --input ".\Old_Folks_At_Home_-_Theme_and_Variations_by_Stephen_Foster.musicxml" `
     --output ".\TUNEOLDFOLKS.asm" `
     --asmLabel "FOSTER" `
@@ -56,7 +56,7 @@ write-host 'Generating TUNEOLDFOLKS.asm'
     --displayRepoWarning 'true'
 
 write-host 'Generating TUNEMONTEVERDI.asm'
-.\MusicXmlParser\MusicXmlParser\bin\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
+.\MusicXmlParser\MusicXmlParser\bin\x64\Debug\netcoreapp3.1\win-x64\MusicXmlParser.exe `
     --input ".\Lasciate_i_monti.musicxml" `
     --output ".\TUNEMONTEVERDI.asm" `
     --asmLabel "MONTEV" `
