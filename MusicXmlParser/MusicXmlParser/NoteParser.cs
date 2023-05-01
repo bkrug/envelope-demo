@@ -209,8 +209,6 @@ namespace MusicXmlParser
                 Step = pitchElem?.Element("step")?.Value ?? string.Empty,
                 Type = noteElem.Element("type")?.Value ?? string.Empty,
                 Duration = noteElem.Element("duration")?.Value ?? string.Empty,
-                IsDotted = noteElem.Elements("dot").Any(),
-                IsTripplet = IsTripplet(noteElem),
                 IsRest = noteElem?.Element("rest") != null,
                 IsGraceNote = noteElem?.Element("grace") != null,
                 Tie = GetTieType(noteElem)
@@ -233,14 +231,6 @@ namespace MusicXmlParser
                 "end" => Ties.End,
                 _ => Ties.None,
             };
-        }
-
-        private static bool IsTripplet(XElement noteElem)
-        {
-            var timeModElem = noteElem.Element("time-modification");
-            var normalNotesValue = timeModElem?.Element("normal-notes")?.Value;
-            var actualNotesValue = timeModElem?.Element("actual-notes")?.Value;
-            return normalNotesValue == "2" && actualNotesValue == "3";
         }
     }
 }
