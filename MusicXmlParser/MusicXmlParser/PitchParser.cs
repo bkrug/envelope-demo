@@ -9,7 +9,7 @@ namespace MusicXmlParser
 {
     public static class PitchParser
     {
-        private static ReadOnlyDictionary<string, int> _notesWithinOctave =
+        private static readonly ReadOnlyDictionary<string, int> _notesWithinOctave =
             new ReadOnlyDictionary<string, int>(
                 new Dictionary<string, int>
                 {
@@ -22,7 +22,7 @@ namespace MusicXmlParser
                     { "B", 11 },
                 }
             );
-        private static ReadOnlyDictionary<int, string> _alterString =
+        private static readonly ReadOnlyDictionary<int, string> _alterString =
             new ReadOnlyDictionary<int, string>(
                 new Dictionary<int, string>
                 {
@@ -42,7 +42,7 @@ namespace MusicXmlParser
             }
             if (!int.TryParse(givenNote.Octave, out var musicXmlOctave)
                 || !int.TryParse(givenNote.Alter, out var alterInt) && !string.IsNullOrEmpty(givenNote.Alter)
-                || !_notesWithinOctave.ContainsKey(givenNote.Step))
+                || !_notesWithinOctave.ContainsKey(givenNote.Step.ToUpper()))
             {
                 return false;
             }
