@@ -654,6 +654,7 @@ namespace MusicXmlParser.Tests
         [TestCase("e", "<alter>-1</alter>", "4", nameof(Pitch.Eb2))]
         [TestCase("D", "", "6", nameof(Pitch.D4))]
         [TestCase("E", "<alter>-1</alter>", "5", nameof(Pitch.Eb3))]
+        [TestCase(" F ", "", "6", nameof(Pitch.F4))]
         public void Parse_XmlHasOnePitch_OutputContainsMatchingSn76489Pitch(string step, string alter, string octave, string expectedPitch)
         {
             string MUSIC_XML =
@@ -662,7 +663,7 @@ namespace MusicXmlParser.Tests
   <part id=""P13"">
     <measure>
       <attributes>
-        <divisions>12</divisions>
+        <divisions>24</divisions>
       </attributes>
       <note>
         <pitch>
@@ -670,7 +671,7 @@ namespace MusicXmlParser.Tests
           " + alter + @"
           <octave>" + octave + @"</octave>
           </pitch>
-        <duration>48</duration>
+        <duration>96</duration>
         <voice>5</voice>
       </note>
     </measure>
@@ -701,6 +702,86 @@ REPT1
 * Measure 1
 MELD1
        BYTE " + expectedPitch + @",N1
+MELD1A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "MELDY",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
+        }
+
+        [Test]
+        [TestCase("30", nameof(Duration.N32))]
+        [TestCase("60", nameof(Duration.N16))]
+        [TestCase("480", nameof(Duration.N2))]
+        [TestCase("1920", nameof(Duration.NDBL))]
+        [TestCase("10", nameof(Duration.N64TRP))]
+        [TestCase("80", nameof(Duration.N8TRP))]
+        [TestCase("320", nameof(Duration.N2TRP))]
+        [TestCase("90", nameof(Duration.N16DOT))]
+        [TestCase("720", nameof(Duration.N2DOT))]
+        [TestCase(" 240 ", nameof(Duration.N4))]
+        public void Parse_XmlHasOneDuration_OutputContainsMatchingDuration(string duration, string durationName)
+        {
+            string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P13"">
+    <measure>
+      <attributes>
+        <divisions>240</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>" + duration + @"</duration>
+        <voice>5</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            string EXPECTED_TEXT =
+@"       DEF  MELDY
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+MELDY  DATA MELD1,0,0
+* Data structures dealing with repeated music
+       DATA REPT1,0,0
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA MELD1A,MELD1
+       DATA REPEAT,REPT1
+
+* Generator 1
+* Measure 1
+MELD1
+       BYTE C2," + durationName + @"
 MELD1A
 *
 
