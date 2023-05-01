@@ -35,6 +35,7 @@ namespace MusicXmlParser
         internal static bool TryParse(Note givenNote, out string pitchParsed)
         {
             pitchParsed = default;
+            var givenStep = givenNote.Step?.Trim().ToUpper();
             if (givenNote.IsRest)
             {
                 pitchParsed = nameof(Pitch.REST);
@@ -42,7 +43,7 @@ namespace MusicXmlParser
             }
             if (!int.TryParse(givenNote.Octave, out var musicXmlOctave)
                 || !int.TryParse(givenNote.Alter, out var alterInt) && !string.IsNullOrEmpty(givenNote.Alter)
-                || !_notesWithinOctave.ContainsKey(givenNote.Step.ToUpper()))
+                || !_notesWithinOctave.ContainsKey(givenStep))
             {
                 return false;
             }
@@ -50,7 +51,7 @@ namespace MusicXmlParser
             if (string.IsNullOrEmpty(givenNote.Alter))
                 alterInt = 0;
 
-            pitchParsed = givenNote.Step + _alterString[alterInt] + (musicXmlOctave - 2);
+            pitchParsed = givenStep + _alterString[alterInt] + (musicXmlOctave - 2);
             if (Enum.GetNames(typeof(Pitch)).Contains(pitchParsed))
                 return true;
 
