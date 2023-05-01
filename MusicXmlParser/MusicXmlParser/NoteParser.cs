@@ -213,12 +213,6 @@ namespace MusicXmlParser
                 IsGraceNote = noteElem?.Element("grace") != null,
                 Tie = GetTieType(noteElem)
             };
-            if (!note.IsRest && string.IsNullOrEmpty(note.Step))
-                _logger.WriteError($"Note in measure {measureNumber} missing a 'step' tag.");
-            if (!note.IsRest && string.IsNullOrEmpty(note.Octave))
-                _logger.WriteError($"Note in measure {measureNumber} missing an 'octave' tag.");
-            if (!note.IsGraceNote && string.IsNullOrEmpty(note.Duration))
-                _logger.WriteError($"Note in measure {measureNumber} missing a 'duration' tag.");
             return note;
         }
 

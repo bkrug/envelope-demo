@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace MusicXmlParser.Tests
 {
+    //Most tests in this suite are "big" unit tests; more than one class is under test.
+    //That makes it relatively easy for other developers to refactor the code without having to edit many tests.
+    //I think these volta bracket tests would be too hard to read if we made them "big" tests, so I'm leaving them "small".
     public class VoltaBracketTests
     {
         private readonly Mock<ILogger> _logger = new Mock<ILogger>();
@@ -15,6 +18,48 @@ namespace MusicXmlParser.Tests
         private SN76489NoteGenerator GetGenerator()
         {
             return new SN76489NoteGenerator(_logger.Object);
+        }
+
+        private static Dictionary<string, Voice> GetParsedVoice()
+        {
+            return new Dictionary<string, Voice>
+            {
+                {
+                    "v1p1",
+                    new Voice
+                    {
+                        Chords = new List<Chord>
+                        {
+                            new Chord
+                            {
+                                Notes = new List<Note>
+                                {
+                                    new Note
+                                    {
+                                        Step = "C",
+                                        Octave = "4",
+                                        Type = "whole",
+                                        Duration = "96"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        private static GeneratorNote GetGeneratorNote(int measure, string preceedingLabel = null, string succeedingLabel = null)
+        {
+            return new GeneratorNote
+            {
+                StartMeasure = measure,
+                EndMeasure = measure,
+                Pitch = nameof(Pitch.C2),
+                Duration = Duration.N1,
+                Label = preceedingLabel,
+                LabelAtEnd = succeedingLabel
+            };
         }
 
         [Test]
@@ -203,48 +248,6 @@ namespace MusicXmlParser.Tests
 
             //Assert
             actualToneGenerators.Should().BeEquivalentTo(expectedGenerators);
-        }
-
-        private static Dictionary<string, Voice> GetParsedVoice()
-        {
-            return new Dictionary<string, Voice>
-            {
-                {
-                    "v1p1",
-                    new Voice
-                    {
-                        Chords = new List<Chord>
-                        {
-                            new Chord
-                            {
-                                Notes = new List<Note>
-                                {
-                                    new Note
-                                    {
-                                        Step = "C",
-                                        Octave = "4",
-                                        Type = "whole",
-                                        Duration = "96"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private static GeneratorNote GetGeneratorNote(int measure, string preceedingLabel = null, string succeedingLabel = null)
-        {
-            return new GeneratorNote
-            {
-                StartMeasure = measure,
-                EndMeasure = measure,
-                Pitch = nameof(Pitch.C2),
-                Duration = Duration.N1,
-                Label = preceedingLabel,
-                LabelAtEnd = succeedingLabel
-            };
         }
     }
 }

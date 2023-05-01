@@ -4,6 +4,7 @@ using MusicXmlParser.Enums;
 using MusicXmlParser.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.IO;
 using System.Xml.Linq;
 
@@ -37,7 +38,8 @@ namespace MusicXmlParser.Tests
             return new NoteParser(_logger.Object);
         }
 
-        //Warning: I guess this needs to stay a small unit test, because the VoltaBracketTests are small.
+        //Most tests in this project are "big" unit tests.
+        //This one is small to match the Volta Bracket tests.
         [Test]
         public void Parse_XmlContainsContainsVoltaBracket_Success()
         {
@@ -120,137 +122,6 @@ namespace MusicXmlParser.Tests
         }
 
         [Test]
-        public void Parse_StepIsMissingInSource_ErrorLoggedToConsole()
-        {
-            const string SOURCE_XML =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise>
-    <part>
-        <measure>
-            <attributes>
-                <divisions>24</divisions>
-            </attributes>
-            <note>
-                <pitch>
-                    <step>E</step>
-                    <octave>5</octave>
-                </pitch>
-                <duration>6</duration>
-                <type>16th</type>
-                <voice>1</voice>
-            </note>
-            <note>
-                <pitch>
-                    <alter>1</alter>
-                    <octave>5</octave>
-                </pitch>
-                <duration>12</duration>
-                <type>eighth</type>
-                <voice>1</voice>
-            </note>
-        </measure>
-    </part>
-</score-partwise>";
-            string actualMessage = string.Empty;
-            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
-                .Callback((string m) => actualMessage = m);
-
-            //Act
-            GetNoteParser().Parse(SOURCE_XML);
-
-            //Assert
-            actualMessage.Should().Be("Note in measure 1 missing a 'step' tag.");
-        }
-
-        [Test]
-        public void Parse_OctaveIsMissingInSource_ErrorLoggedToConsole()
-        {
-            const string SOURCE_XML =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise>
-    <part>
-        <measure>
-            <attributes>
-                <divisions>24</divisions>
-            </attributes>
-            <note>
-                <pitch>
-                    <step>E</step>
-                    <octave>5</octave>
-                </pitch>
-                <duration>6</duration>
-                <type>16th</type>
-                <voice>1</voice>
-            </note>
-        </measure>
-        <measure>
-            <note>
-                <pitch>
-                    <step>A</step>
-                    <alter>1</alter>
-                </pitch>
-                <duration>12</duration>
-                <type>eighth</type>
-                <voice>1</voice>
-            </note>
-        </measure>
-    </part>
-</score-partwise>";
-            string actualMessage = string.Empty;
-            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
-                .Callback((string m) => actualMessage = m);
-
-            //Act
-            GetNoteParser().Parse(SOURCE_XML);
-
-            //Assert
-            actualMessage.Should().Be("Note in measure 2 missing an 'octave' tag.");
-        }
-
-        [Test]
-        public void Parse_DurationIsMissingInSource_ErrorLoggedToConsole()
-        {
-            const string SOURCE_XML =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise>
-    <part>
-        <measure>
-            <attributes>
-                <divisions>24</divisions>
-            </attributes>
-            <note>
-                <pitch>
-                    <step>E</step>
-                    <octave>5</octave>
-                </pitch>
-                <type>16th</type>
-                <voice>1</voice>
-            </note>
-            <note>
-                <pitch>
-                    <step>A</step>
-                    <alter>1</alter>
-                    <octave>5</octave>
-                </pitch>
-                <duration>12</duration>
-                <type>eighth</type>
-                <voice>1</voice>
-            </note>
-        </measure>
-    </part>
-</score-partwise>";
-            string actualMessage = string.Empty;
-            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
-                .Callback((string m) => actualMessage = m);
-
-            //Act
-            GetNoteParser().Parse(SOURCE_XML);
-
-            //Assert
-            actualMessage.Should().Be("Note in measure 1 missing a 'duration' tag.");
-        }
-
-        [Test]
         public void Parse_VoiceIsMissingInSource_ErrorLoggedToConsole()
         {
             const string SOURCE_XML =
@@ -285,12 +156,22 @@ namespace MusicXmlParser.Tests
         </measure>
     </part>
 </score-partwise>";
+            var options = new Options
+            {
+                AsmLabel = "MELDY",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
             string actualMessage = string.Empty;
-            _logger.Setup(l => l.WriteError(It.IsAny<string>()))
+            instantiator.Logger.Setup(l => l.WriteError(It.IsAny<string>()))
                 .Callback((string m) => actualMessage = m);
 
             //Act
-            GetNoteParser().Parse(SOURCE_XML);
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(SOURCE_XML), ref streamWriter);
+            streamWriter.Flush();
 
             //Assert
             actualMessage.Should().Be("Note in measure 2 missing a 'voice' tag.");
