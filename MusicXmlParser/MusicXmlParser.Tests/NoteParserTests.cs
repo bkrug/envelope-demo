@@ -37,9 +37,6 @@ namespace MusicXmlParser.Tests
             return new NoteParser(_logger.Object);
         }
 
-        //TODO: Create the following big unit tests:
-        //* Parse rests correctly
-
         //Warning: I guess this needs to stay a small unit test, because the VoltaBracketTests are small.
         [Test]
         public void Parse_XmlContainsContainsVoltaBracket_Success()
@@ -105,123 +102,6 @@ namespace MusicXmlParser.Tests
                                             {
                                                 GenerateSingleNoteChord("E", "", "3", Duration.N2, "half"),
                                                 GenerateSingleNoteChord("A", "", "3", Duration.N2, "half")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
-            //Act
-            var actualObject = GetNoteParser().Parse(SOURCE_XML);
-
-            //Assert
-            actualObject.Should().BeEquivalentTo(expectedObject);
-        }
-
-        [Test]
-        public void Parse_XmlContainsRests_Success()
-        {
-            const string SOURCE_XML =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<score-partwise>
-    <part>
-        <measure>
-            <attributes>
-                <divisions>24</divisions>
-            </attributes>
-            <note default-x=""52.68"" default-y=""-81.59"">
-                <pitch>
-                    <step>A</step>
-                    <octave>3</octave>
-                </pitch>
-                <duration>6</duration>
-                <voice>5</voice>
-                <type>16th</type>
-            </note>
-            <note>
-                <rest/>
-                <duration>6</duration>
-                <voice>5</voice>
-                <type>16th</type>
-                <staff>2</staff>
-            </note>
-            <note>
-                <rest/>
-                <duration>12</duration>
-                <voice>5</voice>
-                <type>eighth</type>
-                <staff>2</staff>
-            </note>
-        </measure>
-    </part>
-</score-partwise>";
-            var expectedObject = new ParsedMusic
-            {
-                Parts = new List<Part>
-                {
-                    new Part
-                    {
-                        Divisions = "24",
-                        Measures = new List<Measure>
-                        {
-                            new Measure
-                            {
-                                Voices = new Dictionary<string, Voice>
-                                {
-                                    {
-                                        "5",
-                                        new Voice
-                                        {
-                                            Chords = new List<Chord>
-                                            {
-                                                new Chord
-                                                {
-                                                    Notes = new List<Note>
-                                                    {
-                                                        new Note
-                                                        {
-                                                            Step = "A",
-                                                            Alter = string.Empty,
-                                                            Octave = "3",
-                                                            Duration = "6",
-                                                            Type = "16th"
-                                                        }
-                                                    }
-                                                },
-                                                new Chord
-                                                {
-                                                    Notes = new List<Note>
-                                                    {
-                                                        new Note
-                                                        {
-                                                            IsRest = true,
-                                                            Step = string.Empty,
-                                                            Alter = string.Empty,
-                                                            Octave= string.Empty,
-                                                            Duration = "6",
-                                                            Type = "16th"
-                                                        }
-                                                    }
-                                                },
-                                                new Chord
-                                                {
-                                                    Notes = new List<Note>
-                                                    {
-                                                        new Note
-                                                        {
-                                                            IsRest = true,
-                                                            Step = string.Empty,
-                                                            Alter = string.Empty,
-                                                            Octave= string.Empty,
-                                                            Duration = "12",
-                                                            Type = "eighth"
-                                                        }
-                                                    }
-                                                }
                                             }
                                         }
                                     }
@@ -534,7 +414,7 @@ MELD1A
         <pitch>
           <step>C</step>
           <octave>4</octave>
-          </pitch>
+        </pitch>
         <duration>" + duration + @"</duration>
         <voice>5</voice>
       </note>
@@ -566,6 +446,85 @@ REPT1
 * Measure 1
 MELD1
        BYTE C2," + durationName + @"
+MELD1A
+*
+
+";
+            var options = new Options
+            {
+                AsmLabel = "MELDY",
+                Ratio60Hz = "2:1",
+                Ratio50Hz = "10:6",
+                RepetitionType = RepetitionType.RepeatFromBeginning
+            };
+            var instantiator = new AssemblyMakerInstantiator();
+
+            //Act
+            var streamWriter = new StreamWriter(instantiator.MemoryStream);
+            instantiator.GetAssemblyMaker().ConvertToAssembly(options, XDocument.Parse(MUSIC_XML), ref streamWriter);
+            streamWriter.Flush();
+
+            //Assert
+            var actualText = instantiator.GetContentsOfMemoryStream();
+            TextAsserts.EquivalentLines(EXPECTED_TEXT, actualText);
+        }
+
+        [Test]
+        [TestCase("240", nameof(Duration.N4))]
+        [TestCase("250", "25")]
+        [TestCase("960", nameof(Duration.N1))]
+        public void Parse_XmlContainsRest_OutputContainsMatchingRest(string duration, string durationName)
+        {
+            string MUSIC_XML =
+@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<score-partwise>
+  <part id=""P13"">
+    <measure>
+      <attributes>
+        <divisions>240</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>240</duration>
+        <voice>5</voice>
+      </note>
+      <note>
+        <rest/>
+        <duration>" + duration + @"</duration>
+        <voice>5</voice>
+      </note>
+    </measure>
+  </part>
+</score-partwise>";
+            string EXPECTED_TEXT =
+@"       DEF  MELDY
+
+       COPY 'NOTEVAL.asm'
+       COPY 'CONST.asm'
+
+*
+* Song Header
+*
+MELDY  DATA MELD1,0,0
+* Data structures dealing with repeated music
+       DATA REPT1,0,0
+* Duration ratio in 60hz environment
+       DATA 2,1
+* Duration ratio in 50hz environment
+       DATA 10,6
+
+REPT1
+       DATA MELD1A,MELD1
+       DATA REPEAT,REPT1
+
+* Generator 1
+* Measure 1
+MELD1
+       BYTE C2,N4
+       BYTE REST," + durationName + @"
 MELD1A
 *
 
