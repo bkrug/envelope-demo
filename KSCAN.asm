@@ -9,6 +9,8 @@
        COPY 'CONST.asm'
        COPY 'CPUADR.asm'
 
+* Built-in Console Routine for keyboard scanning
+SCAN   EQU  >000E
 * Amount of time to wait between key repeats
 WAIT   DATA 30
 NOKEY  BYTE >FF
@@ -29,7 +31,7 @@ KSCAN
 KSCAN1 LWPI >83E0           can't change WS with BLWP as R13-R15 are in use
        DECT R10             save GPL R11
        MOV  R11,*R10
-       BL   @>000E          call keyboard scanning routine
+       BL   @SCAN           call keyboard scanning routine
        MOV  *R10+,R11       restore GPL R11
        LWPI WS
 * Store scanned key in R2
