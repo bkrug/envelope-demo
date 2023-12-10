@@ -150,6 +150,38 @@ PLYONE
        MOV  *R1,R2
 * If R2 = 0, then skip
        JEQ  STOPMS
+*
+* Expreiment
+*
+* Look up tone-code based on note-code.
+* Note-codes (see NOTEVAL.asm) are one byte values.
+* Tone-codes (see TONETABLE.asm) are 10-bit values understood by the SN76489.
+EXP    MOVB *R2,R5
+       CB   R5,@RESTVL
+       JEQ  EXPSKP
+       SRL  R5,8
+       SLA  R5,1
+       AI   R5,TTBL
+* Let R8 = Code for tone
+       MOV  *R5,R8
+* Let R7 = 0, -1, or 1
+       MOV  @SNDELP(R1),R7
+       ANDI R7,3
+       DEC  R7
+       ABS  R7
+       DEC  R7
+* Modereate tone by less than one step of music
+       A    R7,R8
+* Select generator 1, 2, or 3.
+       A    R0,R8
+* Load tone into sound address.
+       MOVB R8,@SGADR
+       SWPB R8
+       MOVB R8,@SGADR
+EXPSKP
+*
+* End of experimental code
+*
 * Update times
        INC  @SNDELP(R1)
        DEC  @SNDTIM(R1)
