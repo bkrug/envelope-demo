@@ -170,6 +170,8 @@ EXP    MOVB *R2,R5
        DEC  R7
        ABS  R7
        DEC  R7
+* Account for the fact that tone-codes are little-endian
+       SLA  R7,8
 * Modereate tone by less than one step of music
        A    R7,R8
 * Select generator 1, 2, or 3.
